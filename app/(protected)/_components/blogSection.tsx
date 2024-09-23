@@ -27,6 +27,42 @@ const blogPosts = [
     },
     date: 'April 14th, 2023',
   },
+  {
+    id: 3,
+    title: '10 Things to help you with social stress.',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur Pellentesque sit amet sapien fringilla, mattis mattis tellus. Nullam quis imperdiet augue. Vestibulum.',
+    image: EventImage,
+    author: {
+      name: 'Abdelhakim Farah',
+      avatar: Speaker,
+    },
+    date: 'April 14th, 2023',
+  },
+  {
+    id: 4,
+    title: 'The summer 2023 lineup is finally here.',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur Pellentesque sit amet sapien fringilla, mattis mattis tellus. Nullam quis imperdiet augue. Vestibulum.',
+    image: EventImage,
+    author: {
+      name: 'Abdelhakim Farah',
+      avatar: Speaker,
+    },
+    date: 'April 14th, 2023',
+  },
+  {
+    id: 5,
+    title: 'The summer 2023 lineup is finally here.',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur Pellentesque sit amet sapien fringilla, mattis mattis tellus. Nullam quis imperdiet augue. Vestibulum.',
+    image: EventImage,
+    author: {
+      name: 'Abdelhakim Farah',
+      avatar: Speaker,
+    },
+    date: 'April 14th, 2023',
+  },
 ]
 
 export default function BlogSection() {

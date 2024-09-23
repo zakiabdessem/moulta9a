@@ -6,7 +6,7 @@ import Speaker from '@/public/speaker.jpg'
 
 export default function EventCard() {
   return (
-
+    <div className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8 cursor-pointer">
       <div className="overflow-hidden rounded-lg bg-white shadow">
         <div className="relative">
           <Image
@@ -90,6 +90,6 @@ export default function EventCard() {
           </div>
         </div>
       </div>
-  
+    </div>
   )
 }
