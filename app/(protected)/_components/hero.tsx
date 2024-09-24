@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 
 function Hero() {
   return (
-    <div className="relative h-[600px] w-full overflow-hidden rounded-3xl">
+    <div className="container relative h-[600px] w-full overflow-hidden rounded-3xl">
       <div className="absolute inset-0 bg-gradient-to-r from-black to-[#4e4032]">
         <Image
           alt="Conference hall background"

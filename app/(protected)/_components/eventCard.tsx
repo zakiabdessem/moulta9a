@@ -65,7 +65,7 @@ export default function EventCard() {
               Join Now
             </Button>
           </div>
-          <div className="rounded-lg bg-gray-100 p-4">
+          <div className="rounded-lg bg-gray-100 p-4 max-md:hidden">
             <div className="mb-4 text-center">
               <Image
                 alt="Speaker profile"

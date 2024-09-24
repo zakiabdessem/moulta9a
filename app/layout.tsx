@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/auth'
 
 import { Toaster } from '@/components/ui/sonner'
+import { Navbar } from './(protected)/_components/navbar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,8 +25,9 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en">
-        <body className={inter.className}>
-     
+        <body className={inter.className + "container flex flex-col bg-white"}>
+          <Navbar />
+
           <Toaster />
           {children}
         </body>
