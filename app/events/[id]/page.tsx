@@ -28,15 +28,15 @@ export default function Page() {
             <div className="mb-6 flex flex-wrap gap-4 px-12">
               <div className="flex items-center">
                 <Calendar className="mr-2 h-5 w-5 text-gray-500" />
-                <span>September 15-17, 2023</span>
+                <span className='text-sm'>September 15-17, 2023</span>
               </div>
               <div className="flex items-center">
                 <Clock className="mr-2 h-5 w-5 text-gray-500" />
-                <span>9:00 AM - 5:00 PM</span>
+                <span className='text-sm'>9:00 AM - 5:00 PM</span>
               </div>
               <div className="flex items-center">
                 <MapPin className="mr-2 h-5 w-5 text-gray-500" />
-                <span>San Francisco, CA</span>
+                <span className='text-sm'>San Francisco, CA</span>
               </div>
             </div>
             <div className="mb-6 px-12">

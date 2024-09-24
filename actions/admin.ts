@@ -7,7 +7,7 @@ export const admin = async () => {
   const role = await currentRole();
   // console.log("/actions/admin.ts > admin > role:", role);
 
-  if (role !== 'ADMIN') {
+  if (role?.name !== 'ADMIN') {
     return { error: "Forbidden" }
   }
 

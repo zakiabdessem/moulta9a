@@ -1,11 +1,10 @@
-import { UserRole } from "@prisma/client";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
 
 /**
  * 
  * Returns the currently logged in user's role.
- * @type {"ADMIN" | "USER"}
+ * @type {"ADMIN" | "USER" | "MANAGER"}
  */
 
 export const useCurrentRole = () => {

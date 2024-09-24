@@ -23,15 +23,12 @@ model User {
   image                 String?
   password              String?
   role                  String                 @default("USER")
-  // userRole              UserRole               @relation(fields: [role], references: [name])
+  events                Event[]
+  attendees             Attendee[]
+  payments              Payment[]
   accounts              Account[]
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
-}
-
-model UserRole {
-  name String @unique
-  // users User[]
 }
 
 model Account {
@@ -87,4 +84,56 @@ model TwoFactorConfirmation {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
+}
+
+model Event {
+  id             String     @id @default(cuid())
+  userId         String
+  title          String
+  description    String
+  startDate      DateTime
+  endDate        DateTime
+  enrollDeadline DateTime
+  location       String
+  image          String
+  isPaid         Boolean
+  price          Float
+  capacity       Int
+  attendees      Attendee[]
+  payments       Payment[]
+  user           User       @relation(fields: [userId], references: [id])
+}
+
+model Attendee {
+  id         String    @id @default(cuid())
+  eventId    String
+  userId     String
+  paymentId  String    @unique
+  paid       Boolean
+  enrolledAt DateTime
+  paidAt     DateTime?
+
+  payment Payment @relation(fields: [paymentId], references: [id])
+  event   Event   @relation(fields: [eventId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([eventId])
+  @@index([userId])
+}
+
+model Payment {
+  id         String    @id @default(cuid())
+  eventId    String
+  userId     String
+  type       String
+  amount     Float
+  paidAt     DateTime
+  refundedAt DateTime?
+
+  attendee Attendee?
+  event    Event     @relation(fields: [eventId], references: [id])
+  user     User      @relation(fields: [userId], references: [id])
+
+  @@index([eventId])
+  @@index([userId])
 }
