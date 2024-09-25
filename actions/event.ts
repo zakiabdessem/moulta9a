@@ -4,15 +4,10 @@ import { EventSchema } from '@/schemas'
 import { z } from 'zod'
 
 export const create = async (values: z.infer<typeof EventSchema>) => {
-  const role = await currentRole()
   const user = await currentUser()
 
   if (!user?.id) {
     return { error: 'User not authenticated!' }
-  }
-
-  if (role?.name !== 'ADMIN' && role?.name !== 'MANAGER') {
-    return { error: 'Forbidden' }
   }
 
   const validatedFields = EventSchema.safeParse(values)
@@ -35,11 +30,6 @@ export const update = async (
   values: z.infer<typeof EventSchema> & { id: string }
 ) => {
   const user = await currentUser()
-  const role = await currentRole()
-
-  if (role?.name !== 'ADMIN' && role?.name !== 'MANAGER') {
-    return { error: 'Forbidden' }
-  }
 
   const validatedFields = EventSchema.safeParse(values)
 
@@ -103,12 +93,6 @@ export const getEventsClient = async () => {
 }
 
 export const getEventAdmin = async (id: string) => {
-  const role = await currentRole()
-
-  if (role?.name !== 'ADMIN') {
-    return { error: 'Forbidden' }
-  }
-
   return await db.event.findUnique({
     where: { id },
     include: {
@@ -119,12 +103,6 @@ export const getEventAdmin = async (id: string) => {
 }
 
 export const getEventsAdmin = async () => {
-  const role = await currentRole()
-
-  if (role?.name !== 'ADMIN') {
-    return { error: 'Forbidden' }
-  }
-
   return await db.event.findMany({
     include: {
       payments: true,

@@ -1,9 +1,9 @@
-"use client";
+'use client'
 
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SettingsSchema } from "@/schemas";
+import * as z from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { SettingsSchema } from '@/schemas'
 import {
   Form,
   FormField,
@@ -12,37 +12,28 @@ import {
   FormLabel,
   FormDescription,
   FormMessage,
-} from "@/components/ui/form";
-import { FormSuccess } from "@/components/form-success";
-import { FormError } from "@/components/form-error";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectItem,
-  SelectTrigger,
-  SelectContent,
-  SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
+} from '@/components/ui/form'
+import { FormSuccess } from '@/components/form-success'
+import { FormError } from '@/components/form-error'
+import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
 
-import { useState, useTransition } from "react";
-import { useSession } from "next-auth/react";
+import { useState, useTransition } from 'react'
+import { useSession } from 'next-auth/react'
 
-import { settings } from "@/actions/settings";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { UserRole } from "@prisma/client";
-import { Label } from "@/components/ui/label";
+import { settings } from '@/actions/settings'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { useCurrentUser } from '@/hooks/use-current-user'
 
 const SettingsPage = () => {
-  const user = useCurrentUser();
+  const user = useCurrentUser()
 
-  const [error, setError] = useState<string | undefined>();
-  const [success, setSuccess] = useState<string | undefined>();
-  const { update } = useSession();
-  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>()
+  const [success, setSuccess] = useState<string | undefined>()
+  const { update } = useSession()
+  const [isPending, startTransition] = useTransition()
 
   const form = useForm<z.infer<typeof SettingsSchema>>({
     resolver: zodResolver(SettingsSchema),
@@ -51,30 +42,32 @@ const SettingsPage = () => {
       email: `${user?.email}` || undefined,
       password: undefined,
       newPassword: undefined,
-      role: user?.role || undefined,
       isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
     },
-  });
+  })
 
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
     startTransition(() => {
       settings(values)
         .then((data) => {
           if (data.error) {
-            setError(data.error);
+            setError(data.error)
           }
 
           if (data.success) {
-            update();
-            setSuccess(data.success);
+            update()
+            setSuccess(data.success)
           }
         })
-        .catch(() => setError("Something went wrong!"));
-    });
-  };
+        .catch((e) => {
+          console.log("🚀 ~ startTransition ~ e:", e)
+          
+          setError('Something went wrong!')})
+    })
+  }
 
   return (
-    <Card>
+    <Card className='mt-12'>
       <CardHeader>
         <p className="text-2xl font-semibold text-center">⚙️ Settings</p>
       </CardHeader>
@@ -181,32 +174,6 @@ const SettingsPage = () => {
                 </>
               )}
 
-              <FormField
-                control={form.control}
-                name="role"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Role</FormLabel>
-                    <Select
-                      disabled={isPending}
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a Role" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value={'ADMIN'}>Admin</SelectItem>
-                        <SelectItem value={'USER'}>User</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
               {user?.isOAuth === false && (
                 <>
                   <FormField
@@ -237,7 +204,7 @@ const SettingsPage = () => {
             <FormSuccess message={success} />
             <Button
               disabled={isPending}
-              className="w-full"
+              className="w-full text-white"
               size="lg"
               type="submit"
             >
@@ -247,7 +214,7 @@ const SettingsPage = () => {
         </Form>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default SettingsPage;
+export default SettingsPage

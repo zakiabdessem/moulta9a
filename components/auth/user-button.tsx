@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   DropdownMenu,
@@ -7,27 +7,28 @@ import {
   DropdownMenuTrigger,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu'
 
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { FaUser, FaUserAlt, FaUserFriends } from "react-icons/fa";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { LogoutButton } from "./logout-button";
-import { Button } from "@react-email/components";
-import { ExitIcon } from "@radix-ui/react-icons";
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { FaUser, FaUserAlt, FaUserFriends } from 'react-icons/fa'
+import { useCurrentUser } from '@/hooks/use-current-user'
+import { LogoutButton } from './logout-button'
+import { Button } from '@react-email/components'
+import { ExitIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
 
 export const UserButton = () => {
-  const user = useCurrentUser();
+  const user = useCurrentUser()
 
   if (!user) {
-    return "Unauthorized"
+    return 'Unauthorized'
   }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus-visible:outline-none">
         <Avatar>
-          <AvatarImage src={user.image ?? ""} />
+          <AvatarImage src={user.image ?? ''} />
           <AvatarFallback className="bg-gradient-to-b from-gray-700 via-gray-900 to-black text-white">
             <FaUser />
           </AvatarFallback>
@@ -46,8 +47,10 @@ export const UserButton = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">
-          <FaUserFriends className="h-4 w-4" />
-          <Button className="ml-2">Profile</Button>
+          <Link href="/settings" className='flex justify-between'>
+            <FaUserFriends className="h-4 w-4 mr-2 " />
+            Profile
+          </Link>
         </DropdownMenuItem>
         <LogoutButton>
           <DropdownMenuItem className="cursor-pointer">
@@ -57,5 +60,5 @@ export const UserButton = () => {
         </LogoutButton>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-};
+  )
+}

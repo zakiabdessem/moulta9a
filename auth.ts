@@ -16,6 +16,7 @@ export const {
   pages: {
     signIn: '/auth/login',
     error: '/auth/error',
+    signOut: '/',
   },
   events: {
     async linkAccount({ user }) {

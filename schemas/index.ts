@@ -4,7 +4,6 @@ export const SettingsSchema = z
   .object({
     name: z.optional(z.string().min(1)),
     isTwoFactorEnabled: z.optional(z.boolean()),
-    role: z.enum(['ADMIN', 'USER']),
     email: z.optional(z.string().email()),
     password: z.optional(
       z.string().min(1, {
@@ -26,19 +25,6 @@ export const SettingsSchema = z
         )
     ),
   })
-  .refine(
-    (data) => {
-      if (data.password && !data.newPassword) {
-        return false
-      }
-
-      return true
-    },
-    {
-      message: 'New password is required!',
-      path: ['newPassword'],
-    }
-  )
   .refine(
     (data) => {
       if (data.newPassword && !data.password) {
