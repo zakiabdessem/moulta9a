@@ -10,10 +10,12 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import { Autoplay } from 'swiper/modules'
+import { Navbar } from './(protected)/_components/navbar'
 
 export default function Home() {
   return (
     <main>
+      <Navbar />
       <Hero />
 
       <div className='max-w-screen-2xl container'>

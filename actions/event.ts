@@ -2,6 +2,12 @@ import { currentRole, currentUser } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { EventSchema } from '@/schemas'
 import { z } from 'zod'
+import { ChargilyClient } from '@chargily/chargily-pay'
+
+const client = new ChargilyClient({
+  api_key: process.env.CHARGILY_API || '',
+  mode: process.env.NODE_ENV === 'production' ? 'live' : 'test',
+})
 
 export const create = async (values: z.infer<typeof EventSchema>) => {
   const user = await currentUser()
@@ -123,7 +129,15 @@ export const enroll = async (
 
   const event = await db.event.findUnique({
     where: { id: eventId },
-    select: { id: true, capacity: true, attendees: true, enrollDeadline: true },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      capacity: true,
+      price: true,
+      attendees: true,
+      enrollDeadline: true,
+    },
   })
 
   if (!event) {
@@ -152,6 +166,72 @@ export const enroll = async (
 
   if (paymentType === 'CHARGILY') {
     //CHARGILY PAYMENT
+    const User = await db.user.findUnique({
+      where: { id: user.id },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        phone: true,
+        adress: true,
+        city: true,
+      },
+    })
+
+    if (!User) {
+      return { error: 'User not found!' }
+    }
+
+    await client.createCustomer({
+      name: User.name || 'John Doe',
+      email: User.email || '[email protected]',
+      phone: User.phone || '213555555555',
+      address: {
+        country: 'DZ',
+        state: User.city || 'Algiers',
+        address: User.adress || '123 Main Street',
+      },
+      metadata: {
+        notes: 'Note Included in the admin dashboard',
+      },
+    })
+
+    const Product = await client.createProduct({
+      name: event.title,
+      description: event.description ?? 'No Descp',
+      metadata: {
+        category: 'Library items',
+      },
+    })
+
+    await db.payment.create({
+      data: {
+        eventId,
+        userId: user.id,
+        paid: false,
+        amount: event.price,
+        type: 'CHARGILY',
+      },
+    })
+
+    const Price = await client.createPrice({
+      amount: event.price,
+      currency: 'dzd',
+      product_id: Product.id,
+    })
+
+    const { checkout_url } = await client.createCheckout({
+      items: [
+        {
+          price: Price.id,
+          quantity: 1,
+        },
+      ],
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/success`,
+      failure_url: process.env.NEXT_PUBLIC_APP_URL,
+    })
+
+    return { checkout_url }
   }
 
   if (paymentType === 'CASH') {
@@ -161,7 +241,7 @@ export const enroll = async (
       data: {
         eventId,
         userId: user.id,
-        paidAt: new Date(),
+        paid: false,
         amount: 0,
         type: 'CASH',
       },

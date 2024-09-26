@@ -11,7 +11,7 @@ import { generateVerificationToken } from '@/lib/tokens'
 import { sendVerificationEmail } from '@/lib/mail'
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
-  console.log('🚀 ~ values:', values)
+  // console.log('🚀 ~ values:', values)
   const user = await currentUser()
 
   if (!user) {
@@ -78,7 +78,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
       },
     })
   } catch (e) {
-    console.log(e)
+    // console.log(e)
     return { error: 'Something went wrong!' }
   }
 
