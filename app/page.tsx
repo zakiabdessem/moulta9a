@@ -18,7 +18,7 @@ export default function Home() {
       <Navbar />
       <Hero />
 
-      <div className='max-w-screen-2xl container'>
+      <div className="max-w-screen-2xl container">
         <h2 className="text-3xl font-semibold text-gray-800 mt-8 mb-4">
           Upcoming Events
         </h2>

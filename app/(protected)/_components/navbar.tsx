@@ -11,7 +11,7 @@ export const Navbar = () => {
   const user = useCurrentUser()
   return (
     <nav className="container flex justify-between items-center w-full py-4">
-      <a href="/">Moulta9a</a>
+      <a href="/">LOGO</a>
       <ul className="flex justify-between items-center p-4 rounded-xl w-3/6 max-xl:hidden">
         <li>
           <Link className="text-md font-bold" href="/events">

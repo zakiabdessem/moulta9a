@@ -26,6 +26,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { useCurrentUser } from '@/hooks/use-current-user'
+import { Navbar } from '../_components/navbar'
 
 const SettingsPage = () => {
   const user = useCurrentUser()
@@ -60,160 +61,164 @@ const SettingsPage = () => {
           }
         })
         .catch((e) => {
-          console.log("🚀 ~ startTransition ~ e:", e)
-          
-          setError('Something went wrong!')})
+          console.log('🚀 ~ startTransition ~ e:', e)
+
+          setError('Something went wrong!')
+        })
     })
   }
 
   return (
-    <Card className='mt-12'>
-      <CardHeader>
-        <p className="text-2xl font-semibold text-center">⚙️ Settings</p>
-      </CardHeader>
-      <Separator />
-      <CardContent className="mt-4">
-        <Form {...form}>
-          <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="John Doe"
-                        disabled={isPending}
-                        autoComplete="off"
-                        autoCorrect="off"
-                        autoCapitalize="on"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+    <main className='container flex flex-col justify-center items-center'>
+      <Navbar />
+      <Card className="mt-12">
+        <CardHeader>
+          <p className="text-2xl font-semibold text-center">⚙️ Settings</p>
+        </CardHeader>
+        <Separator />
+        <CardContent className="mt-4">
+          <Form {...form}>
+            <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="John Doe"
+                          disabled={isPending}
+                          autoComplete="off"
+                          autoCorrect="off"
+                          autoCapitalize="on"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {user?.isOAuth === false && (
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="email"
+                              {...field}
+                              placeholder="john.doe@example.com"
+                              disabled={isPending}
+                              autoComplete="off"
+                              autoCorrect="off"
+                              autoCapitalize="on"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </>
                 )}
-              />
-              {user?.isOAuth === false && (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="email"
-                            {...field}
-                            placeholder="john.doe@example.com"
-                            disabled={isPending}
-                            autoComplete="off"
-                            autoCorrect="off"
-                            autoCapitalize="on"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </>
-              )}
 
-              {user?.isOAuth === false && (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Current Password</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            {...field}
-                            placeholder="•••••••••"
-                            disabled={isPending}
-                            autoComplete="off"
-                            autoCorrect="off"
-                            autoCapitalize="on"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </>
-              )}
+                {user?.isOAuth === false && (
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Current Password</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="password"
+                              {...field}
+                              placeholder="•••••••••"
+                              disabled={isPending}
+                              autoComplete="off"
+                              autoCorrect="off"
+                              autoCapitalize="on"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </>
+                )}
 
-              {user?.isOAuth === false && (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="newPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>New Password</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            {...field}
-                            placeholder="•••••••••"
-                            disabled={isPending}
-                            autoComplete="off"
-                            autoCorrect="off"
-                            autoCapitalize="on"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </>
-              )}
+                {user?.isOAuth === false && (
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="newPassword"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>New Password</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="password"
+                              {...field}
+                              placeholder="•••••••••"
+                              disabled={isPending}
+                              autoComplete="off"
+                              autoCorrect="off"
+                              autoCapitalize="on"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </>
+                )}
 
-              {user?.isOAuth === false && (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="isTwoFactorEnabled"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                        <div className="space-y-0.5">
-                          <FormLabel>Two Factor Authentication</FormLabel>
-                          <FormDescription>
-                            Enable 2FA for your Account
-                          </FormDescription>
-                        </div>
-                        <FormControl>
-                          <Switch
-                            disabled={isPending}
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </>
-              )}
-            </div>
-            <FormError message={error} />
-            <FormSuccess message={success} />
-            <Button
-              disabled={isPending}
-              className="w-full text-white"
-              size="lg"
-              type="submit"
-            >
-              Save Changes
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+                {user?.isOAuth === false && (
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="isTwoFactorEnabled"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                          <div className="space-y-0.5">
+                            <FormLabel>Two Factor Authentication</FormLabel>
+                            <FormDescription>
+                              Enable 2FA for your Account
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              disabled={isPending}
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </>
+                )}
+              </div>
+              <FormError message={error} />
+              <FormSuccess message={success} />
+              <Button
+                disabled={isPending}
+                className="w-full text-white"
+                size="lg"
+                type="submit"
+              >
+                Save Changes
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </main>
   )
 }
 

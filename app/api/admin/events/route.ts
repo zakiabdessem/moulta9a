@@ -12,11 +12,11 @@ export async function GET() {
     }
 
     const data = await getEventsAdmin()
-    // console.log("🚀 ~ GET ~ data:", data)
+    console.log('🚀 ~ GET ~ data:', data)
 
     return new NextResponse(JSON.stringify(data), { status: 200 })
   } catch (error) {
-    // console.log("🚀 ~ GET ~ error:", error)
+    console.error('🚀 ~ GET ~ error:', error)
     return new NextResponse(null, { status: 500 })
   }
 }

@@ -1,3 +1,4 @@
+const ASSETS_BASE_URL = "@/public"
 /**
  * An array of routes that are publicly accessible.
  * These routes do not require authentication.
@@ -39,3 +40,14 @@ export const apiAuthPrefix = '/api/auth'
  * @type {string}
  */
 export const DEFAULT_LOGIN_REDIRECT = '/'
+
+/**
+ * The default path to the website.
+ * @type {string}
+ */
+export const DEFAULT_URL = process.env.NEXT_PUBLIC_DEFAULT_URL || 'http://localhost:3000/'
+
+export function asset(path: string) {
+  // NOTE: Fetching remote assets from the Hugo admin dashboard Vercel dist.
+  return `${ASSETS_BASE_URL}/${path}`
+}

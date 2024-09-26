@@ -1,9 +1,18 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { Calendar, Clock, MapPin, Share2, Star, Ticket, Users } from 'lucide-react'
+import {
+  Calendar,
+  Clock,
+  MapPin,
+  Share2,
+  Star,
+  Ticket,
+  Users,
+} from 'lucide-react'
 import EventImage from '@/public/event-image.png'
 import Speaker from '@/public/speaker.jpg'
 import Image from 'next/image'
+import { Navbar } from '@/app/(protected)/_components/navbar'
 
 export default function Page() {
   const handleShare = () => {
@@ -11,6 +20,7 @@ export default function Page() {
   }
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navbar />
       <main className="container mx-auto px-4 py-8">
         <div className="grid gap-8 md:grid-cols-3">
           <div className="md:col-span-2 bg-white rounded-xl shadow-sm">
@@ -28,15 +38,15 @@ export default function Page() {
             <div className="mb-6 flex flex-wrap gap-4 px-12">
               <div className="flex items-center">
                 <Calendar className="mr-2 h-5 w-5 text-gray-500" />
-                <span className='text-sm'>September 15-17, 2023</span>
+                <span className="text-sm">September 15-17, 2023</span>
               </div>
               <div className="flex items-center">
                 <Clock className="mr-2 h-5 w-5 text-gray-500" />
-                <span className='text-sm'>9:00 AM - 5:00 PM</span>
+                <span className="text-sm">9:00 AM - 5:00 PM</span>
               </div>
               <div className="flex items-center">
                 <MapPin className="mr-2 h-5 w-5 text-gray-500" />
-                <span className='text-sm'>San Francisco, CA</span>
+                <span className="text-sm">San Francisco, CA</span>
               </div>
             </div>
             <div className="mb-6 px-12">
