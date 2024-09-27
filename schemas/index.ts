@@ -98,44 +98,42 @@ export const RegisterSchema = z.object({
 
 export const EventSchema = z
   .object({
+    dateRange: z
+      .object(
+        {
+          from: z.date(),
+          to: z.date(),
+        },
+        {
+          required_error: 'Please select a date range',
+        }
+      )
+      .refine((data) => data.from < data.to, {
+        path: ['dateRange'],
+        message: 'From date must be before to date',
+      }),
     title: z.string().min(1, {
       message: 'Title is required',
     }),
     description: z.string().min(1, {
       message: 'Description is required',
     }),
-    startDate: z.date().min(new Date(), {
-      message: 'Date is required',
-    }),
-    endDate: z.date().min(new Date(), {
-      message: 'Date is required',
-    }),
-    enrollDeadline: z.date().min(new Date(), {
-      message: 'Date is required',
-    }),
+    enrollDeadline: z.date(),
     location: z.string().min(1, {
       message: 'Location is required',
     }),
-    image: z.string().min(1, {
-      message: 'Image is required',
-    }),
+    image: z.any(),
     isPaid: z.boolean(),
     price: z.number().min(0, {
       message: 'Price is required',
     }),
-    capacity: z.number().min(1, {
+    capacity: z.coerce.number().min(1, {
       message: 'Capacity is required',
     }),
   })
+  
   .refine((data) => {
-    if (data.startDate > data.endDate) {
-      return false
-    }
-
-    return true
-  }, 'End date must be after start date')
-  .refine((data) => {
-    if (data.startDate >= data.enrollDeadline) {
+    if (data.dateRange.from >= data.enrollDeadline) {
       return false
     }
 

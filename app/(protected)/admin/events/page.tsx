@@ -23,7 +23,7 @@ function Page({ events }: { events: Event[] }) {
   return (
     <div className="bg-white rounded-md">
       <div className="flex max-sm:flex-col justify-between p-2">
-        <a href={`${DEFAULT_URL}/admin/event/create`}>
+        <a href={`${DEFAULT_URL}/admin/events/create`}>
           <Button className='text-white'>
             <PlusIcon className="mr-2" width={16} height={16} />
             Create Event
@@ -86,7 +86,7 @@ function ProductTable({ events }: { events: Event[] }) {
         {events &&
           events.length > 0 &&
           events.map((event) => {
-            const date = moment(event.startDate.toString()).format('LLL')
+            const date = moment(event.toString()).format('LLL')
             return (
               <TableRow key={event.id}>
                 <TableCell className="max-h-16 max-w-16">

@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 // enum UserRole {
@@ -103,8 +103,7 @@ model Event {
   userId         String
   title          String
   description    String
-  startDate      DateTime
-  endDate        DateTime
+  dateRange      Json
   enrollDeadline DateTime
   location       String
   image          String
