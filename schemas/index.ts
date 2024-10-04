@@ -96,46 +96,62 @@ export const RegisterSchema = z.object({
   }),
 })
 
-export const EventSchema = z
-  .object({
-    dateRange: z
-      .object(
-        {
-          from: z.date(),
-          to: z.date(),
-        },
-        {
-          required_error: 'Please select a date range',
-        }
-      )
-      .refine((data) => data.from < data.to, {
-        path: ['dateRange'],
-        message: 'From date must be before to date',
-      }),
-    title: z.string().min(1, {
-      message: 'Title is required',
-    }),
-    description: z.string().min(1, {
-      message: 'Description is required',
-    }),
-    enrollDeadline: z.date(),
-    location: z.string().min(1, {
-      message: 'Location is required',
-    }),
-    image: z.any(),
-    isPaid: z.boolean(),
-    price: z.number().min(0, {
-      message: 'Price is required',
-    }),
-    capacity: z.coerce.number().min(1, {
-      message: 'Capacity is required',
-    }),
-  })
-  
-  .refine((data) => {
-    if (data.dateRange.from >= data.enrollDeadline) {
-      return false
-    }
+const MAX_FILE_SIZE = 5 * 1024 * 1024
+const ACCEPTED_IMAGE_MIME_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+]
 
-    return true
-  }, 'Enroll deadline must be after start date')
+export const imageSchema = z
+  .any()
+  .refine(
+    (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
+    'Only .jpg, .jpeg, .png and .webp formats are supported.'
+  )
+
+export const EventSchema = z.object({
+  dateRange: z
+    .object(
+      {
+        from: z.union([z.date(), z.string()]),
+        to: z.union([z.date(), z.string()]),
+      },
+      {
+        required_error: 'Please select a date range',
+      }
+    )
+    .refine((data) => new Date(data.from) < new Date(data.to), {
+      path: ['dateRange'],
+      message: 'From date must be before to date',
+    }),
+  title: z.string().min(1, {
+    message: 'Title is required',
+  }),
+  description: z.string().min(1, {
+    message: 'Description is required',
+  }),
+  enrollDeadline: z.union([z.date(), z.string()]),
+  location: z.string().min(1, {
+    message: 'Location is required',
+  }),
+  image: z.union([imageSchema, z.string()]),
+  isPaid: z.boolean(),
+  price: z.coerce.number().min(0, {
+    message: 'Price is required',
+  }),
+  capacity: z.coerce.number().min(1, {
+    message: 'Capacity is required',
+  }),
+})
+
+export const BlogSchema = z.object({
+  title: z.string().min(1, {
+    message: 'Title is required',
+  }),
+  content: z.string().min(1, {
+    message: 'Description is required',
+  }),
+  image: z.union([imageSchema, z.string()]),
+})

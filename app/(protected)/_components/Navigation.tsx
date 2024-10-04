@@ -1,7 +1,8 @@
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 function Navigation() {
-  const pathnames = location.pathname.split('/').filter((x) => x)
+  const pathnames = usePathname().split('/').filter((x) => x)
 
   return (
     <nav className="flex p-3 " aria-label="Breadcrumb">

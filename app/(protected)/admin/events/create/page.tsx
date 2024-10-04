@@ -1,6 +1,9 @@
 'use client'
 import { TitlePage } from '@/app/(protected)/_components/PageTitle'
 import { Button } from '@/components/ui/button'
+import { showLoading, hideLoading } from 'loading-request'
+import 'loading-request/dist/index.css'
+
 import {
   Form,
   FormControl,
@@ -24,16 +27,19 @@ import { CalendarIcon } from 'lucide-react'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Calendar } from '@/components/ui/calendar'
 import { format } from 'date-fns'
 import { useCreateEvent } from '@/hooks/use-event'
+import { Calendar } from '@/components/ui/calendar'
+import { DEFAULT_URL } from '@/routes'
+import { redirect, useRouter } from 'next/navigation'
 
 function page() {
+  const router = useRouter()
+
   const [error, setError] = useState<string | undefined>('')
+  const [loading, setLoading] = useState<boolean>(false)
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
-
-  const { mutateAsync } = useCreateEvent()
 
   const form = useForm<z.infer<typeof EventSchema>>({
     resolver: zodResolver(EventSchema),
@@ -53,60 +59,34 @@ function page() {
     },
   })
 
-  // const onSubmit = async (values: any) => {
-  //   const errors = form.getValues()
-  //   console.log(errors)
-
-  //   setError('')
-  //   setSuccess('')
-
-  //   let fileImage: File = values.image[0] // Ensure this is a File object
-
-  //   // Convert File to base64 string using FileReader and Promise
-  //   try {
-  //     values.image = await new Promise((resolve, reject) => {
-  //       let reader = new FileReader()
-
-  //       reader.onload = function (event) {
-  //         const result = event?.target?.result
-  //         if (typeof result === 'string') {
-  //           resolve(result) // Resolve with base64 string
-  //         } else {
-  //           reject(new Error('Failed to convert file to base64 string'))
-  //         }
-  //       }
-
-  //       reader.onerror = function () {
-  //         reject(new Error('Failed to read file'))
-  //       }
-
-  //       reader.readAsDataURL(fileImage) // Read file as base64
-  //     })
-  //   } catch (error) {
-  //     setError('Error converting image')
-  //     return
+  //check form erros with useEffect
+  // useEffect(() => {
+  //   console.log(
+  //     '🚀 ~ file: page.tsx ~ line 52 ~ useEffect ~ form.formState.errors',
+  //     form.formState.errors
+  //   )
+  //   if (form.formState.errors) {
+  //     setError('Please check the form for errors')
   //   }
-
-  //   startTransition(() => {
-  //     create(values)
-  //       .then((data) => {
-  //         setError(data.error || '')
-  //         setSuccess(data.success || '')
-  //       })
-  //       .catch((error) => {
-  //         setError('Error creating event')
-  //       })
-  //   })
-
-  //   form.reset() // Reset form
-  // }
+  // }, [form.formState.errors])
 
   const onSubmit = async (values: any) => {
-    console.log('Before Form submitted', values)
+    try {
+      showLoading({
+        message: 'Loading...',
+        spinnerColor: '#f3752b',
+        textLoadingColor: '#EE5E09',
+        textLoadingSize: '20px',
+      })
+      await useCreateEvent(values)
+      router.push(`${DEFAULT_URL}/admin/events`)
+      setSuccess('Event created successfully!')
+    } catch (error) {
+      console.error('Error during form submission:', error)
+      setError('Failed to create event')
+    }
 
-    mutateAsync(values)
-
-    console.log('Form submitted', values)
+    hideLoading({ timeLoading: 1500 })
   }
 
   return (
@@ -223,12 +203,11 @@ function page() {
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="center">
                         <Calendar
-                          initialFocus
                           mode="range"
-                          defaultMonth={field.value.from}
+                          defaultMonth={field.value.from as Date}
                           selected={{
-                            from: field.value.from!,
-                            to: field.value.to,
+                            from: field.value.from! as Date,
+                            to: field.value.to as Date,
                           }}
                           onSelect={field.onChange}
                           numberOfMonths={1}

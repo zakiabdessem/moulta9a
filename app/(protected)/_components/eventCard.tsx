@@ -3,17 +3,21 @@ import { Badge } from '@/components/ui/badge'
 import Image from 'next/image'
 import EventImage from '@/public/event-image.png'
 import Speaker from '@/public/speaker.jpg'
+import { Event } from '@prisma/client'
 
-export default function EventCard() {
+export default function EventCard({ event }: { event: Event }) {
   return (
-    <div className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8 cursor-pointer">
+    <div
+      key={event.id}
+      className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8 cursor-pointer"
+    >
       <div className="overflow-hidden rounded-lg bg-white shadow">
         <div className="relative">
           <Image
             alt="Event header image"
             className="h-64 w-full object-cover object-center"
             height="256"
-            src={EventImage}
+            src={event.image}
             style={{
               aspectRatio: '768/256',
               objectFit: 'cover',
@@ -49,15 +53,8 @@ export default function EventCard() {
                 SOON
               </Badge>
             </div>
-            <h2 className="mb-2 text-2xl font-bold">
-              The Latest Trends from the Moon Fashion Week.
-            </h2>
-            <p className="mb-4 text-gray-600">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
-              massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien
-              fringilla, mattis ligula consectetur, ultrices mauris. Maecenas
-              vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum.
-            </p>
+            <h2 className="mb-2 text-2xl font-bold">{event.title}</h2>
+            <p className="mb-4 text-gray-600">{event.description}</p>
             <Button
               className="bg-[#b5a28c] text-white hover:bg-[#a3917c] mt-4"
               variant="secondary"

@@ -3,6 +3,7 @@ import { db } from '@/lib/db'
 import { EventSchema } from '@/schemas'
 import { z } from 'zod'
 import { ChargilyClient } from '@chargily/chargily-pay'
+import { uploadImage } from './cloudinary'
 
 const client = new ChargilyClient({
   api_key: process.env.CHARGILY_API || '',
@@ -11,8 +12,6 @@ const client = new ChargilyClient({
 
 export const create = async (values: z.infer<typeof EventSchema>) => {
   const user = await currentUser()
-  console.log('🚀 ~ create ~ user:', user)
-
   if (!user?.id) {
     return { error: 'User not authenticated!' }
   }
@@ -20,16 +19,22 @@ export const create = async (values: z.infer<typeof EventSchema>) => {
   const validatedFields = EventSchema.safeParse(values)
 
   if (!validatedFields.success) {
+    console.log('🚀 ~ create ~ validatedFields: ', validatedFields.error)
     return { error: 'Invalid fields!' }
   }
 
+  const { dateRange, ...restValues } = values
+
   await db.event.create({
     data: {
-      ...validatedFields.data,
+      ...restValues,
       userId: user.id,
-      image: values.image,
+      image: await uploadImage(values.image),
+      dateRangeFrom: dateRange.from,
+      dateRangeTo: dateRange.to,
     },
   })
+  // console.log('🚀 ~ create ~ event:', event)
 
   return { success: 'Event Created successfully!' }
 }
@@ -69,7 +74,8 @@ export const getEventClient = async (id: string) => {
       id: true,
       title: true,
       description: true,
-      dateRange: true,
+      dateRangeFrom: true,
+      dateRangeTo: true,
       enrollDeadline: true,
       location: true,
       image: true,
@@ -87,7 +93,8 @@ export const getEventsClient = async () => {
       id: true,
       title: true,
       description: true,
-      dateRange: true,
+      dateRangeFrom: true,
+      dateRangeTo: true,
       enrollDeadline: true,
       location: true,
       image: true,

@@ -11,8 +11,12 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import { Autoplay } from 'swiper/modules'
 import { Navbar } from './(protected)/_components/navbar'
+import { useEvents } from '@/hooks/use-event'
+import { Event } from '@prisma/client'
 
 export default function Home() {
+  const { data: events } = useEvents() || []
+  console.log('🚀 ~ Home ~ events:', events)
   return (
     <main>
       <Navbar />
@@ -30,12 +34,11 @@ export default function Home() {
           slidesPerView={1}
           className="mySwiper"
         >
-          <SwiperSlide className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8">
-            <EventCard />
-          </SwiperSlide>
-          <SwiperSlide className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8">
-            <EventCard />
-          </SwiperSlide>
+          {events && events?.map((event: Event) => (
+            <SwiperSlide className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8">
+              <EventCard event={event} />
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
 

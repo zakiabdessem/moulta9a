@@ -27,23 +27,34 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: 'Email is already taken' }
   }
 
-  await db.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
-  })
+  try {
+    await db.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    })
+  
+    const verificationToken = await generateVerificationToken(email)
+  
+    // console.log("/actions/register.ts: register: verificationToken", verificationToken);
+  
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token,
+      name
+    )
+  
+    return { success: 'Confirmation email sent!' }
+    
+  } catch (error) {
 
-  const verificationToken = await generateVerificationToken(email)
+    console.error(error)
+    return { error: 'Iternal Server error!' }
 
-  // console.log("/actions/register.ts: register: verificationToken", verificationToken);
+    
+  }
 
-  await sendVerificationEmail(
-    verificationToken.email,
-    verificationToken.token,
-    name
-  )
-
-  return { success: 'Confirmation email sent!' }
+ 
 }

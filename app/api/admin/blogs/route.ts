@@ -1,9 +1,9 @@
-import { getEventsAdmin } from '@/actions/event'
+import { getBlogsAdmin } from '@/actions/blog'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    const data = await getEventsAdmin()
+    const data = await getBlogsAdmin()
 
     return new NextResponse(JSON.stringify(data), { status: 200 })
   } catch (error) {

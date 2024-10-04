@@ -1,29 +1,29 @@
 import { DEFAULT_URL } from '@/routes'
-import { Event } from '@prisma/client'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { Blog } from '@prisma/client'
+import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
-export const useEvents = () => {
+export const useBlogs = () => {
   const { data, error, refetch } = useQuery({
-    queryKey: ['events'],
+    queryKey: ['blogs'],
     queryFn: async () => {
-      const response = await fetch('/api/events')
+      const response = await fetch('/api/blogs')
       return response.json()
     },
   })
 
-  console.log('🚀 ~ useEvents ~ data:', data)
+  console.log('🚀 ~ useBlogs ~ data:', data)
 
   return { data, error, refetch }
 }
 
-export async function useAdminEvents(){
+export async function useAdminBlog() {
   try {
-    const response = await axios.get(`${DEFAULT_URL}/api/admin/events`, {
+    const response = await axios.get(`${DEFAULT_URL}/api/admin/blogs`, {
       withCredentials: true,
     })
 
-    const data: Event[] = await response.data
+    const data: Blog[] = await response.data
 
     return data
   } catch (error) {
@@ -31,7 +31,7 @@ export async function useAdminEvents(){
   }
 }
 
-export const useCreateEvent = async (values: any) => {
+export const useCreateBlog = async (values: any) => {
   try {
     console.log('🚀 ~ Before converting to Base64:', values)
 
@@ -44,7 +44,7 @@ export const useCreateEvent = async (values: any) => {
     console.log('🚀 ~ After converting to Base64:', values)
 
     // Send the form data with the Base64 image to the backend
-    const response = await axios.post('/api/admin/events/create', values, {
+    const response = await axios.post('/api/admin/blogs/create', values, {
       withCredentials: true,
     })
 
