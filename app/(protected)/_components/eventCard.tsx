@@ -5,7 +5,17 @@ import EventImage from '@/public/event-image.png'
 import Speaker from '@/public/speaker.jpg'
 import { Event } from '@prisma/client'
 
-export default function EventCard({ event }: { event: Event }) {
+export default function EventCard({
+  event,
+}: {
+  event: Event & {
+    user: {
+      name: string
+      image: string
+    }
+  }
+}) {
+  const date = new Date(event.createdAt)
   return (
     <div
       key={event.id}
@@ -46,7 +56,7 @@ export default function EventCard({ event }: { event: Event }) {
                 width="40"
               />
               <div>
-                <p className="text-sm font-medium">Abdelhakim Farah</p>
+                <p className="text-sm font-medium">{event.user.name}</p>
                 <p className="text-xs text-gray-500">April 18th, 2023</p>
               </div>
               <Badge className="ml-auto" variant="secondary">

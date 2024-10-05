@@ -51,5 +51,11 @@ export const getBlogsAdmin = async () => {
 }
 
 export const getBlogs = async () => {
-  return await db.blog.findMany()
+  const blogs = await db.blog.findMany({
+    // with user data
+    include: {
+      user: true,
+    },
+  })
+  return blogs
 }

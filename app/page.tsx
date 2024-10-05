@@ -34,11 +34,21 @@ export default function Home() {
           slidesPerView={1}
           className="mySwiper"
         >
-          {events && events?.map((event: Event) => (
-            <SwiperSlide className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8">
-              <EventCard event={event} />
-            </SwiperSlide>
-          ))}
+          {events &&
+            events?.map(
+              (
+                event: Event & {
+                  user: {
+                    name: string
+                    image: string
+                  }
+                }
+              ) => (
+                <SwiperSlide className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8">
+                  <EventCard event={event} />
+                </SwiperSlide>
+              )
+            )}
         </Swiper>
       </div>
 

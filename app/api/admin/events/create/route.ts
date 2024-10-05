@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    console.log('🚀 ~ POST ~ data received:', data);
 
     // Pass the event data to your create function (make sure it handles the Base64 image)
     const event = await create(data);

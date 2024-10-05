@@ -23,40 +23,66 @@ export const create = async (values: z.infer<typeof EventSchema>) => {
     return { error: 'Invalid fields!' }
   }
 
-  const { dateRange, ...restValues } = values
+  const { dateRange, speakers, ...restValues } = values
 
-  await db.event.create({
+  // Create the event
+  const { id: eventId } = await db.event.create({
     data: {
       ...restValues,
       userId: user.id,
-      image: await uploadImage(values.image),
+      image: await uploadImage(values.image), // Upload event image
       dateRangeFrom: dateRange.from,
       dateRangeTo: dateRange.to,
     },
   })
-  // console.log('🚀 ~ create ~ event:', event)
+  console.log('🚀 ~ create ~ eventId:', eventId)
 
+  // Handle speakers asynchronously using Promise.all
+  const speakerPromises = speakers.map(async (speaker) => {
+    // Upload the image for each speaker
+    const uploadedImage = await uploadImage(speaker.image)
+
+    // Create the speaker and link it to the event
+    const { id: speakerId } = await db.speaker.create({
+      data: {
+        ...speaker,
+        image: uploadedImage, // Ensure image is always provided
+        event: {
+          connect: { id: eventId }, // Link speaker to event
+        },
+      },
+    })
+
+    // Return each speaker ID (for debugging or future use)
+    return speakerId
+  })
+
+  // Wait for all speaker creations to complete
+  const speakerIds = await Promise.all(speakerPromises)
+  console.log('🚀 ~ create ~ speakerIds:', speakerIds)
+
+  // No need to update the event, speakers are already connected during creation
   return { success: 'Event Created successfully!' }
 }
 
-export const update = async (
-  values: z.infer<typeof EventSchema> & { id: string }
-) => {
-  const user = await currentUser()
+// export const update = async (
+//   values: z.infer<typeof EventSchema> & { id: string }
+// ) => {
+//   const user = await currentUser()
 
-  const validatedFields = EventSchema.safeParse(values)
+//   const validatedFields = EventSchema.safeParse(values)
 
-  if (!validatedFields.success) {
-    return { error: 'Invalid fields!' }
-  }
+//   if (!validatedFields.success) {
+//     return { error: 'Invalid fields!' }
+//   }
 
-  await db.event.update({
-    where: { id: values.id, userId: user?.id },
-    data: validatedFields.data,
-  })
+//   await db.event.update({
+//     where: { id: values.id, userId: user?.id },
+//     data: validatedFields.data,
+//   })
 
-  return { success: 'Event Updated successfully!' }
-}
+//   return { success: 'Event Updated successfully!' }
+// }
 
 export const remove = async (id: string) => {
   await db.event.delete({
@@ -82,12 +108,13 @@ export const getEventClient = async (id: string) => {
       isPaid: true,
       price: true,
       capacity: true,
+      user: true,
     },
   })
 }
 
 export const getEventsClient = async () => {
-  return await db.event.findMany({
+  const events = await db.event.findMany({
     select: {
       //DONT SELECT SENSITIVE DATA Payments Attendees
       id: true,
@@ -101,8 +128,11 @@ export const getEventsClient = async () => {
       isPaid: true,
       price: true,
       capacity: true,
+      user: true,
     },
   })
+  console.log('🚀 ~ getEventsClient ~ events:', events)
+  return events
 }
 
 export const getEventAdmin = async (id: string) => {

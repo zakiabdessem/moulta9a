@@ -17,7 +17,7 @@ export const useEvents = () => {
   return { data, error, refetch }
 }
 
-export async function useAdminEvents(){
+export async function useAdminEvents() {
   try {
     const response = await axios.get(`${DEFAULT_URL}/api/admin/events`, {
       withCredentials: true,
@@ -41,6 +41,22 @@ export const useCreateEvent = async (values: any) => {
       values.image = base64Image
     }
 
+    // convert speakers images to Base64
+    // if (values.speakers && values.speakers.length > 0) {
+    //   values.speakers = values.speakers.map(async (speaker: any) => {
+    //     if (speaker.image && speaker.image[0]) {
+    //       console.log(
+    //         '🚀 ~ values.speakers=values.speakers.map ~ speaker:',
+    //         speaker
+    //       )
+    //       const base64Image = await convertFileToBase64(speaker.image[0])
+    //       speaker.image = base64Image
+    //     }
+
+    //     return speaker
+    //   })
+    // }
+
     console.log('🚀 ~ After converting to Base64:', values)
 
     // Send the form data with the Base64 image to the backend
@@ -58,7 +74,7 @@ export const useCreateEvent = async (values: any) => {
 }
 
 // Helper function to convert file to Base64
-const convertFileToBase64 = (
+export const convertFileToBase64 = (
   file: File
 ): Promise<string | ArrayBuffer | null> => {
   return new Promise((resolve, reject) => {

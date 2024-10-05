@@ -19,7 +19,6 @@ import { Event } from '@prisma/client'
 
 export default async function Page() {
   const events =  (await admin()) ? await useAdminEvents() : []
-  console.log('🚀 ~ Page ~ events:', events)
 
   return (
     <div className="bg-white rounded-md">

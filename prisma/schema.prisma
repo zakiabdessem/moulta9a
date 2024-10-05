@@ -117,7 +117,21 @@ model Event {
   capacity       Int
   attendees      Attendee[]
   payments       Payment[]
-  user           User       @relation(fields: [userId], references: [id])
+  speakers       Speaker[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Speaker {
+  id      String @id @default(cuid())
+  name    String
+  bio     String
+  image   String
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id])
 }
 
 model Attendee {

@@ -144,6 +144,13 @@ export const EventSchema = z.object({
   capacity: z.coerce.number().min(1, {
     message: 'Capacity is required',
   }),
+  speakers: z.array(
+    z.object({
+      name: z.string().min(1),
+      bio: z.string().min(1),
+      image: z.union([imageSchema, z.string()]),
+    })
+  ),
 })
 
 export const BlogSchema = z.object({

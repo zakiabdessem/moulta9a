@@ -24,14 +24,16 @@ import { cn } from '@/lib/utils'
 import { EventSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CalendarIcon } from 'lucide-react'
-import { useState, useTransition } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { format } from 'date-fns'
-import { useCreateEvent } from '@/hooks/use-event'
+import { convertFileToBase64, useCreateEvent } from '@/hooks/use-event'
 import { Calendar } from '@/components/ui/calendar'
 import { DEFAULT_URL } from '@/routes'
 import { redirect, useRouter } from 'next/navigation'
+import SpeakerFieldArray from '@/app/(protected)/_components/SpeakerField'
+import { uploadImage } from '@/actions/cloudinary'
 
 function page() {
   const router = useRouter()
@@ -56,21 +58,23 @@ function page() {
       isPaid: false,
       capacity: 1,
       price: 0,
+      speakers: [],
     },
   })
 
   //check form erros with useEffect
-  // useEffect(() => {
-  //   console.log(
-  //     '🚀 ~ file: page.tsx ~ line 52 ~ useEffect ~ form.formState.errors',
-  //     form.formState.errors
-  //   )
-  //   if (form.formState.errors) {
-  //     setError('Please check the form for errors')
-  //   }
-  // }, [form.formState.errors])
+  useEffect(() => {
+    console.log(
+      '🚀 ~ file: page.tsx ~ line 52 ~ useEffect ~ form.formState.errors',
+      form.formState.errors
+    )
+    if (form.formState.errors) {
+      setError('Please check the form for errors')
+    }
+  }, [form.formState.errors])
 
   const onSubmit = async (values: any) => {
+    console.log('🚀 ~ onSubmit ~ values:', values)
     try {
       showLoading({
         message: 'Loading...',
@@ -78,7 +82,32 @@ function page() {
         textLoadingColor: '#EE5E09',
         textLoadingSize: '20px',
       })
-      await useCreateEvent(values)
+
+      const processedSpeakers = await Promise.all(
+        values.speakers.map(async (speaker: any) => {
+          let imageBase64 = ''
+          if (speaker.image && speaker.image[0]) {
+            // Convert image file to Base64
+            const base64Image = await convertFileToBase64(speaker.image[0])
+
+            imageBase64 = base64Image as any
+            console.log("🚀 ~ values.speakers.map ~ imageBase64:", imageBase64)
+          }
+
+          return {
+            name: speaker.name,
+            bio: speaker.bio,
+            image: imageBase64, // Use the uploaded image URL
+          }
+        })
+      )
+
+      const eventData = {
+        ...values,
+        speakers: processedSpeakers, // Include processed speakers with image URLs
+      }
+
+      await useCreateEvent(eventData)
       router.push(`${DEFAULT_URL}/admin/events`)
       setSuccess('Event created successfully!')
     } catch (error) {
@@ -304,6 +333,8 @@ function page() {
                   )}
                 />
               </div>
+
+              <SpeakerFieldArray />
             </Form>
           </div>
           <Button className="m-5 text-white" type="submit">
