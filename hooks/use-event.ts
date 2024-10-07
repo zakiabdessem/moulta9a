@@ -1,10 +1,10 @@
 import { DEFAULT_URL } from '@/routes'
-import { Event } from '@prisma/client'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { Event, Speaker } from '@prisma/client'
+import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
 export const useEvents = () => {
-  const { data, error, refetch } = useQuery({
+  const { data, error, refetch, isLoading } = useQuery({
     queryKey: ['events'],
     queryFn: async () => {
       const response = await fetch('/api/events')
@@ -14,7 +14,23 @@ export const useEvents = () => {
 
   console.log('🚀 ~ useEvents ~ data:', data)
 
-  return { data, error, refetch }
+  return { data, error, refetch, isLoading }
+}
+
+export const useEvent = (id: string) => {
+  const { data, error, refetch, isLoading } = useQuery({
+    queryKey: ['events'],
+    queryFn: async () => {
+      const response = await axios.get(`/api/events/${id}`)
+      console.log('🚀 ~ queryFn: ~ response:', response)
+
+      return response.data as Event & { speakers: Speaker[] }
+    },
+  })
+
+  console.log('🚀 ~ useEvents ~ data:', data)
+
+  return { data, error, refetch, isLoading }
 }
 
 export async function useAdminEvents() {

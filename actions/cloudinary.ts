@@ -7,7 +7,14 @@ cloudinary.v2.config({
   secure: true,
 })
 
-export const uploadImage = async (base64: string) => {
-  const { secure_url } = await cloudinary.v2.uploader.upload(base64)
-  return secure_url
+export const uploadImage = async (base64: any) => {
+  console.log("🚀 ~ uploadImage ~ base64:", base64)
+  try {
+    
+    const { secure_url } = await cloudinary.v2.uploader.upload_url(base64)
+
+    return secure_url
+  } catch (error) {
+    console.error('🚀 ~ uploadImage ~ error:', error)
+  }
 }

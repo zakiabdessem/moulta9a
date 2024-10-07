@@ -1,18 +1,19 @@
 import { ArrowRightIcon } from '@radix-ui/react-icons'
+import moment from 'moment'
 import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
 interface BlogPost {
-  id: number
+  id: string
   title: string
-  description: string
+  content: string
   image: string | StaticImageData
-  author: {
+  user: {
     name: string
-    avatar: string | StaticImageData
+    image: string | StaticImageData
   }
-  date: string
+  createdAt: string | Date
 }
 function BlogCard({ post }: { post: BlogPost }) {
   return (
@@ -33,10 +34,10 @@ function BlogCard({ post }: { post: BlogPost }) {
       />
       <div className="flex items-center gap-4">
         <Image
-          alt={`${post.author.name}'s avatar`}
+          alt={`${post.user.name}'s avatar`}
           className="rounded-full"
           height="40"
-          src={post.author.avatar}
+          src={post.user.image}
           style={{
             aspectRatio: '40/40',
             objectFit: 'cover',
@@ -44,12 +45,12 @@ function BlogCard({ post }: { post: BlogPost }) {
           width="40"
         />
         <div className="flex-1">
-          <h3 className="font-semibold">{post.author.name}</h3>
-          <p className="text-sm text-gray-500">{post.date}</p>
+          <h3 className="font-semibold">{post.user.name}</h3>
+          <p className="text-sm text-gray-500">{moment(post.createdAt).format('MMMM Do, YYYY')}</p>
         </div>
       </div>
       <h3 className="mt-4 text-xl font-bold">{post.title}</h3>
-      <p className="mt-2 text-gray-500">{post.description}</p>
+      <p className="mt-2 text-gray-500">{post.content}</p>
       <Link
         className="mt-4 inline-flex items-center text-sm font-semibold text-gray-800"
         href={`/blog/${post.id}`}

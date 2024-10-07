@@ -35,7 +35,7 @@ export const create = async (values: z.infer<typeof BlogSchema>) => {
       data: {
         ...values,
         userId: user.id,
-        image: await uploadImage(values.image),
+        image: await uploadImage(values?.image ?? ''),
       },
     })
 
@@ -54,7 +54,12 @@ export const getBlogs = async () => {
   const blogs = await db.blog.findMany({
     // with user data
     include: {
-      user: true,
+      user: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
     },
   })
   return blogs

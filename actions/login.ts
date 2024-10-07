@@ -105,6 +105,7 @@ export const login = async (
       redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     })
   } catch (error) {
+    console.log('🚀 ~ login ~ error', error)
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':

@@ -35,7 +35,10 @@ export const {
         return true
       }
 
-      const existingUser = await getUserById(user.id)
+      if (!user.id) {
+        throw new Error('User ID is undefined');
+      }
+      const existingUser = await getUserById(user.id as string)
 
       // Prevent sign in without email verification
       if (!existingUser?.emailVerified) {
@@ -95,7 +98,6 @@ export const {
       token.isOAuth = !!existingAccount
       ;(token.name = existingUser.name),
         (token.email = existingUser.email),
-        (token.image = existingUser.image),
         (token.role = existingUser.role)
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
 

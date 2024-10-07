@@ -9,6 +9,7 @@ import { getUserByEmail, getUserById } from '@/data/user'
 import { currentUser } from '@/lib/auth'
 import { generateVerificationToken } from '@/lib/tokens'
 import { sendVerificationEmail } from '@/lib/mail'
+import { uploadImage } from './cloudinary'
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   // console.log('🚀 ~ values:', values)
@@ -18,7 +19,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     return { error: 'Unauthorized!' }
   }
 
-  const dbUser = await getUserById(user.id)
+  const dbUser = await getUserById(user.id as string)
 
   if (!dbUser) {
     return { error: 'Unauthorized!' }
@@ -29,7 +30,12 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     values.password = undefined
     values.newPassword = undefined
     values.isTwoFactorEnabled = undefined
+    values.image = undefined
   }
+
+  // if (values.image && values.image[0]) {
+  //   values.image = await uploadImage(values.image[0] as any)
+  // }
 
   if (values.email && values.email !== user.email) {
     const existingUser = await getUserByEmail(values.email)
@@ -75,10 +81,11 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
       where: { id: dbUser.id },
       data: {
         ...values,
+        image: values.image,
       },
     })
   } catch (e) {
-    // console.log(e)
+    console.log(e)
     return { error: 'Something went wrong!' }
   }
 

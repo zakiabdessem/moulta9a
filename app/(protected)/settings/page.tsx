@@ -27,6 +27,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { Navbar } from '../_components/navbar'
+import { convertFileToBase64 } from '@/hooks/use-event'
 
 const SettingsPage = () => {
   const user = useCurrentUser()
@@ -43,11 +44,18 @@ const SettingsPage = () => {
       email: `${user?.email}` || undefined,
       password: undefined,
       newPassword: undefined,
+      image: undefined,
       isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
     },
   })
 
-  const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
+  const onSubmit = async (values: z.infer<typeof SettingsSchema>) => {
+    // Convert image file to Base64
+    if (values.image && values.image[0]) {
+      const base64Image = await convertFileToBase64(values.image[0])
+      values.image = base64Image
+    }
+
     startTransition(() => {
       settings(values)
         .then((data) => {
@@ -69,7 +77,7 @@ const SettingsPage = () => {
   }
 
   return (
-    <main className='container flex flex-col justify-center items-center'>
+    <main className="container flex flex-col justify-center items-center">
       <Navbar />
       <Card className="mt-12">
         <CardHeader>
@@ -104,23 +112,33 @@ const SettingsPage = () => {
                   <>
                     <FormField
                       control={form.control}
-                      name="email"
+                      name="image"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="email"
-                              {...field}
-                              placeholder="john.doe@example.com"
-                              disabled={isPending}
-                              autoComplete="off"
-                              autoCorrect="off"
-                              autoCapitalize="on"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
+                        <div className="flex items-center gap-2">
+                          <FormItem className="flex flex-col max-w-64">
+                            <FormLabel>Image*</FormLabel>
+                            <FormControl>
+                              <Button size="lg" type="button">
+                                <input
+                                  type="file"
+                                  id="fileInput"
+                                  className="text-white"
+                                  onBlur={field.onBlur}
+                                  name={field.name}
+                                  onChange={(e) =>
+                                    field.onChange(e.target.files)
+                                  }
+                                  ref={field.ref}
+                                />
+                              </Button>
+                            </FormControl>
+                            <FormDescription>
+                              2mb max, PNG, JPG, JPEG, WEBP
+                            </FormDescription>
+
+                            <FormMessage />
+                          </FormItem>
+                        </div>
                       )}
                     />
                   </>
@@ -172,6 +190,32 @@ const SettingsPage = () => {
                             />
                           </FormControl>
                           <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </>
+                )}
+
+                {user?.isOAuth === false && (
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="isTwoFactorEnabled"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                          <div className="space-y-0.5">
+                            <FormLabel>Two Factor Authentication</FormLabel>
+                            <FormDescription>
+                              Enable 2FA for your Account
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              disabled={isPending}
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
                         </FormItem>
                       )}
                     />

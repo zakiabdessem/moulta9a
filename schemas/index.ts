@@ -1,5 +1,20 @@
 import * as z from 'zod'
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024
+const ACCEPTED_IMAGE_MIME_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+]
+
+export const imageSchema = z
+  .any()
+  .refine(
+    (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
+    'Only .jpg, .jpeg, .png and .webp formats are supported.'
+  )
+
 export const SettingsSchema = z
   .object({
     name: z.optional(z.string().min(1)),
@@ -24,6 +39,7 @@ export const SettingsSchema = z
           }
         )
     ),
+    image: z.union([imageSchema, z.string()]),
   })
   .refine(
     (data) => {
@@ -95,21 +111,6 @@ export const RegisterSchema = z.object({
     message: 'Name is required',
   }),
 })
-
-const MAX_FILE_SIZE = 5 * 1024 * 1024
-const ACCEPTED_IMAGE_MIME_TYPES = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/webp',
-]
-
-export const imageSchema = z
-  .any()
-  .refine(
-    (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
-    'Only .jpg, .jpeg, .png and .webp formats are supported.'
-  )
 
 export const EventSchema = z.object({
   dateRange: z

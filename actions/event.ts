@@ -58,8 +58,7 @@ export const create = async (values: z.infer<typeof EventSchema>) => {
   })
 
   // Wait for all speaker creations to complete
-  const speakerIds = await Promise.all(speakerPromises)
-  console.log('🚀 ~ create ~ speakerIds:', speakerIds)
+  await Promise.all(speakerPromises)
 
   // No need to update the event, speakers are already connected during creation
   return { success: 'Event Created successfully!' }
@@ -109,14 +108,14 @@ export const getEventClient = async (id: string) => {
       price: true,
       capacity: true,
       user: true,
+      speakers: true,
     },
   })
 }
 
 export const getEventsClient = async () => {
-  const events = await db.event.findMany({
+  return await db.event.findMany({
     select: {
-      //DONT SELECT SENSITIVE DATA Payments Attendees
       id: true,
       title: true,
       description: true,
@@ -128,11 +127,16 @@ export const getEventsClient = async () => {
       isPaid: true,
       price: true,
       capacity: true,
-      user: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+      speakers: true,
     },
   })
-  console.log('🚀 ~ getEventsClient ~ events:', events)
-  return events
 }
 
 export const getEventAdmin = async (id: string) => {

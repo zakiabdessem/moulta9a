@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
 export const useBlogs = () => {
-  const { data, error, refetch } = useQuery({
+  const { data, error, refetch, isLoading } = useQuery({
     queryKey: ['blogs'],
     queryFn: async () => {
       const response = await fetch('/api/blogs')
@@ -14,7 +14,7 @@ export const useBlogs = () => {
 
   console.log('🚀 ~ useBlogs ~ data:', data)
 
-  return { data, error, refetch }
+  return { data, error, refetch, isLoading }
 }
 
 export async function useAdminBlog() {
@@ -38,6 +38,8 @@ export const useCreateBlog = async (values: any) => {
     // Convert image file to Base64
     if (values.image && values.image[0]) {
       const base64Image = await convertFileToBase64(values.image[0])
+      console.log('🚀 ~ useCreateBlog ~ base64Image:', base64Image)
+
       values.image = base64Image
     }
 

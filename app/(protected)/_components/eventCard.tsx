@@ -4,6 +4,7 @@ import Image from 'next/image'
 import EventImage from '@/public/event-image.png'
 import Speaker from '@/public/speaker.jpg'
 import { Event } from '@prisma/client'
+import moment from 'moment'
 
 export default function EventCard({
   event,
@@ -13,13 +14,21 @@ export default function EventCard({
       name: string
       image: string
     }
+    speakers: {
+      name: string
+      bio: string
+      image: string
+    }[]
   }
 }) {
-  const date = new Date(event.createdAt)
+  const dateCreatedAt = moment(event.createdAt).format('MMMM Do, YYYY')
+  const dateLaunch = moment(event.dateRangeFrom).format('MMMM Do, YYYY')
+
   return (
-    <div
+    <a
       key={event.id}
       className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8 cursor-pointer"
+      href={`/events/${event.id}`}
     >
       <div className="overflow-hidden rounded-lg bg-white shadow">
         <div className="relative">
@@ -48,7 +57,7 @@ export default function EventCard({
                 alt="Author avatar"
                 className="h-12 w-12 rounded-full"
                 height="40"
-                src={Speaker}
+                src={event.user.image || Speaker}
                 style={{
                   aspectRatio: '40/40',
                   objectFit: 'cover',
@@ -56,11 +65,11 @@ export default function EventCard({
                 width="40"
               />
               <div>
-                <p className="text-sm font-medium">{event.user.name}</p>
-                <p className="text-xs text-gray-500">April 18th, 2023</p>
+                <p className="text-sm font-medium">{event?.user?.name}</p>
+                <p className="text-xs text-gray-500">{dateCreatedAt}</p>
               </div>
               <Badge className="ml-auto" variant="secondary">
-                SOON
+                {dateLaunch}
               </Badge>
             </div>
             <h2 className="mb-2 text-2xl font-bold">{event.title}</h2>
@@ -78,25 +87,24 @@ export default function EventCard({
                 alt="Speaker profile"
                 className="mx-auto h-20 w-20 rounded-full"
                 height="80"
-                src={Speaker}
+                src={event.speakers[0]?.image || Speaker}
                 style={{
                   aspectRatio: '80/80',
                   objectFit: 'cover',
                 }}
                 width="80"
               />
-              <h3 className="mt-2 text-lg font-semibold">Abdelhakim Farah</h3>
+              <h3 className="mt-2 text-lg font-semibold">
+                {event.speakers[0]?.name}
+              </h3>
               <p className="text-sm text-gray-500">Speaker</p>
             </div>
             <p className="text-sm text-gray-600">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et
-              massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien
-              fringilla, mattis ligula consectetur, ultrices mauris. Maecenas
-              vitae mattis tellus.
+              {event.speakers[0]?.bio}
             </p>
           </div>
         </div>
       </div>
-    </div>
+    </a>
   )
 }
