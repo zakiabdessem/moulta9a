@@ -147,11 +147,46 @@ export const EventSchema = z.object({
   }),
   speakers: z.array(
     z.object({
+      id: z.string().optional(),
       name: z.string().min(1),
       bio: z.string().min(1),
       image: z.union([imageSchema, z.string()]),
     })
   ),
+})
+
+export const EventUpdateSchema = z.object({
+  dateRange: z
+    .object(
+      {
+        from: z.union([z.date(), z.string()]),
+        to: z.union([z.date(), z.string()]),
+      },
+      {
+        required_error: 'Please select a date range',
+      }
+    )
+    .refine((data) => new Date(data.from) < new Date(data.to), {
+      path: ['dateRange'],
+      message: 'From date must be before to date',
+    }),
+  title: z.string().min(1, {
+    message: 'Title is required',
+  }),
+  description: z.string().min(1, {
+    message: 'Description is required',
+  }),
+  enrollDeadline: z.union([z.date(), z.string()]),
+  location: z.string().min(1, {
+    message: 'Location is required',
+  }),
+  isPaid: z.boolean(),
+  price: z.coerce.number().min(0, {
+    message: 'Price is required',
+  }),
+  capacity: z.coerce.number().min(1, {
+    message: 'Capacity is required',
+  }),
 })
 
 export const BlogSchema = z.object({

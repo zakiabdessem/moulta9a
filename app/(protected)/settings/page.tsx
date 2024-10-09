@@ -27,7 +27,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { Navbar } from '../_components/navbar'
-import { convertFileToBase64 } from '@/hooks/use-event'
+import { convertFileToBase64 } from '@/util/Image'
 
 const SettingsPage = () => {
   const user = useCurrentUser()
@@ -77,7 +77,7 @@ const SettingsPage = () => {
   }
 
   return (
-    <main className="container flex flex-col justify-center items-center">
+    <main className=" flex flex-col justify-center items-center">
       <Navbar />
       <Card className="mt-12">
         <CardHeader>

@@ -16,9 +16,27 @@ import { LogoutButton } from './logout-button'
 import { Button } from '@react-email/components'
 import { ExitIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
+import { Calendar, Plus, Tickets } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { User } from '@prisma/client'
 
 export const UserButton = () => {
+  const [_user, setUser] = useState<
+    User & {
+      role: string
+      image: string
+      isOAuth: boolean
+      isTwoFactorEnabled: boolean
+    }
+  >()
   const user = useCurrentUser()
+
+  useEffect(() => {
+    if (!user) {
+      return
+    }
+    setUser(user as any)
+  }, [user])
 
   if (!user) {
     return 'Unauthorized'
@@ -47,11 +65,30 @@ export const UserButton = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">
-          <Link href="/settings" className='flex justify-between'>
+          <Link href="/settings" className="flex justify-between">
             <FaUserFriends className="h-4 w-4 mr-2 " />
             Profile
           </Link>
         </DropdownMenuItem>
+        {(user.role === 'MANAGER' || user.role === 'ADMIN') && (
+          <DropdownMenuItem className="cursor-pointer">
+            <Link
+              href="/settings/event/create"
+              className="flex justify-between"
+            >
+              <Plus className="h-4 w-4 mr-2 " />
+              Launch an event
+            </Link>
+          </DropdownMenuItem>
+        )}
+        {(user.role === 'MANAGER' || user.role === 'ADMIN') && (
+          <DropdownMenuItem className="cursor-pointer">
+            <Link href="/settings/event" className="flex justify-between">
+              <Tickets className="h-4 w-4 mr-2 " />
+              Events
+            </Link>
+          </DropdownMenuItem>
+        )}
         <LogoutButton>
           <DropdownMenuItem className="cursor-pointer">
             <ExitIcon className="h-4 w-4" />

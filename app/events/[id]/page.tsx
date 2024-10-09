@@ -112,11 +112,11 @@ export default function Page() {
               />
               <div className="mb-6 flex flex-wrap gap-4 px-12">
                 <div className="flex items-center">
-                  <Calendar className="mr-2 h-5 w-5 text-gray-500" />
+                  <Calendar className="mr-2 h-5 w-5 text-gray-500" /> 
                   <span className="text-sm">{dateRange}</span>
                 </div>
                 <div className="flex items-center">
-                  <LocateIcon className="mr-2 h-5 w-5 text-gray-500" />
+                  <MapPin className="mr-2 h-5 w-5 text-gray-500" />
                   <span className="text-sm">{data?.location}</span>
                 </div>
               </div>

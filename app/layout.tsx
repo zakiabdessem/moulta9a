@@ -6,7 +6,6 @@ import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/auth'
 
 import { Toaster } from '@/components/ui/sonner'
-import { Navbar } from './(protected)/_components/navbar'
 import ReactQueryProvider from './(protected)/_components/ReactQueryProvider'
 
 const inter = Inter({ subsets: ['latin'] })

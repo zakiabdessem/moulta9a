@@ -15,10 +15,29 @@ import { useEvents } from '@/hooks/use-event'
 import { Event } from '@prisma/client'
 import { useBlogs } from '@/hooks/use-blog'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
+  const [_events, setEvents] = useState<
+    (Event & {
+      user: {
+        name: string
+        image: string
+      }
+      speakers: {
+        name: string
+        bio: string
+        image: string
+      }[]
+    })[]
+  >([])
+
   const { data: events, isLoading: isLoadingEvent } = useEvents() || []
   const { data: blogs, isLoading: isLoadingBlog } = useBlogs() || []
+
+  useEffect(() => {
+    setEvents(events)
+  }, [events])
 
   return (
     <main>
@@ -70,8 +89,10 @@ export default function Home() {
               </div>
             </div>
           )}
-          {events &&
-            events?.map(
+          {_events &&
+            !isLoadingEvent &&
+            _events?.length > 0 &&
+            _events?.map(
               (
                 event: Event & {
                   user: {

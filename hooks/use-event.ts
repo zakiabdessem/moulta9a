@@ -1,4 +1,5 @@
 import { DEFAULT_URL } from '@/routes'
+import { convertFileToBase64, isBase64 } from '@/util/Image'
 import { Event, Speaker } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
@@ -21,7 +22,7 @@ export const useEvent = (id: string) => {
   const { data, error, refetch, isLoading } = useQuery({
     queryKey: ['events'],
     queryFn: async () => {
-      const response = await axios.get(`/api/events/${id}`)
+      const response = await axios.get(`${DEFAULT_URL}/api/events/${id}`)
       console.log('🚀 ~ queryFn: ~ response:', response)
 
       return response.data as Event & { speakers: Speaker[] }
@@ -29,6 +30,20 @@ export const useEvent = (id: string) => {
   })
 
   console.log('🚀 ~ useEvents ~ data:', data)
+
+  return { data, error, refetch, isLoading }
+}
+
+export const useEventsManager = () => {
+  const { data, error, refetch, isLoading } = useQuery({
+    queryKey: ['events'],
+    queryFn: async () => {
+      const response = await axios.get(`${DEFAULT_URL}/api/manager/events`, {
+        withCredentials: true,
+      })
+      return response.data
+    },
+  })
 
   return { data, error, refetch, isLoading }
 }
@@ -57,26 +72,54 @@ export const useCreateEvent = async (values: any) => {
       values.image = base64Image
     }
 
-    // convert speakers images to Base64
-    // if (values.speakers && values.speakers.length > 0) {
-    //   values.speakers = values.speakers.map(async (speaker: any) => {
-    //     if (speaker.image && speaker.image[0]) {
-    //       console.log(
-    //         '🚀 ~ values.speakers=values.speakers.map ~ speaker:',
-    //         speaker
-    //       )
-    //       const base64Image = await convertFileToBase64(speaker.image[0])
-    //       speaker.image = base64Image
-    //     }
+    // Send the form data with the Base64 image to the backend
+    const response = await axios.post('/api/admin/events/create', values, {
+      withCredentials: true,
+    })
 
-    //     return speaker
-    //   })
-    // }
+    return { data: response.data }
+  } catch (error) {
+    //console.error('Error creating event:', error)
+    throw error
+  }
+}
+
+export const useUpdateEvent = async (id: string, values: any) => {
+  try {
+    console.log('🚀 ~ Before converting to Base64:', values)
+
+    // Convert main image to Base64 if it's a file and not already in Base64 format
+    if (
+      values.image &&
+      values.image[0] instanceof Blob &&
+      !isBase64(values.image[0] as any)
+    ) {
+      const base64Image = await convertFileToBase64(values.image[0] as any)
+      values.image = base64Image
+    }
+
+    // Convert speaker images to Base64 if necessary
+    if (values.speakers && values.speakers.length > 0) {
+      values.speakers = await Promise.all(
+        values.speakers.map(async (speaker: any) => {
+          // Check if the speaker image is a file (Blob)
+          if (speaker.image && speaker.image[0] instanceof Blob) {
+            console.log('🚀 ~ Converting speaker image to Base64:', speaker)
+            const base64Image = await convertFileToBase64(
+              speaker.image[0] as any
+            )
+            speaker.image = base64Image
+          }
+
+          return speaker
+        })
+      )
+    }
 
     console.log('🚀 ~ After converting to Base64:', values)
 
     // Send the form data with the Base64 image to the backend
-    const response = await axios.post('/api/admin/events/create', values, {
+    const response = await axios.put(`/api/events/${id}`, values, {
       withCredentials: true,
     })
 
@@ -84,21 +127,20 @@ export const useCreateEvent = async (values: any) => {
 
     return { data: response.data }
   } catch (error) {
-    console.error('Error creating event:', error)
+    console.error('Error updating event:', error)
     throw error
   }
 }
 
-// Helper function to convert file to Base64
-export const convertFileToBase64 = (
-  file: File
-): Promise<string | ArrayBuffer | null> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onloadend = () => {
-      resolve(reader.result) // Return Base64 string
-    }
-    reader.onerror = reject
-  })
+export const useDeleteEvent = async (id: string) => {
+  try {
+    const response = await axios.delete(`/api/events/${id}`, {
+      withCredentials: true,
+    })
+
+    return { data: response.data }
+  } catch (error) {
+    console.error('Error deleting event:', error)
+    throw error
+  }
 }

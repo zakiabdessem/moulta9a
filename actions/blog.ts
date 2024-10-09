@@ -3,6 +3,7 @@ import { uploadImage } from './cloudinary'
 import { db } from '@/lib/db'
 import { BlogSchema } from '@/schemas'
 import { z } from 'zod'
+import { isUrl } from '@/util/Image'
 
 export const create = async (values: z.infer<typeof BlogSchema>) => {
   console.log('🚀 ~ create ~ values:', values)
@@ -31,11 +32,15 @@ export const create = async (values: z.infer<typeof BlogSchema>) => {
   }
 
   try {
+    const uploadedImage = isUrl(values.image)
+      ? values.image
+      : await uploadImage(values.image)
+
     await db.blog.create({
       data: {
         ...values,
         userId: user.id,
-        image: await uploadImage(values?.image ?? ''),
+        image: uploadedImage,
       },
     })
 

@@ -12,13 +12,13 @@ import {
 import { useAdminEvents } from '@/hooks/use-event'
 import { DEFAULT_URL } from '@/routes'
 import { CheckboxIcon } from '@radix-ui/react-icons'
-import { DeleteIcon, PlusIcon } from 'lucide-react'
+import { DeleteIcon, EditIcon, PlusIcon } from 'lucide-react'
 import React from 'react'
 import moment from 'moment'
 import { Event } from '@prisma/client'
 
 export default async function Page() {
-  const events =  (await admin()) ? await useAdminEvents() : []
+  const events = (await admin()) ? await useAdminEvents() : []
 
   return (
     <div className="bg-white rounded-md">
@@ -75,6 +75,10 @@ function ProductTable({ events }: { events: Event[] }) {
           <TableHead>Image</TableHead>
 
           <TableHead className="text-right"></TableHead>
+          <TableHead className="text-right"></TableHead>
+
+          <TableHead className="text-right"></TableHead>
+
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -100,7 +104,23 @@ function ProductTable({ events }: { events: Event[] }) {
                     className="w-48 h-32"
                   />
                 </TableCell>
-                <TableCell className="max-h-16 max-w-16">{event.isPaid && "Paid Event"}</TableCell>
+                <TableCell className="max-h-16 max-w-16">
+                  {event.isPaid && 'Paid Event'}
+                </TableCell>
+                <TableCell className="max-h-16 max-w-16">
+                  <div className="flex space-x-2">
+                    <a href={`/admin/events/edit/${event.id}`}>
+                      <EditIcon className="h-4 w-4" />
+                    </a>
+                  </div>
+                </TableCell>
+                <TableCell className="max-h-16 max-w-16">
+                  <div className="flex space-x-2">
+                    <a href={`/admin/events/delete/${event.id}`}>
+                      <DeleteIcon className="h-4 w-4" />
+                    </a>
+                  </div>
+                </TableCell>
               </TableRow>
             )
           })}

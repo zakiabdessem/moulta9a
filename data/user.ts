@@ -32,6 +32,7 @@ export const getUserById = async (id: string) => {
         name: true,
         role: true,
         password: true,
+        image: true,
         emailVerified: true,
         isTwoFactorEnabled: true,
       },

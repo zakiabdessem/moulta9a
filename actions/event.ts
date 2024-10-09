@@ -4,6 +4,7 @@ import { EventSchema } from '@/schemas'
 import { z } from 'zod'
 import { ChargilyClient } from '@chargily/chargily-pay'
 import { uploadImage } from './cloudinary'
+import { isUrl } from '@/util/Image'
 
 const client = new ChargilyClient({
   api_key: process.env.CHARGILY_API || '',
@@ -14,6 +15,10 @@ export const create = async (values: z.infer<typeof EventSchema>) => {
   const user = await currentUser()
   if (!user?.id) {
     return { error: 'User not authenticated!' }
+  }
+
+  if (!(user?.role == 'ADMIN' || user?.role == 'MANAGER')) {
+    return { error: 'User not authorized!' }
   }
 
   const validatedFields = EventSchema.safeParse(values)
@@ -30,7 +35,9 @@ export const create = async (values: z.infer<typeof EventSchema>) => {
     data: {
       ...restValues,
       userId: user.id,
-      image: await uploadImage(values.image), // Upload event image
+      image: isUrl(values.image)
+        ? values.image
+        : await uploadImage(values.image), // Upload event image
       dateRangeFrom: dateRange.from,
       dateRangeTo: dateRange.to,
     },
@@ -40,7 +47,9 @@ export const create = async (values: z.infer<typeof EventSchema>) => {
   // Handle speakers asynchronously using Promise.all
   const speakerPromises = speakers.map(async (speaker) => {
     // Upload the image for each speaker
-    const uploadedImage = await uploadImage(speaker.image)
+    const uploadedImage = isUrl(speaker.image)
+      ? speaker.image
+      : await uploadImage(speaker.image)
 
     // Create the speaker and link it to the event
     const { id: speakerId } = await db.speaker.create({
@@ -64,31 +73,87 @@ export const create = async (values: z.infer<typeof EventSchema>) => {
   return { success: 'Event Created successfully!' }
 }
 
-// export const update = async (
-//   values: z.infer<typeof EventSchema> & { id: string }
-// ) => {
-//   const user = await currentUser()
+export const getEventsManager = async () => {
+  const user = await currentUser()
 
-//   const validatedFields = EventSchema.safeParse(values)
+  if (!user?.id) {
+    return { error: 'User not authenticated!' }
+  }
 
-//   if (!validatedFields.success) {
-//     return { error: 'Invalid fields!' }
-//   }
-
-//   await db.event.update({
-//     where: { id: values.id, userId: user?.id },
-//     data: validatedFields.data,
-//   })
-
-//   return { success: 'Event Updated successfully!' }
-// }
-
-export const remove = async (id: string) => {
-  await db.event.delete({
-    where: { id },
+  const events = await db.event.findMany({
+    where: { userId: user?.id },
+    include: {
+      speakers: true,
+    },
   })
 
-  return { success: 'Event Deleted successfully!' }
+  return events
+}
+
+export const update = async (
+  values: z.infer<typeof EventSchema> & { id: string },
+  id: string
+) => {
+  console.log('🚀 ~ values:', values)
+  const validatedFields = EventSchema.safeParse(values)
+
+  if (!validatedFields.success) {
+    //console.log('🚀 ~ update ~ validatedFields: ', validatedFields.error)
+    return { error: 'Invalid fields!' }
+  }
+
+  try {
+    await db.event.update({
+      where: { id },
+      data: {
+        description: values.description,
+        title: values.title,
+        location: values.location,
+        image: isUrl(values.image)
+          ? values.image
+          : await uploadImage(values.image),
+        dateRangeFrom: values.dateRange.from,
+        dateRangeTo: values.dateRange.to,
+        speakers: {
+          update: values.speakers.map((speaker) => ({
+            where: { id: speaker.id },
+            data: speaker,
+          })),
+        },
+      },
+    })
+  } catch (error) {
+    console.log('🚀 ~ update ~ error:', error)
+  }
+
+  return { success: 'Event Updated successfully!' }
+}
+
+export const remove = async (id: string) => {
+  try {
+    // Delete associated speakers first
+    await db.speaker.deleteMany({
+      where: { eventId: id }, // Assuming 'eventId' is the foreign key in the speakers table
+    })
+
+    await db.attendee.deleteMany({
+      where: { eventId: id }, // Assuming 'eventId' is the foreign key in the speakers table
+    })
+
+    await db.payment.deleteMany({
+      where: { eventId: id }, // Assuming 'eventId' is the foreign key in the speakers table
+    })
+
+    // Now delete the event
+    await db.event.delete({
+      where: { id },
+    })
+
+    return { success: 'Event Deleted successfully!' }
+  } catch (error) {
+    console.log('🚀 ~ remove ~ error:', error)
+    throw new Error('Failed to delete the event')
+  }
 }
 
 export const getEventClient = async (id: string) => {

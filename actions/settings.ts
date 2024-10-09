@@ -10,6 +10,7 @@ import { currentUser } from '@/lib/auth'
 import { generateVerificationToken } from '@/lib/tokens'
 import { sendVerificationEmail } from '@/lib/mail'
 import { uploadImage } from './cloudinary'
+import { isUrl } from '@/util/Image'
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   // console.log('🚀 ~ values:', values)
@@ -77,13 +78,18 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   }
 
   try {
-    await db.user.update({
+    const image = isUrl(values.image)
+      ? values.image
+      : await uploadImage(values.image)
+
+    const newUser = await db.user.update({
       where: { id: dbUser.id },
       data: {
         ...values,
-        image: values.image,
+        image,
       },
     })
+    console.log('🚀 ~ settings ~ newUser:', newUser)
   } catch (e) {
     console.log(e)
     return { error: 'Something went wrong!' }
