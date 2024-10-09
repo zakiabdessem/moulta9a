@@ -28,12 +28,13 @@ import { useEffect, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { format } from 'date-fns'
-import { convertFileToBase64, useCreateEvent } from '@/hooks/use-event'
+import { useCreateEvent } from '@/hooks/use-event'
 import { Calendar } from '@/components/ui/calendar'
 import { DEFAULT_URL } from '@/routes'
 import { redirect, useRouter } from 'next/navigation'
 import SpeakerFieldArray from '@/app/(protected)/_components/SpeakerField'
 import { uploadImage } from '@/actions/cloudinary'
+import { convertFileToBase64 } from '@/util/Image'
 
 function page() {
   const router = useRouter()
@@ -64,17 +65,13 @@ function page() {
 
   //check form erros with useEffect
   useEffect(() => {
-    console.log(
-      '🚀 ~ file: page.tsx ~ line 52 ~ useEffect ~ form.formState.errors',
-      form.formState.errors
-    )
+   
     if (form.formState.errors) {
       setError('Please check the form for errors')
     }
   }, [form.formState.errors])
 
   const onSubmit = async (values: any) => {
-    console.log('🚀 ~ onSubmit ~ values:', values)
     try {
       showLoading({
         message: 'Loading...',
@@ -91,7 +88,6 @@ function page() {
             const base64Image = await convertFileToBase64(speaker.image[0])
 
             imageBase64 = base64Image as any
-            console.log("🚀 ~ values.speakers.map ~ imageBase64:", imageBase64)
           }
 
           return {

@@ -6,10 +6,8 @@ import { z } from 'zod'
 import { isUrl } from '@/util/Image'
 
 export const create = async (values: z.infer<typeof BlogSchema>) => {
-  console.log('🚀 ~ create ~ values:', values)
 
   const user = await currentUser()
-  console.log('🚀 ~ create ~ currentUser:', user)
 
   if (!user?.id) {
     return { error: 'User not authenticated!' }
@@ -18,7 +16,6 @@ export const create = async (values: z.infer<typeof BlogSchema>) => {
   const validatedFields = BlogSchema.safeParse(values)
 
   if (!validatedFields.success) {
-    console.log('🚀 ~ create ~ validatedFields: ', validatedFields.error)
     return { error: 'Invalid fields!' }
   }
 
@@ -46,7 +43,6 @@ export const create = async (values: z.infer<typeof BlogSchema>) => {
 
     return { success: 'Blog Created successfully!' }
   } catch (error) {
-    console.error('🚀 ~ create ~ error:', error)
     return { error: 'Blog creation failed due to a foreign key constraint!' }
   }
 }

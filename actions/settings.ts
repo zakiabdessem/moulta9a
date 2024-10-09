@@ -13,7 +13,6 @@ import { uploadImage } from './cloudinary'
 import { isUrl } from '@/util/Image'
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
-  // console.log('🚀 ~ values:', values)
   const user = await currentUser()
 
   if (!user) {
@@ -89,7 +88,6 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
         image,
       },
     })
-    console.log('🚀 ~ settings ~ newUser:', newUser)
   } catch (e) {
     console.log(e)
     return { error: 'Something went wrong!' }

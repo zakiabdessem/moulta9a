@@ -13,6 +13,7 @@ const client = new ChargilyClient({
 
 export const create = async (values: z.infer<typeof EventSchema>) => {
   const user = await currentUser()
+  console.log('🚀 ~ create ~ user:', user)
   if (!user?.id) {
     return { error: 'User not authenticated!' }
   }
@@ -75,9 +76,6 @@ export const create = async (values: z.infer<typeof EventSchema>) => {
 
 export const getEventsManager = async () => {
   const user = await currentUser()
-  console.log("🚀 ~ getEventsManager ~ user:", user)
-
-  
 
   if (!user?.id) {
     return { error: 'User not authenticated!' }

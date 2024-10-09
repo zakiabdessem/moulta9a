@@ -17,6 +17,7 @@ export default function DeleteEventPage() {
   // Function to handle the deletion of the event
   const deleteEvent = async () => {
     try {
+      // Show loading state
       showLoading({
         message: 'Deleting event...',
         spinnerColor: '#f3752b',
@@ -25,18 +26,14 @@ export default function DeleteEventPage() {
       })
 
       // Make a delete request to the backend to delete the event by its id
-      await axios
-        .delete(`/api/events/${id}`, {
-          withCredentials: true,
-        })
-        .then(() => {
-          // Redirect to the events list page after successful deletion
-          router.push(`${DEFAULT_URL}/settings/event/delete/${id}`)
-        })
+      await axios.delete(`/api/events/${id}`, {
+        withCredentials: true,
+      })
 
       hideLoading({ timeLoading: 1500 })
 
-      // Redirect to the events list page after successful deletion
+      // Use router.replace() for better behavior in certain contexts
+      router.replace(`${DEFAULT_URL}/settings/event/delete/${id}`)
     } catch (error) {
       hideLoading({ timeLoading: 1500 })
       console.error('Error deleting event:', error)

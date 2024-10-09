@@ -23,7 +23,7 @@ export const publicRoutes = [
  *
  * @type {string[]}
  */
-export const authRoutes = ['/api/admin', '/admin']
+export const authRoutes = ['/api/admin', '/admin', '/api/manager', '/manager']
 
 /**
  * The prefix for our auth API Route
@@ -44,7 +44,7 @@ export const DEFAULT_LOGIN_REDIRECT = '/'
  * @type {string}
  */
 export const DEFAULT_URL =
-  process.env.NEXT_PUBLIC_DEFAULT_URL || 'http://127.0.0.1:3000/'
+  process.env.NEXT_PUBLIC_DEFAULT_URL || 'http://localhost:3000/'
 
 export function asset(path: string) {
   // NOTE: Fetching remote assets from the Hugo admin dashboard Vercel dist.

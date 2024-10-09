@@ -12,8 +12,6 @@ export const useBlogs = () => {
     },
   })
 
-  console.log('🚀 ~ useBlogs ~ data:', data)
-
   return { data, error, refetch, isLoading }
 }
 
@@ -33,24 +31,18 @@ export async function useAdminBlog() {
 
 export const useCreateBlog = async (values: any) => {
   try {
-    console.log('🚀 ~ Before converting to Base64:', values)
-
     // Convert image file to Base64
     if (values.image && values.image[0]) {
       const base64Image = await convertFileToBase64(values.image[0])
-      console.log('🚀 ~ useCreateBlog ~ base64Image:', base64Image)
 
       values.image = base64Image
     }
 
-    console.log('🚀 ~ After converting to Base64:', values)
 
     // Send the form data with the Base64 image to the backend
     const response = await axios.post('/api/admin/blogs/create', values, {
       withCredentials: true,
     })
-
-    console.log('🚀 ~ //mutationFn: ~ response:', response)
 
     return { data: response.data }
   } catch (error) {

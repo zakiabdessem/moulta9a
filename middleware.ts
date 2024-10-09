@@ -1,9 +1,5 @@
 import NextAuth from 'next-auth'
-
 import authConfig from './auth.config'
-
-const { auth } = NextAuth(authConfig)
-
 import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
@@ -11,55 +7,66 @@ import {
   publicRoutes,
 } from '@/routes'
 
+const { auth } = NextAuth(authConfig)
+
 export default auth((req) => {
   const user = req.auth?.user
   const { nextUrl } = req
   const isLogedIn = !!req.auth // Check if the user is logged in
 
-  const apiAuthPrefix = '/api/auth' // Assuming apiAuthPrefix is defined somewhere
-  // Define the prefixes and route lists
-  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
+  const path = nextUrl.pathname || nextUrl?.pathname // Handle undefined scenarios
+
+  // Check if it's an API auth route
+  const isApiAuthRoute = path.startsWith(apiAuthPrefix)
+
+  // Check if it's an admin route
+  const isAuthAdminRoute =
+    path.startsWith('/admin') || path.startsWith('/api/admin')
+
+  // Check if it's a manager route
+  const isAuthManagerRoute =
+    path.startsWith('/manager') ||
+    path.startsWith('/api/manager') ||
+    path.startsWith('/settings/event')
 
   // Helper function to check if the current route matches public routes
   const isPublicRoute = (pathname: string): boolean =>
     publicRoutes.some((route) => {
       if (typeof route === 'string') {
         return pathname === route
-      } else if (route instanceof RegExp) {
+      } else if (typeof route !== 'string' && route instanceof RegExp) {
         return route.test(pathname)
       }
       return false
     })
 
-  const path = nextUrl.pathname || nextUrl?.pathname // Handle undefined scenarios
-
-  // Check if the current route matches authentication routes
-  const isAuthRoute = authRoutes.includes(path)
-
-  // Check if it's an admin route or API admin route
-  const isAuthAdminRoute =
-    path.startsWith('/admin') || path.startsWith('/api/admin')
-  console.log('🚀 ~ auth ~ isAuthAdminRoute:', isAuthAdminRoute)
-
-  // Redirect if trying to access admin routes without being logged in or without the proper role
+  // Handle Admin Route Protection
   if (isAuthAdminRoute && (!isLogedIn || user?.role !== 'ADMIN')) {
+    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+  }
+
+  // Handle Manager Route Protection
+  if (
+    isAuthManagerRoute &&
+    (!isLogedIn || (user?.role !== 'MANAGER' && user?.role !== 'ADMIN'))
+  ) {
     return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
   }
 
   // Allow access to API auth routes without redirecting
   if (isApiAuthRoute) {
-    return null
+    return null // Allow API auth routes to pass through without redirection
   }
 
-  // If it's an auth route and the user is logged in, redirect to the dashboard or home
-  if (isAuthRoute) {
-    if (isLogedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
-    }
-    return null
-  }
+  // Handle Auth Routes (Login, Signup) and redirect if logged in
+  // if (isAuthRoute) {
+  //   if (isLogedIn) {
+  //     return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+  //   }
+  //   return null
+  // }
 
-  // If the route is not public and the user is not logged in, redirect to the login page with a callback URL
+  // If the route is not public and the user is not logged in, redirect to login page
   if (!isLogedIn && !isPublicRoute(path)) {
     let callbackUrl = nextUrl.pathname
     if (nextUrl.search) {
@@ -67,13 +74,13 @@ export default auth((req) => {
     }
 
     const encodedCallbackUrl = encodeURIComponent(callbackUrl)
-
     return Response.redirect(
       new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
     )
   }
 
-  return null // Allow access to all other routes
+  // If no redirection is required, allow access
+  return null
 })
 
 export const config = {

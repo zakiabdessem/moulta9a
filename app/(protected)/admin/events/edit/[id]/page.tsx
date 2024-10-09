@@ -132,7 +132,6 @@ function EditEventPage({
         ...values,
         speakers: processedSpeakers,
       }
-      console.log('🚀 ~ onSubmit ~ updatedEvent:', updatedEvent)
 
       await useUpdateEvent(event.id, updatedEvent)
       router.push(`${DEFAULT_URL}/admin/events`)

@@ -50,6 +50,7 @@ export default function Page() {
         </TableHeader>
         <TableBody>
           {events &&
+            Array.isArray(events) &&
             events.length > 0 &&
             events?.map((event) => {
               const date = moment(event.dateRangeFrom.toString()).format('LLL')

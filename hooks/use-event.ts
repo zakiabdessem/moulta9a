@@ -23,13 +23,10 @@ export const useEvent = (id: string) => {
     queryKey: ['events'],
     queryFn: async () => {
       const response = await axios.get(`${DEFAULT_URL}/api/events/${id}`)
-      console.log('🚀 ~ queryFn: ~ response:', response)
 
       return response.data as Event & { speakers: Speaker[] }
     },
   })
-
-  console.log('🚀 ~ useEvents ~ data:', data)
 
   return { data, error, refetch, isLoading }
 }
@@ -64,8 +61,6 @@ export async function useAdminEvents() {
 
 export const useCreateEvent = async (values: any) => {
   try {
-    console.log('🚀 ~ Before converting to Base64:', values)
-
     // Convert image file to Base64
     if (values.image && values.image[0]) {
       const base64Image = await convertFileToBase64(values.image[0])
@@ -73,21 +68,19 @@ export const useCreateEvent = async (values: any) => {
     }
 
     // Send the form data with the Base64 image to the backend
-    const response = await axios.post('/api/admin/events/create', values, {
+    const response = await axios.post('/api/manager/events/create', values, {
       withCredentials: true,
     })
 
     return { data: response.data }
   } catch (error) {
-    //console.error('Error creating event:', error)
+    console.error('Error creating event:', error)
     throw error
   }
 }
 
 export const useUpdateEvent = async (id: string, values: any) => {
   try {
-    console.log('🚀 ~ Before converting to Base64:', values)
-
     // Convert main image to Base64 if it's a file and not already in Base64 format
     if (
       values.image &&
@@ -104,7 +97,6 @@ export const useUpdateEvent = async (id: string, values: any) => {
         values.speakers.map(async (speaker: any) => {
           // Check if the speaker image is a file (Blob)
           if (speaker.image && speaker.image[0] instanceof Blob) {
-            console.log('🚀 ~ Converting speaker image to Base64:', speaker)
             const base64Image = await convertFileToBase64(
               speaker.image[0] as any
             )
@@ -116,14 +108,10 @@ export const useUpdateEvent = async (id: string, values: any) => {
       )
     }
 
-    console.log('🚀 ~ After converting to Base64:', values)
-
     // Send the form data with the Base64 image to the backend
     const response = await axios.put(`/api/events/${id}`, values, {
       withCredentials: true,
     })
-
-    console.log('🚀 ~ //mutationFn: ~ response:', response)
 
     return { data: response.data }
   } catch (error) {

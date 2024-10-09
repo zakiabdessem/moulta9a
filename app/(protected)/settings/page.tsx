@@ -69,8 +69,6 @@ const SettingsPage = () => {
           }
         })
         .catch((e) => {
-          console.log('🚀 ~ startTransition ~ e:', e)
-
           setError('Something went wrong!')
         })
     })

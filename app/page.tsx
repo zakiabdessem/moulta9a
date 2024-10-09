@@ -45,9 +45,11 @@ export default function Home() {
       <Hero />
 
       <div className="max-w-screen-2xl container">
-        <h2 className="text-3xl font-semibold text-gray-800 mt-8 mb-4">
-          Upcoming Events
-        </h2>
+        {events && events.length > 0 && (
+          <h2 className="text-3xl font-semibold text-gray-800 mt-8 mb-4">
+            Upcoming Events
+          </h2>
+        )}
 
         <Swiper
           modules={[Autoplay]}
@@ -55,7 +57,7 @@ export default function Home() {
           spaceBetween={30}
           slidesPerView={1}
           className="mySwiper"
-          id='events'
+          id="events"
         >
           {isLoadingEvent && (
             <div className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8 cursor-pointer">

@@ -61,7 +61,7 @@ export default function EventCard({
                 alt="Author avatar"
                 className="h-12 w-12 rounded-full"
                 height="40"
-                src={event.user.image || Speaker}
+                src={event?.user?.image || Speaker}
                 style={{
                   aspectRatio: '40/40',
                   objectFit: 'cover',

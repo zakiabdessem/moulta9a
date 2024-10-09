@@ -66,17 +66,13 @@ function page() {
 
   //check form erros with useEffect
   useEffect(() => {
-    console.log(
-      '🚀 ~ file: page.tsx ~ line 52 ~ useEffect ~ form.formState.errors',
-      form.formState.errors
-    )
+  
     if (form.formState.errors) {
       setError('Please check the form for errors')
     }
   }, [form.formState.errors])
 
   const onSubmit = async (values: any) => {
-    console.log('🚀 ~ onSubmit ~ values:', values)
     try {
       showLoading({
         message: 'Loading...',

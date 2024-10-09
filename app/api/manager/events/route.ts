@@ -1,5 +1,5 @@
-import { getEventsClient, getEventsManager } from '@/actions/event'
-import { NextResponse } from 'next/server'
+import { getEventsManager } from "@/actions/event"
+import { NextResponse } from "next/server"
 
 export async function GET() {
   try {

@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+import { db } from '@/lib/db'
 
 export const getAccountByUserId = async (userId: string) => {
   try {
@@ -8,12 +8,12 @@ export const getAccountByUserId = async (userId: string) => {
         userId: true,
       },
       where: {
-        userId
-      }
-    });
+        userId,
+      },
+    })
 
-    return account;
+    return account
   } catch (error) {
-    return null;
+    return null
   }
 }
