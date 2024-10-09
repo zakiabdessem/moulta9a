@@ -50,7 +50,11 @@ export default function EventCard({
             offline
           </Badge>
         </div>
-        <div className="grid gap-6 p-6 md:grid-cols-3">
+        <div
+          className={`grid gap-6 p-6 ${
+            event.speakers.length > 1 ? 'md:grid-cols-3' : 'md:grid-cols-1'
+          }`}
+        >
           <div className="md:col-span-2">
             <div className="mb-4 flex justify-between items-center gap-2">
               <Image
@@ -78,31 +82,31 @@ export default function EventCard({
               className="bg-[#b5a28c] text-white hover:bg-[#a3917c] mt-4"
               variant="secondary"
             >
-              Join Now
+              <a href={`/events/${event.id}`}>Join Now</a>
             </Button>
           </div>
-          <div className="rounded-lg bg-gray-100 p-4 max-md:hidden">
-            <div className="mb-4 text-center">
-              <Image
-                alt="Speaker profile"
-                className="mx-auto h-20 w-20 rounded-full"
-                height="80"
-                src={event.speakers[0]?.image || Speaker}
-                style={{
-                  aspectRatio: '80/80',
-                  objectFit: 'cover',
-                }}
-                width="80"
-              />
-              <h3 className="mt-2 text-lg font-semibold">
-                {event.speakers[0]?.name}
-              </h3>
-              <p className="text-sm text-gray-500">Speaker</p>
+          {event.speakers.length > 1 && (
+            <div className="rounded-lg bg-gray-100 p-4 max-md:hidden">
+              <div className="mb-4 text-center">
+                <Image
+                  alt="Speaker profile"
+                  className="mx-auto h-20 w-20 rounded-full"
+                  height="80"
+                  src={event.speakers[0]?.image || Speaker}
+                  style={{
+                    aspectRatio: '80/80',
+                    objectFit: 'cover',
+                  }}
+                  width="80"
+                />
+                <h3 className="mt-2 text-lg font-semibold">
+                  {event.speakers[0]?.name}
+                </h3>
+                <p className="text-sm text-gray-500">Speaker</p>
+              </div>
+              <p className="text-sm text-gray-600">{event.speakers[0]?.bio}</p>
             </div>
-            <p className="text-sm text-gray-600">
-              {event.speakers[0]?.bio}
-            </p>
-          </div>
+          )}
         </div>
       </div>
     </a>

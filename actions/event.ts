@@ -75,6 +75,9 @@ export const create = async (values: z.infer<typeof EventSchema>) => {
 
 export const getEventsManager = async () => {
   const user = await currentUser()
+  console.log("🚀 ~ getEventsManager ~ user:", user)
+
+  
 
   if (!user?.id) {
     return { error: 'User not authenticated!' }

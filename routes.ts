@@ -10,7 +10,11 @@ export const publicRoutes = [
   '/',
   '/auth/new-verification',
   '/events/',
-  '/admin/',
+  '/auth/login',
+  '/auth/register',
+  '/auth/error',
+  '/auth/reset',
+  '/auth/new-password',
 ]
 
 /**
@@ -19,13 +23,7 @@ export const publicRoutes = [
  *
  * @type {string[]}
  */
-export const authRoutes = [
-  '/auth/login',
-  '/auth/register',
-  '/auth/error',
-  '/auth/reset',
-  '/auth/new-password',
-]
+export const authRoutes = ['/api/admin', '/admin']
 
 /**
  * The prefix for our auth API Route

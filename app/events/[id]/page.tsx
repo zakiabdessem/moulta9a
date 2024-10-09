@@ -112,7 +112,7 @@ export default function Page() {
               />
               <div className="mb-6 flex flex-wrap gap-4 px-12">
                 <div className="flex items-center">
-                  <Calendar className="mr-2 h-5 w-5 text-gray-500" /> 
+                  <Calendar className="mr-2 h-5 w-5 text-gray-500" />
                   <span className="text-sm">{dateRange}</span>
                 </div>
                 <div className="flex items-center">
@@ -128,35 +128,37 @@ export default function Page() {
                 <h2 className="mb-2 text-2xl font-bold">About the Event</h2>
                 <p className="text-gray-600">{data?.description}</p>
               </div>
-              <div className="mb-6 px-12">
-                <h2 className="mb-2 text-2xl font-bold">Speakers</h2>
-                <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-                  {data?.speakers.map((speaker) => (
-                    <div
-                      key={speaker.id}
-                      className="flex items-center space-x-4"
-                    >
-                      <Image
-                        alt={`Speaker ${speaker.id}`}
-                        className="h-12 w-12 rounded-full object-cover"
-                        height="48"
-                        src={speaker.image || Speaker}
-                        style={{
-                          aspectRatio: '48/48',
-                          objectFit: 'cover',
-                        }}
-                        width="48"
-                      />
-                      <div>
-                        <p className="font-semibold">{speaker.name}</p>
-                        <p className="text-sm text-gray-500">
-                          {speaker.bio.slice(0, 100)}...
-                        </p>
+              {data?.speakers && data?.speakers?.length > 1 && (
+                <div className="mb-6 px-12">
+                  <h2 className="mb-2 text-2xl font-bold">Speakers</h2>
+                  <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+                    {data?.speakers.map((speaker) => (
+                      <div
+                        key={speaker.id}
+                        className="flex items-center space-x-4"
+                      >
+                        <Image
+                          alt={`Speaker ${speaker.id}`}
+                          className="h-12 w-12 rounded-full object-cover"
+                          height="48"
+                          src={speaker.image || Speaker}
+                          style={{
+                            aspectRatio: '48/48',
+                            objectFit: 'cover',
+                          }}
+                          width="48"
+                        />
+                        <div>
+                          <p className="font-semibold">{speaker.name}</p>
+                          <p className="text-sm text-gray-500">
+                            {speaker.bio.slice(0, 100)}...
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
             <div>
               <div className="sticky top-6 space-y-6">
@@ -168,8 +170,11 @@ export default function Page() {
                       <span>{data?.capacity} attendees</span>
                     </div>
                     <div className="flex items-center">
-                      <Ticket className="mr-2 h-5 w-5 text-yellow-500" />
-                      <span>{data?.price} da / Personne</span>
+                      <Ticket className="mr-2 h-5 w-5 text-gray-500" />
+                      <span>
+                        {data?.price} da /{' '}
+                        <span className="font-sans text-sm">Personne</span>
+                      </span>
                     </div>
                     <Button className="w-full text-white" size="lg">
                       Register Now

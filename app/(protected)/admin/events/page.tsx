@@ -31,7 +31,7 @@ export default async function Page() {
         </a>
       </div>
       <div className="bg-white rounded-md">
-        {events && events.length > 0 && <ProductTable events={events || []} />}
+        {events && events?.length > 0 && <ProductTable events={events || []} />}
       </div>
     </div>
   )
@@ -78,13 +78,13 @@ function ProductTable({ events }: { events: Event[] }) {
           <TableHead className="text-right"></TableHead>
 
           <TableHead className="text-right"></TableHead>
-
         </TableRow>
       </TableHeader>
       <TableBody>
         {events &&
+          Array.isArray(events) &&
           events.length > 0 &&
-          events.map((event) => {
+          events?.map((event) => {
             const date = moment(event.dateRangeFrom.toString()).format('LLL')
             return (
               <TableRow key={event.id}>

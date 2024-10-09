@@ -101,6 +101,7 @@ export const {
         (token.email = existingUser.email),
         (token.role = existingUser.role),
         (token.image = existingUser.image),
+        
 
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
 

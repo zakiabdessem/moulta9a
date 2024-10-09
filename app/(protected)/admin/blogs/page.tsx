@@ -19,7 +19,6 @@ import { useAdminBlog } from '@/hooks/use-blog'
 
 export default async function Page() {
   const blogs = (await admin()) ? await useAdminBlog() : []
-  console.log('🚀 ~ Page ~ blogs:', blogs)
 
   return (
     <div className="bg-white rounded-md">
@@ -57,6 +56,7 @@ function ProductTable({ blogs }: { blogs: Blog[] }) {
       </TableHeader>
       <TableBody>
         {blogs &&
+          Array.isArray(blogs) &&
           blogs.length > 0 &&
           blogs.map((blog) => {
             const date = moment(blog.createdAt.toString()).format('LLL')
