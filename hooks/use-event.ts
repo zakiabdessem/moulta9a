@@ -13,8 +13,6 @@ export const useEvents = () => {
     },
   })
 
-  console.log('🚀 ~ useEvents ~ data:', data)
-
   return { data, error, refetch, isLoading }
 }
 
@@ -55,7 +53,7 @@ export async function useAdminEvents() {
 
     return data
   } catch (error) {
-    // console.log('🚀 ~ useAdminEvents ~ error:', error)
+    console.log('🚀 ~ useAdminEvents ~ error:', error)
   }
 }
 

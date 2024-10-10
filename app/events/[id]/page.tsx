@@ -1,15 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import {
-  Calendar,
-  Clock,
-  LocateIcon,
-  MapPin,
-  Share2,
-  Star,
-  Ticket,
-  Users,
-} from 'lucide-react'
+import { Calendar, MapPin, Share2, Ticket, Users } from 'lucide-react'
 import EventImage from '@/public/event-image.png'
 import Speaker from '@/public/speaker.jpg'
 import Image from 'next/image'
@@ -18,8 +9,12 @@ import { useParams } from 'next/navigation'
 import { useEvent } from '@/hooks/use-event'
 import moment from 'moment'
 import { Skeleton } from '@/components/ui/skeleton'
+import axios from 'axios'
+import { useCurrentUser } from '@/hooks/use-current-user'
+import { toast } from 'sonner'
 
 export default function Page() {
+  const user = useCurrentUser()
   const { id } = useParams<{ id: string }>()
   const { data, isLoading } = useEvent(id)
 
@@ -31,6 +26,25 @@ export default function Page() {
   const formattedEndDate = moment(data?.dateRangeTo).format('D, YYYY')
 
   const dateRange = `${formattedStartDate}-${formattedEndDate}`
+
+  const handleEnroll = async (payment_type: string) => {
+    if (!user) {
+      return toast.error('You need to be logged in to enroll in an event')
+    }
+    try {
+      await axios.post(
+        `/api/events/enroll/${id}/`,
+        {
+          payment_type,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+    } catch (error) {
+      console.error('Error enrolling in event:', error)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -176,7 +190,11 @@ export default function Page() {
                         <span className="font-sans text-sm">Personne</span>
                       </span>
                     </div>
-                    <Button className="w-full text-white" size="lg">
+                    <Button
+                      onClick={() => handleEnroll('CASH')}
+                      className="w-full text-white"
+                      size="lg"
+                    >
                       Register Now
                     </Button>
                     <Button

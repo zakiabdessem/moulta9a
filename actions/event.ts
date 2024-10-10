@@ -268,7 +268,7 @@ export const enroll = async (
   }
 
   if (event?.enrollDeadline && new Date() > event?.enrollDeadline) {
-    return { error: 'Enroll deadline haspassed!' }
+    return { error: 'Enroll deadline has passed!' }
   }
 
   if (paymentType === 'CHARGILY') {

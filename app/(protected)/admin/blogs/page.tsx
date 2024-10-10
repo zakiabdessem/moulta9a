@@ -1,4 +1,4 @@
-import { admin } from '@/actions/admin'
+'use client'
 import { Button } from '@/components/ui/button'
 import {
   Table,
@@ -14,11 +14,20 @@ import { CheckboxIcon } from '@radix-ui/react-icons'
 import { PlusIcon } from 'lucide-react'
 import React from 'react'
 import moment from 'moment'
-import { Blog, Event } from '@prisma/client'
+import { Blog } from '@prisma/client'
 import { useAdminBlog } from '@/hooks/use-blog'
 
-export default async function Page() {
-  const blogs = (await admin()) ? await useAdminBlog() : []
+export default function Page() {
+  const [blogs, setBlogs] = React.useState<Blog[] | undefined>(undefined)
+
+  React.useEffect(() => {
+    async function fetchBlogs() {
+      const blogs = await useAdminBlog()
+      setBlogs(blogs)
+    }
+
+    fetchBlogs()
+  }, [])
 
   return (
     <div className="bg-white rounded-md">

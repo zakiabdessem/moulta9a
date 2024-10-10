@@ -1,10 +1,9 @@
-import { getEventsAdmin } from '@/actions/event'
+import { getBlogsManager } from '@/actions/blog'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    const data = await getEventsAdmin()
-    console.log("🚀 ~ GET ~ data:", data)
+    const data = await getBlogsManager()
 
     return new NextResponse(JSON.stringify(data), { status: 200 })
   } catch (error) {

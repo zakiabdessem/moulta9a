@@ -64,3 +64,17 @@ const convertFileToBase64 = (
     reader.onerror = reject
   })
 }
+
+export const useBlogsManager = () => {
+  const { data, error, refetch, isLoading } = useQuery({
+    queryKey: ['blogs'],
+    queryFn: async () => {
+      const response = await axios.get(`${DEFAULT_URL}/api/manager/blogs`, {
+        withCredentials: true,
+      })
+      return response.data
+    },
+  })
+
+  return { data, error, refetch, isLoading }
+}

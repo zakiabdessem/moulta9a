@@ -16,7 +16,7 @@ import { LogoutButton } from './logout-button'
 import { Button } from '@react-email/components'
 import { ExitIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
-import { Calendar, Plus, Tickets } from 'lucide-react'
+import { Calendar, CirclePlus, Plus, Rss, Tickets } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { User } from '@prisma/client'
 
@@ -86,6 +86,23 @@ export const UserButton = () => {
             <Link href="/settings/event" className="flex justify-between">
               <Tickets className="h-4 w-4 mr-2 " />
               Events
+            </Link>
+          </DropdownMenuItem>
+        )}
+
+        {(user.role === 'MANAGER' || user.role === 'ADMIN') && (
+          <DropdownMenuItem className="cursor-pointer">
+            <Link href="/settings/blog/create" className="flex justify-between">
+              <Plus className="h-4 w-4 mr-2 " />
+              Post a Blog
+            </Link>
+          </DropdownMenuItem>
+        )}
+        {(user.role === 'MANAGER' || user.role === 'ADMIN') && (
+          <DropdownMenuItem className="cursor-pointer">
+            <Link href="/settings/blog" className="flex justify-between">
+              <Rss className="h-4 w-4 mr-2 " />
+              Blogs
             </Link>
           </DropdownMenuItem>
         )}

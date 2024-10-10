@@ -1,4 +1,4 @@
-import { admin } from '@/actions/admin'
+'use client'
 import { Button } from '@/components/ui/button'
 import {
   Table,
@@ -17,8 +17,17 @@ import React from 'react'
 import moment from 'moment'
 import { Event } from '@prisma/client'
 
-export default async function Page() {
-  const events = (await admin()) ? await useAdminEvents() : []
+export default function Page() {
+  const [events, setEvents] = React.useState<Event[] | undefined>(undefined)
+
+  React.useEffect(() => {
+    async function fetchEvents() {
+      const events = await useAdminEvents()
+      setEvents(events)
+    }
+
+    fetchEvents()
+  }, [])
 
   return (
     <div className="bg-white rounded-md">
@@ -31,7 +40,7 @@ export default async function Page() {
         </a>
       </div>
       <div className="bg-white rounded-md">
-        {events && events?.length > 0 && <ProductTable events={events || []} />}
+        {events && events?.length > 0 && <ProductTable events={events} />}
       </div>
     </div>
   )

@@ -1,0 +1,166 @@
+'use client'
+import { TitlePage } from '@/app/(protected)/_components/PageTitle'
+import { Button } from '@/components/ui/button'
+import { showLoading, hideLoading } from 'loading-request'
+import 'loading-request/dist/index.css'
+
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { BlogSchema } from '@/schemas'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { Calendar } from '@/components/ui/calendar'
+import { convertFileToBase64 } from '@/util/Image'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState, useTransition } from 'react'
+import { useCreateBlog } from '@/hooks/use-blog'
+import { DEFAULT_URL } from '@/routes'
+import { Navbar } from '@/app/(protected)/_components/navbar'
+
+function page() {
+  const router = useRouter()
+
+  const [error, setError] = useState<string | undefined>('')
+  const [loading, setLoading] = useState<boolean>(false)
+  const [success, setSuccess] = useState<string | undefined>('')
+  const [isPending, startTransition] = useTransition()
+
+  const form = useForm<z.infer<typeof BlogSchema>>({
+    resolver: zodResolver(BlogSchema),
+    defaultValues: {
+      title: '',
+      content: '',
+      image: '',
+    },
+  })
+
+  //check form erros with useEffect
+  useEffect(() => {
+    if (form.formState.errors) {
+      setError('Please check the form for errors')
+    }
+  }, [form.formState.errors])
+
+  const onSubmit = async (values: any) => {
+    try {
+      showLoading({
+        message: 'Loading...',
+        spinnerColor: '#f3752b',
+        textLoadingColor: '#EE5E09',
+        textLoadingSize: '20px',
+      })
+
+      await useCreateBlog(values)
+      router.push(`${DEFAULT_URL}/settings/blog`)
+      setSuccess('Blog created successfully!')
+    } catch (error) {
+      console.error('Error during form submission:', error)
+      setError('Failed to create blog')
+    }
+
+    hideLoading({ timeLoading: 1500 })
+  }
+
+  return (
+    <>
+      <Navbar />
+      <TitlePage>Create Blog</TitlePage>
+      {error && <div className="text-red-500">{error}</div>}
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col space-y-4 gap-5"
+      >
+        <div className="bg-white rounded-md w-full">
+          <div className="p-5 flex flex-col justify-between space-y-6">
+            <Form {...form}>
+              <FormField
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Title</FormLabel>
+
+                    <FormControl>
+                      <Input
+                        placeholder="Titre de blog"
+                        maxLength={256}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>Titre de Blog.</FormDescription>
+                  </FormItem>
+                )}
+              />
+
+              {/* Image */}
+              <div className="p-2">
+                <FormField
+                  control={form.control}
+                  name="image"
+                  render={({ field }) => (
+                    <div className="flex items-center gap-2">
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Image*</FormLabel>
+                        <FormControl>
+                          <Button size="lg" type="button">
+                            <input
+                              type="file"
+                              id="fileInput"
+                              className="text-white"
+                              onBlur={field.onBlur}
+                              name={field.name}
+                              onChange={(e) => field.onChange(e.target.files)}
+                              ref={field.ref}
+                            />
+                          </Button>
+                        </FormControl>
+                        <FormDescription>
+                          2mb max, PNG, JPG, JPEG, WEBP
+                        </FormDescription>
+
+                        <FormMessage />
+                      </FormItem>
+                    </div>
+                  )}
+                />
+              </div>
+
+              <div>
+                <FormField
+                  name="content"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Description de blog"
+                          maxLength={1024}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>Description de Blog.</FormDescription>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </Form>
+          </div>
+          <Button className="m-5 text-white" type="submit">
+            Create Blog
+          </Button>
+        </div>
+      </form>
+    </>
+  )
+}
+
+export default page

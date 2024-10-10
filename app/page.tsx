@@ -16,6 +16,9 @@ import { Event } from '@prisma/client'
 import { useBlogs } from '@/hooks/use-blog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useEffect, useState } from 'react'
+import { ToastContainer } from 'react-toastify'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function Home() {
   const [_events, setEvents] = useState<
@@ -41,6 +44,7 @@ export default function Home() {
 
   return (
     <main>
+      <ToastContainer />
       <Navbar />
       <Hero />
 

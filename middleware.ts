@@ -15,7 +15,6 @@ export default auth((req) => {
   const isLogedIn = !!req.auth // Check if the user is logged in
 
   const path = nextUrl.pathname || nextUrl?.pathname // Handle undefined scenarios
-
   // Check if it's an API auth route
   const isApiAuthRoute = path.startsWith(apiAuthPrefix)
 
@@ -29,16 +28,8 @@ export default auth((req) => {
     path.startsWith('/api/manager') ||
     path.startsWith('/settings/event')
 
-  // Helper function to check if the current route matches public routes
-  const isPublicRoute = (pathname: string): boolean =>
-    publicRoutes.some((route) => {
-      if (typeof route === 'string') {
-        return pathname === route
-      } else if (typeof route !== 'string' && route instanceof RegExp) {
-        return route.test(pathname)
-      }
-      return false
-    })
+  const isPublicRoute =
+    path.startsWith('/') || path.startsWith('/api') || publicRoutes.includes(path)
 
   // Handle Admin Route Protection
   if (isAuthAdminRoute && (!isLogedIn || user?.role !== 'ADMIN')) {
@@ -65,19 +56,6 @@ export default auth((req) => {
   //   }
   //   return null
   // }
-
-  // If the route is not public and the user is not logged in, redirect to login page
-  if (!isLogedIn && !isPublicRoute(path)) {
-    let callbackUrl = nextUrl.pathname
-    if (nextUrl.search) {
-      callbackUrl += nextUrl.search
-    }
-
-    const encodedCallbackUrl = encodeURIComponent(callbackUrl)
-    return Response.redirect(
-      new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
-    )
-  }
 
   // If no redirection is required, allow access
   return null

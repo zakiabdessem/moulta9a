@@ -22,6 +22,8 @@ export async function GET(
   }
 }
 
+//POST
+
 // PUT
 export async function PUT(
   req: NextRequest,

@@ -6,7 +6,6 @@ import { z } from 'zod'
 import { isUrl } from '@/util/Image'
 
 export const create = async (values: z.infer<typeof BlogSchema>) => {
-
   const user = await currentUser()
 
   if (!user?.id) {
@@ -64,4 +63,36 @@ export const getBlogs = async () => {
     },
   })
   return blogs
+}
+
+export const getBlogsManager = async () => {
+  const user = await currentUser()
+
+  if (!user?.id) {
+    return { error: 'User not authenticated!' }
+  }
+
+  return await db.blog.findMany({
+    where: { userId: user?.id },
+  })
+}
+
+export const remove = async (id: string) => {
+  const blog = await db.blog.findUnique({
+    where: { id },
+  })
+
+  if (!blog) {
+    return { error: 'Blog not found!' }
+  }
+
+  try {
+    await db.blog.delete({
+      where: { id },
+    })
+
+    return { success: 'Blog deleted successfully!' }
+  } catch (error) {
+    return { error: 'Blog deletion failed!' }
+  }
 }
