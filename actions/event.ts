@@ -231,7 +231,7 @@ export const enroll = async (
   const user = await currentUser()
 
   if (!user?.id) {
-    return { error: 'User not authenticated!' }
+    throw new Error('User not authenticated!')
   }
 
   const event = await db.event.findUnique({
@@ -248,7 +248,7 @@ export const enroll = async (
   })
 
   if (!event) {
-    return { error: 'Event not found!' }
+    throw new Error('Event not found!')
   }
 
   const attendee = await db.attendee.findFirst({
@@ -256,19 +256,19 @@ export const enroll = async (
   })
 
   if (attendee) {
-    return { error: 'Already enrolled!' }
+    throw new Error('Already enrolled!')
   }
 
   if (event?.capacity === 0 || event?.capacity === null) {
-    return { error: 'Event is full!' }
+    throw new Error('Event is full!')
   }
 
   if (event?.attendees.length >= event?.capacity) {
-    return { error: 'Event is full!' }
+    throw new Error('Event is full!')
   }
 
   if (event?.enrollDeadline && new Date() > event?.enrollDeadline) {
-    return { error: 'Enroll deadline has passed!' }
+    throw new Error('Enroll deadline has passed!')
   }
 
   if (paymentType === 'CHARGILY') {
@@ -286,7 +286,7 @@ export const enroll = async (
     })
 
     if (!User) {
-      return { error: 'User not found!' }
+      throw new Error('User not found!')
     }
 
     await client.createCustomer({

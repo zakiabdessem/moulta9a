@@ -19,8 +19,8 @@ export async function POST(
     const event = await enroll(id, payload.payment_type)
     return NextResponse.json(event, { status: 200 })
   } catch (error) {
-    console.log("🚀 ~ error:", error)
-    
-    return NextResponse.json({ error: 'Event not found' }, { status: 404 })
+    console.log('🚀 ~ error post request :')
+
+    return NextResponse.json({ error: (error as Error).message }, { status: 404 })
   }
 }

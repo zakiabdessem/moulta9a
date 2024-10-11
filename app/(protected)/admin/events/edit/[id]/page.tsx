@@ -269,6 +269,27 @@ function EditEventPage({
                 )}
               />
 
+              <div className="max-w-52">
+                <FormField
+                  name="enrollDeadline"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Enroll Deadline</FormLabel>
+                      <FormControl>
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Enroll Deadline de Event.
+                      </FormDescription>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <FormField
                 name="location"
                 render={({ field }) => (

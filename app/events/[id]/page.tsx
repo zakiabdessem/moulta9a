@@ -20,6 +20,7 @@ export default function Page() {
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href)
+    return toast.success("Event's link copied to clipboard")
   }
 
   const formattedStartDate = moment(data?.dateRangeFrom).format('MMMM D, YYYY')
@@ -42,7 +43,12 @@ export default function Page() {
         }
       )
     } catch (error) {
-      console.error('Error enrolling in event:', error)
+      console.error('🚀 ~ error:', error)
+      if (axios.isAxiosError(error) && error.response) {
+        return toast.error(String(error.response.data.error))
+      } else {
+        return toast.error('An unknown error occurred')
+      }
     }
   }
 
