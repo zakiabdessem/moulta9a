@@ -130,3 +130,16 @@ export const useDeleteEvent = async (id: string) => {
     throw error
   }
 }
+
+export const useEventAttendee = async (id: string) => {
+  try {
+    const response = await axios.get(`/api/events/attendees/${id}`, {
+      withCredentials: true,
+    })
+
+    return response.data
+  } catch (error) {
+    console.error('Error getting event attendees:', error)
+    throw error
+  }
+}

@@ -106,6 +106,26 @@ const SettingsPage = () => {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="0560761044"
+                          disabled={isPending}
+                          autoComplete="off"
+                          autoCorrect="off"
+                          autoCapitalize="on"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 {user?.isOAuth === false && (
                   <>
                     <FormField

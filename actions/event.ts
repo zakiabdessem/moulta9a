@@ -95,7 +95,6 @@ export const update = async (
   values: z.infer<typeof EventSchema> & { id: string },
   id: string
 ) => {
-  console.log('🚀 ~ values:', values)
   const validatedFields = EventSchema.safeParse(values)
 
   if (!validatedFields.success) {
@@ -115,6 +114,7 @@ export const update = async (
           : await uploadImage(values.image),
         dateRangeFrom: values.dateRange.from,
         dateRangeTo: values.dateRange.to,
+        enrollDeadline: values.enrollDeadline,
         speakers: {
           update: values.speakers.map((speaker) => ({
             where: { id: speaker.id },
@@ -161,7 +161,6 @@ export const getEventClient = async (id: string) => {
   return await db.event.findUnique({
     where: { id },
     select: {
-      //DONT SELECT SENSITIVE DATA Payments Attendees
       id: true,
       title: true,
       description: true,
@@ -371,4 +370,13 @@ export const enroll = async (
   }
 
   return { success: 'Enrolled successfully!' }
+}
+
+export const getEventAttendees = async (eventId: string) => {
+  return await db.attendee.findMany({
+    where: { eventId },
+    include: {
+      user: true,
+    },
+  })
 }

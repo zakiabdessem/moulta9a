@@ -20,6 +20,7 @@ export const SettingsSchema = z
     name: z.optional(z.string().min(1)),
     isTwoFactorEnabled: z.optional(z.boolean()),
     email: z.optional(z.string().email()),
+    phone: z.optional(z.string().min(1)),
     password: z.optional(
       z.string().min(1, {
         message: 'The current password is needed to reset the password',
@@ -39,7 +40,7 @@ export const SettingsSchema = z
           }
         )
     ),
-    image: z.union([imageSchema, z.string()]),
+    image: z.optional(z.union([imageSchema, z.string()])),
   })
   .refine(
     (data) => {

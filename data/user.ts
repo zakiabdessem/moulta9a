@@ -11,6 +11,7 @@ export const getUserByEmail = async (email: string) => {
         password: true,
         emailVerified: true,
         isTwoFactorEnabled: true,
+        phone: true,
       },
       where: {
         email,
@@ -35,6 +36,7 @@ export const getUserById = async (id: string) => {
         image: true,
         emailVerified: true,
         isTwoFactorEnabled: true,
+        phone: true,
       },
       where: {
         id,

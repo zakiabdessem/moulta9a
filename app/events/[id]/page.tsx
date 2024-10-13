@@ -12,11 +12,29 @@ import { Skeleton } from '@/components/ui/skeleton'
 import axios from 'axios'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { toast } from 'sonner'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { useState } from 'react'
 
 export default function Page() {
   const user = useCurrentUser()
   const { id } = useParams<{ id: string }>()
   const { data, isLoading } = useEvent(id)
+  const [paymentMethod, setPaymentMethod] = useState('CASH')
+  const [enrolled, setEnrolled] = useState(false)
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href)
@@ -42,6 +60,8 @@ export default function Page() {
           withCredentials: true,
         }
       )
+      setEnrolled(true)
+      toast.success('You have successfully enrolled in the event')
     } catch (error) {
       console.error('🚀 ~ error:', error)
       if (axios.isAxiosError(error) && error.response) {
@@ -196,13 +216,50 @@ export default function Page() {
                         <span className="font-sans text-sm">Personne</span>
                       </span>
                     </div>
-                    <Button
-                      onClick={() => handleEnroll('CASH')}
-                      className="w-full text-white"
-                      size="lg"
-                    >
-                      Register Now
-                    </Button>
+
+                    <Dialog>
+                      <DialogTrigger className="w-full">
+                        <Button
+                          {...(enrolled && { disabled: true })}
+                          className="w-full text-white"
+                        >
+                          Register Now
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle className="py-4">
+                            Payment method
+                          </DialogTitle>
+
+                          <div className="pb-4">
+                            <Select
+                              onValueChange={(value) => setPaymentMethod(value)}
+                              value={paymentMethod}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Payment method" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="CHARGILY">
+                                  Edahabia
+                                </SelectItem>
+                                <SelectItem value="CASH">Cash</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+
+                          <Button
+                            onClick={() => handleEnroll(paymentMethod)}
+                            {...(enrolled && { disabled: true })}
+                            className="w-full text-white"
+                          >
+                            Register Now
+                          </Button>
+                        </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
+
                     <Button
                       onClick={() => handleShare()}
                       className="w-full"

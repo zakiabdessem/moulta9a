@@ -31,6 +31,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     values.newPassword = undefined
     values.isTwoFactorEnabled = undefined
     values.image = undefined
+    values.phone = undefined
   }
 
   // if (values.image && values.image[0]) {
@@ -77,16 +78,17 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   }
 
   try {
-    const image = isUrl(values.image)
-      ? values.image
-      : await uploadImage(values.image)
+    const updateData = { ...values }
+    
+    if (values.image && values.image[0]) {
+      updateData.image = await uploadImage(values.image[0] as any)
+    } else {
+      updateData.image = undefined // Ensure image is not updated if not provided
+    }
 
     const newUser = await db.user.update({
       where: { id: dbUser.id },
-      data: {
-        ...values,
-        image,
-      },
+      data: updateData,
     })
   } catch (e) {
     console.log(e)

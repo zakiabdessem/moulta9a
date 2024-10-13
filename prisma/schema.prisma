@@ -147,6 +147,8 @@ model Attendee {
   event   Event   @relation(fields: [eventId], references: [id])
   user    User    @relation(fields: [userId], references: [id])
 
+  createdAt DateTime @default(now())
+
   @@index([eventId])
   @@index([userId])
 }

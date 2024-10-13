@@ -29,12 +29,6 @@ export default function Sidebar() {
       src: asset('sidebar/orders.svg'),
       inbox: true,
     },
-    {
-      title: 'Payments',
-      href: DEFAULT_URL + '/admin/payments',
-      src: asset('sidebar/orders.svg'),
-      inbox: true,
-    },
   ]
 
   const toggleSidebar = () => setIsOpen(isOpen)
