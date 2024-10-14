@@ -1,6 +1,9 @@
 import { getBlogsAdmin } from '@/actions/blog'
 import { NextResponse } from 'next/server'
 
+export const dynamic = "force-dynamic";
+
+
 export async function GET() {
   try {
     const data = await getBlogsAdmin()

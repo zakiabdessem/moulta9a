@@ -113,10 +113,7 @@ export default function Home() {
                   }[]
                 }
               ) => (
-                <SwiperSlide
-                  key={event.id}
-                  className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8"
-                >
+                <SwiperSlide key={event.id} className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8">
                   <EventCard event={event} />
                 </SwiperSlide>
               )
