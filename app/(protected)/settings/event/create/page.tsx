@@ -28,7 +28,7 @@ import { useEffect, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { format } from 'date-fns'
-import { useCreateEvent } from '@/hooks/use-event'
+import { createEvent } from '@/hooks/use-event'
 import { Calendar } from '@/components/ui/calendar'
 import { DEFAULT_URL } from '@/routes'
 import { redirect, useRouter } from 'next/navigation'
@@ -37,7 +37,7 @@ import { uploadImage } from '@/actions/cloudinary'
 import { Navbar } from '@/app/(protected)/_components/navbar'
 import { convertFileToBase64, isBase64 } from '@/util/Image'
 
-function page() {
+function Page() {
   const router = useRouter()
 
   const [error, setError] = useState<string | undefined>('')
@@ -108,7 +108,7 @@ function page() {
         speakers: processedSpeakers, // Include processed speakers with image URLs
       }
 
-      await useCreateEvent(eventData)
+      await createEvent(eventData)
       router.push(`${DEFAULT_URL}/settings/event`)
       setSuccess('Event created successfully!')
     } catch (error) {
@@ -348,4 +348,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

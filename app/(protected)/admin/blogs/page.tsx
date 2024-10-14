@@ -12,21 +12,22 @@ import {
 import { DEFAULT_URL } from '@/routes'
 import { CheckboxIcon } from '@radix-ui/react-icons'
 import { PlusIcon } from 'lucide-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import moment from 'moment'
 import { Blog } from '@prisma/client'
 import { useAdminBlog } from '@/hooks/use-blog'
+import Image from 'next/image'
 
 export default function Page() {
   const [blogs, setBlogs] = React.useState<Blog[] | undefined>(undefined)
 
-  React.useEffect(() => {
-    async function fetchBlogs() {
+  useEffect(() => {
+    async function FetchBlogs() {
       const blogs = await useAdminBlog()
       setBlogs(blogs)
     }
 
-    fetchBlogs()
+    FetchBlogs()
   }, [])
 
   return (
@@ -81,7 +82,7 @@ function ProductTable({ blogs }: { blogs: Blog[] }) {
                   {blog.title.toUpperCase()}
                 </TableCell>
                 <TableCell className="max-h-16 max-w-16">
-                  <img
+                  <Image
                     src={blog.image}
                     alt={blog.id + 'Image'}
                     className="w-48 h-32"

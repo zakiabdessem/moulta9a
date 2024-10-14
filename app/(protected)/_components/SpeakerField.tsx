@@ -23,7 +23,7 @@ const SpeakerFieldArray = () => {
                 <FormControl>
                   <Input type="text" {...field} />
                 </FormControl>
-                <FormDescription>Enter the speaker's name.</FormDescription>
+                <FormDescription>Enter the speaker name.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -37,7 +37,7 @@ const SpeakerFieldArray = () => {
                 <FormControl>
                   <Input type="text" {...field} />
                 </FormControl>
-                <FormDescription>Enter the speaker's bio.</FormDescription>
+                <FormDescription>Enter the speaker bio.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

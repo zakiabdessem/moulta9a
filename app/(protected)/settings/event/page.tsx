@@ -1,39 +1,55 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Rows3, Trash2 } from 'lucide-react'
+import { Navbar } from '../../_components/navbar'
+import { Attendee, Event, User } from '@prisma/client'
+import { fetchEventAttendee, useEventsManager } from '@/hooks/use-event'
+import moment from 'moment'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Label } from '@/components/ui/label'
-import { Pencil, Trash2 } from 'lucide-react'
-import { Navbar } from '../../_components/navbar'
-import { Event } from '@prisma/client'
-import { useEventsManager } from '@/hooks/use-event'
-import moment from 'moment'
 
 export default function Page() {
+  const [attendees, setAttendees] = useState<(Attendee & { user: User })[]>([])
   const { data: initialEvents } = useEventsManager() as { data: Event[] }
-
   const [events, setEvents] = useState<Event[]>(initialEvents)
-  const [editingEvent, setEditingEvent] = useState<Event | null>(null)
+  const [isDialogOpen, setIsDialogOpen] = useState(false) // Track dialog open state
+
+  const handleFetchAttendees = async (id: string) => {
+    try {
+      const data = await fetchEventAttendee(id)
+      console.log('🚀 ~ handleFetchAttendees ~ data:', data)
+      setAttendees(data) // Update attendees state with fetched data
+      setIsDialogOpen(true) // Open dialog after data is fetched
+    } catch (error) {
+      console.error('Failed to fetch attendees:', error)
+    }
+  }
 
   useEffect(() => {
     setEvents(initialEvents)
   }, [initialEvents])
+
+  useEffect(() => {
+    console.log('🚀 ~ useEffect ~ attendees:', attendees)
+  }, [attendees])
 
   return (
     <div className="container mx-auto">
@@ -59,7 +75,83 @@ export default function Page() {
                   <TableCell>{event.title}</TableCell>
                   <TableCell>{date}</TableCell>
                   <TableCell>{event.location}</TableCell>
-                  <TableCell>
+
+                  <TableCell className="flex space-x-2 items-center">
+                    <Button onClick={() => handleFetchAttendees(event.id)}>
+                      <Rows3 className="h-4 w-4" />
+                    </Button>
+
+                    {/* Render Dialog Only if isDialogOpen is true */}
+                    {isDialogOpen && (
+                      <Dialog
+                        open={isDialogOpen}
+                        onOpenChange={setIsDialogOpen}
+                      >
+                        <DialogContent className="min-w-[600px]">
+                          <DialogHeader>
+                            <DialogTitle>Attendees List</DialogTitle>
+                            <DialogDescription>
+                              <div className="rounded-md border">
+                                <Table>
+                                  <TableCaption>Attendees List</TableCaption>
+                                  <TableHeader>
+                                    <TableRow>
+                                      <TableHead className="w-[270px]">
+                                        Full Name
+                                      </TableHead>
+                                      <TableHead>Email</TableHead>
+                                      <TableHead>Phone</TableHead>
+                                      <TableHead className="text-right w-[270px]">
+                                        Registered At
+                                      </TableHead>
+                                    </TableRow>
+                                  </TableHeader>
+                                  <TableBody>
+                                    {attendees?.length > 0 ? (
+                                      attendees?.map(
+                                        (
+                                          attendee: Attendee & { user: User }
+                                        ) => {
+                                          const date = moment(
+                                            attendee.createdAt
+                                          ).format('LLL')
+                                          return (
+                                            <TableRow key={attendee.id}>
+                                              <TableCell className="font-medium">
+                                                {attendee.user.name}
+                                              </TableCell>
+                                              <TableCell>
+                                                {attendee.user.email}
+                                              </TableCell>
+                                              <TableCell>
+                                                {attendee.user.phone || 'N/A'}
+                                              </TableCell>
+                                              <TableCell className="text-right">
+                                                {date}
+                                              </TableCell>
+                                            </TableRow>
+                                          )
+                                        }
+                                      )
+                                    ) : (
+                                      <TableRow>
+                                        <TableCell
+                                          colSpan={4}
+                                          className="text-center"
+                                        >
+                                          No attendees found.
+                                        </TableCell>
+                                      </TableRow>
+                                    )}
+                                  </TableBody>
+                                </Table>
+                              </div>
+                            </DialogDescription>
+                          </DialogHeader>
+                        </DialogContent>
+                      </Dialog>
+                    )}
+
                     <div className="flex space-x-2">
                       <a href={`/settings/event/delete/${event.id}`}>
                         <Trash2 className="h-4 w-4" />
@@ -72,62 +164,5 @@ export default function Page() {
         </TableBody>
       </Table>
     </div>
-  )
-}
-
-function EditEventForm({
-  event,
-  onSave,
-}: {
-  event: Event | null
-  onSave: (event: Event) => void
-}) {
-  const [editedEvent, setEditedEvent] = useState<Event>(event as Event)
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setEditedEvent((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSave(editedEvent)
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <Label htmlFor="name">Event Name</Label>
-        <Input
-          id="name"
-          name="name"
-          value={editedEvent.title}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <Label htmlFor="date">Date</Label>
-        {/* <Input
-          id="date"
-          name="date"
-          type="date"
-          value={editedEvent.date}
-          onChange={handleChange}
-          required
-        /> */}
-      </div>
-      <div>
-        <Label htmlFor="location">Location</Label>
-        <Input
-          id="location"
-          name="location"
-          value={editedEvent.location}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <Button type="submit">Save Changes</Button>
-    </form>
   )
 }
