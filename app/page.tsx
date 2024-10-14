@@ -21,26 +21,22 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Home() {
-  const [_events, setEvents] = useState<
-    (Event & {
-      user: {
-        name: string
-        image: string
-      }
-      speakers: {
-        name: string
-        bio: string
-        image: string
-      }[]
-    })[]
-  >([])
+  // const [_events, setEvents] = useState<
+  //   (Event & {
+  //     user: {
+  //       name: string
+  //       image: string
+  //     }
+  //     speakers: {
+  //       name: string
+  //       bio: string
+  //       image: string
+  //     }[]
+  //   })[]
+  // >([])
 
   const { data: events, isLoading: isLoadingEvent } = useEvents() || []
   const { data: blogs, isLoading: isLoadingBlog } = useBlogs() || []
-
-  useEffect(() => {
-    setEvents(events)
-  }, [events])
 
   return (
     <main>
@@ -96,10 +92,10 @@ export default function Home() {
               </div>
             </div>
           )}
-          {_events &&
+          {events &&
             !isLoadingEvent &&
-            _events?.length > 0 &&
-            _events?.map(
+            events?.length > 0 &&
+            events?.map(
               (
                 event: Event & {
                   user: {

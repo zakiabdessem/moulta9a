@@ -11,6 +11,10 @@ export const useEvents = () => {
       const response = await fetch('/api/events')
       return response.json()
     },
+    staleTime: 0, // Always refetch when data is queried
+    refetchOnWindowFocus: true, // Refetch on window focus
+    refetchOnMount: true, // Refetch when the component mounts
+    refetchOnReconnect: true, // Refetch when the browser regains network connection
   })
 
   return { data, error, refetch, isLoading }
@@ -50,7 +54,7 @@ export async function fetchAdminEvents() {
     })
 
     const data: Event[] = await response.data
-    
+
     return data
   } catch (error) {
     console.log('🚀 ~ useAdminEvents ~ error:', error)
