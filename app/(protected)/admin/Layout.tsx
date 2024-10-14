@@ -5,7 +5,11 @@ import Sidebar from '../_components/Sidebar'
 import Navigation from '../_components/Navigation'
 import { ToastContainer } from 'react-toastify'
 
-function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <div className="bg-gray-100 scrollbar scrollbar-w-3 scrollbar-thumb-rounded-[0.25rem] scrollbar-track-slate-200 scrollbar-thumb-gray-400 min-h-[100vh]">
       <Toaster />
@@ -25,5 +29,3 @@ function Layout({ children }: { children: React.ReactNode }) {
     </div>
   )
 }
-
-export default Layout
