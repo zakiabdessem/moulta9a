@@ -12,9 +12,6 @@ export default async function Layout({
 }) {
   return (
     <div className="bg-gray-100 scrollbar scrollbar-w-3 scrollbar-thumb-rounded-[0.25rem] scrollbar-track-slate-200 scrollbar-thumb-gray-400 min-h-[100vh]">
-      <Toaster />
-      <ToastContainer />
-
       <Sidebar />
       <div className="flex-grow p-4 sm:ml-64">
         <div className="h-full p-4 rounded-lg ">
