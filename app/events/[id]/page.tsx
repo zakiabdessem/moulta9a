@@ -143,7 +143,7 @@ export default function Page() {
                 alt="Tech Conference 2023"
                 className="mb-6 h-64 w-full rounded-lg rounded-b-none object-cover sm:h-96"
                 height="384"
-                src={data?.image}
+                src={data?.image ?? ""}
                 style={{
                   aspectRatio: '768/384',
                   objectFit: 'cover',
