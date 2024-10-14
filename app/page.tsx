@@ -110,11 +110,11 @@ export default function Home() {
                     name: string
                     bio: string
                     image: string
-                  }[]
+                  }[] | undefined
                 }
               ) => (
                 <SwiperSlide className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8">
-                  <EventCard event={event} />
+                  <EventCard event={{ ...event, speakers: event.speakers || [] }} />
                 </SwiperSlide>
               )
             )}
