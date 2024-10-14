@@ -21,22 +21,26 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Home() {
-  // const [_events, setEvents] = useState<
-  //   (Event & {
-  //     user: {
-  //       name: string
-  //       image: string
-  //     }
-  //     speakers: {
-  //       name: string
-  //       bio: string
-  //       image: string
-  //     }[]
-  //   })[]
-  // >([])
+  const [_events, setEvents] = useState<
+    (Event & {
+      user: {
+        name: string
+        image: string
+      }
+      speakers: {
+        name: string
+        bio: string
+        image: string
+      }[]
+    })[]
+  >([])
 
   const { data: events, isLoading: isLoadingEvent } = useEvents() || []
   const { data: blogs, isLoading: isLoadingBlog } = useBlogs() || []
+
+  useEffect(() => {
+    setEvents(events)
+  }, [events])
 
   return (
     <main>
@@ -92,10 +96,10 @@ export default function Home() {
               </div>
             </div>
           )}
-          {events &&
+          {_events &&
             !isLoadingEvent &&
-            events?.length > 0 &&
-            events?.map(
+            _events?.length > 0 &&
+            _events?.map(
               (
                 event: Event & {
                   user: {
@@ -106,11 +110,11 @@ export default function Home() {
                     name: string
                     bio: string
                     image: string
-                  }[] | undefined
+                  }[]
                 }
               ) => (
-                <SwiperSlide key={event.id} className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8">
-                  <EventCard event={{ ...event, speakers: event.speakers || [] }} />
+                <SwiperSlide className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8">
+                  <EventCard event={event} />
                 </SwiperSlide>
               )
             )}
