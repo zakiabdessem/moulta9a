@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { asset, DEFAULT_URL } from '@/routes'
+import Image from 'next/image'
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -90,7 +91,7 @@ function Navbar({ toggleSidebar }: { toggleSidebar: () => void }) {
           <div className="flex items-center justify-start">
             <ToggleNavButton toggleSidebar={toggleSidebar} />
             <a href={DEFAULT_URL} className="flex h-20 ">
-              <img
+              <Image
                 src={asset('logo_opera.png')}
                 className="m-5 mt-4 h-12"
                 alt="FlowBite Logo"

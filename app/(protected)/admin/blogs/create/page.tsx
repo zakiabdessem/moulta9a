@@ -21,9 +21,9 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { DEFAULT_URL } from '@/routes'
 import { useRouter } from 'next/navigation'
-import { useCreateBlog } from '@/hooks/use-blog'
+import { createBlog } from '@/hooks/use-blog'
 
-function page() {
+function Page() {
   const router = useRouter()
 
   const [error, setError] = useState<string | undefined>('')
@@ -57,7 +57,7 @@ function page() {
         textLoadingColor: '#EE5E09',
         textLoadingSize: '20px',
       })
-      await useCreateBlog(values)
+      await createBlog(values)
       router.push(`${DEFAULT_URL}/admin/blogs`)
       setSuccess('Blog created successfully!')
     } catch (error) {
@@ -148,7 +148,6 @@ function page() {
                   )}
                 />
               </div>
-
             </Form>
           </div>
           <Button className="m-5 text-white" type="submit">
@@ -160,4 +159,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

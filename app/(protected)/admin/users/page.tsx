@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useAdminUsers } from '@/hooks/use-user'
+import { fetchAdminUsers } from '@/hooks/use-user'
 import { CheckboxIcon } from '@radix-ui/react-icons'
 import React from 'react'
 import moment from 'moment'
@@ -30,7 +30,7 @@ export default function Page() {
 
   React.useEffect(() => {
     async function fetchUsers() {
-      const users = await useAdminUsers()
+      const users = await fetchAdminUsers()
       setUsers(users)
     }
 

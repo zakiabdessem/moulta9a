@@ -28,7 +28,7 @@ import { useEffect, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { format } from 'date-fns'
-import { useEvent, useUpdateEvent } from '@/hooks/use-event'
+import { useEvent, updateEvent } from '@/hooks/use-event'
 import { Calendar } from '@/components/ui/calendar'
 import { DEFAULT_URL } from '@/routes'
 import { redirect, useParams, useRouter } from 'next/navigation'
@@ -133,7 +133,7 @@ function EditEventPage({
         speakers: processedSpeakers,
       }
 
-      await useUpdateEvent(event.id, updatedEvent)
+      await updateEvent(event.id, updatedEvent)
       router.push(`${DEFAULT_URL}/admin/events`)
       setSuccess('Event updated successfully!')
     } catch (error) {

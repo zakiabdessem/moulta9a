@@ -29,7 +29,15 @@ export default auth((req) => {
     path.startsWith('/settings/event')
 
   const isPublicRoute =
-    path.startsWith('/') || path.startsWith('/api') || publicRoutes.includes(path)
+    path.startsWith('/') ||
+    path.startsWith('/api') ||
+    publicRoutes.includes(path)
+
+  // Handle Public Routes
+
+  if (isPublicRoute) {
+    return // Allow public routes to pass through without redirection
+  }
 
   // Handle Admin Route Protection
   if (isAuthAdminRoute && (!isLogedIn || user?.role !== 'ADMIN')) {
@@ -46,7 +54,7 @@ export default auth((req) => {
 
   // Allow access to API auth routes without redirecting
   if (isApiAuthRoute) {
-    return null // Allow API auth routes to pass through without redirection
+    return // Allow API auth routes to pass through without redirection
   }
 
   // Handle Auth Routes (Login, Signup) and redirect if logged in
@@ -58,7 +66,7 @@ export default auth((req) => {
   // }
 
   // If no redirection is required, allow access
-  return null
+  return
 })
 
 export const config = {

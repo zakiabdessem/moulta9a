@@ -9,20 +9,21 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useAdminEvents } from '@/hooks/use-event'
+import { fetchAdminEvents } from '@/hooks/use-event'
 import { DEFAULT_URL } from '@/routes'
 import { CheckboxIcon } from '@radix-ui/react-icons'
 import { DeleteIcon, EditIcon, PlusIcon } from 'lucide-react'
 import React from 'react'
 import moment from 'moment'
 import { Event } from '@prisma/client'
+import Image from 'next/image'
 
 export default function Page() {
   const [events, setEvents] = React.useState<Event[] | undefined>(undefined)
 
   React.useEffect(() => {
     async function fetchEvents() {
-      const events = await useAdminEvents()
+      const events = await fetchAdminEvents()
       setEvents(events)
     }
 
@@ -47,28 +48,6 @@ export default function Page() {
 }
 
 function ProductTable({ events }: { events: Event[] }) {
-  //   const navigate = useNavigate()
-
-  const handleDeleteAnnounce = async (id: string) => {
-    // await instance
-    //   .post('blog/delete', {
-    //     id,
-    //   })
-    //   .then(() => {
-    //     toast.success(`Blog is deleted`, {
-    //       position: 'bottom-right',
-    //       autoClose: 3000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setTimeout(() => {
-    //       navigate(`${MAIN_DASHBOARD_URL}/blogs`)
-    //     }, 1000)
-    //   })
-  }
 
   return (
     <Table>
@@ -107,7 +86,7 @@ function ProductTable({ events }: { events: Event[] }) {
                   {event.title.toUpperCase()}
                 </TableCell>
                 <TableCell className="max-h-16 max-w-16">
-                  <img
+                  <Image
                     src={event.image}
                     alt={event.id + 'Image'}
                     className="w-48 h-32"

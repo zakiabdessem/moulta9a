@@ -43,21 +43,21 @@ export const useEventsManager = () => {
   return { data, error, refetch, isLoading }
 }
 
-export async function useAdminEvents() {
+export async function fetchAdminEvents() {
   try {
     const response = await axios.get(`${DEFAULT_URL}/api/admin/events`, {
       withCredentials: true,
     })
 
     const data: Event[] = await response.data
-
+    
     return data
   } catch (error) {
     console.log('🚀 ~ useAdminEvents ~ error:', error)
   }
 }
 
-export const useCreateEvent = async (values: any) => {
+export const createEvent = async (values: any) => {
   try {
     // Convert image file to Base64
     if (values.image && values.image[0]) {
@@ -77,7 +77,7 @@ export const useCreateEvent = async (values: any) => {
   }
 }
 
-export const useUpdateEvent = async (id: string, values: any) => {
+export const updateEvent = async (id: string, values: any) => {
   try {
     // Convert main image to Base64 if it's a file and not already in Base64 format
     if (
@@ -131,7 +131,7 @@ export const useDeleteEvent = async (id: string) => {
   }
 }
 
-export const useEventAttendee = async (id: string) => {
+export const fetchEventAttendee = async (id: string) => {
   try {
     const response = await axios.get(`/api/events/attendees/${id}`, {
       withCredentials: true,

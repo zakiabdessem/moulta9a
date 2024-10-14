@@ -23,11 +23,11 @@ import { Calendar } from '@/components/ui/calendar'
 import { convertFileToBase64 } from '@/util/Image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState, useTransition } from 'react'
-import { useCreateBlog } from '@/hooks/use-blog'
+import { createBlog } from '@/hooks/use-blog'
 import { DEFAULT_URL } from '@/routes'
 import { Navbar } from '@/app/(protected)/_components/navbar'
 
-function page() {
+function Page() {
   const router = useRouter()
 
   const [error, setError] = useState<string | undefined>('')
@@ -60,7 +60,7 @@ function page() {
         textLoadingSize: '20px',
       })
 
-      await useCreateBlog(values)
+      await createBlog(values)
       router.push(`${DEFAULT_URL}/settings/blog`)
       setSuccess('Blog created successfully!')
     } catch (error) {
@@ -163,4 +163,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

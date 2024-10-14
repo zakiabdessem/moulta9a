@@ -14,7 +14,7 @@ import {
 import { Rows3, Trash2 } from 'lucide-react'
 import { Navbar } from '../../_components/navbar'
 import { Attendee, Event, User } from '@prisma/client'
-import { useEventAttendee, useEventsManager } from '@/hooks/use-event'
+import { fetchEventAttendee, useEventsManager } from '@/hooks/use-event'
 import moment from 'moment'
 import { Button } from '@/components/ui/button'
 import {
@@ -34,7 +34,7 @@ export default function Page() {
 
   const handleFetchAttendees = async (id: string) => {
     try {
-      const data = await useEventAttendee(id)
+      const data = await fetchEventAttendee(id)
       console.log('🚀 ~ handleFetchAttendees ~ data:', data)
       setAttendees(data) // Update attendees state with fetched data
       setIsDialogOpen(true) // Open dialog after data is fetched

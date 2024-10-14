@@ -29,7 +29,7 @@ export async function useAdminBlog() {
   }
 }
 
-export const useCreateBlog = async (values: any) => {
+export const createBlog = async (values: any) => {
   try {
     // Convert image file to Base64
     if (values.image && values.image[0]) {

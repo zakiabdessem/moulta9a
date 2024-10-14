@@ -2,7 +2,7 @@ import { DEFAULT_URL } from '@/routes'
 import { User } from '@prisma/client'
 import axios from 'axios'
 
-export async function useAdminUsers() {
+export async function fetchAdminUsers() {
   try {
     const response = await axios.get(`${DEFAULT_URL}/api/admin/users`, {
       withCredentials: true,
