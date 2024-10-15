@@ -1,3 +1,4 @@
+import { truncateContent } from '@/lib/utils'
 import { ArrowRightIcon } from '@radix-ui/react-icons'
 import moment from 'moment'
 import Image, { StaticImageData } from 'next/image'
@@ -17,6 +18,7 @@ interface BlogPost {
 }
 function BlogCard({ post }: { post: BlogPost }) {
   return (
+    <a href={`/blogs/${post.id}`}>
     <article
       key={post.id}
       className="group relative rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg"
@@ -49,16 +51,17 @@ function BlogCard({ post }: { post: BlogPost }) {
           <p className="text-sm text-gray-500">{moment(post.createdAt).format('MMMM Do, YYYY')}</p>
         </div>
       </div>
-      <h3 className="mt-4 text-xl font-bold">{post.title}</h3>
-      <p className="mt-2 text-gray-500">{post.content}</p>
+      <h3 className="mt-4 text-xl font-bold">{truncateContent(post.title, 150)}</h3>
+      <p className="mt-2 text-gray-500">{truncateContent(post.content, 335)}</p>
       <Link
         className="mt-4 inline-flex items-center text-sm font-semibold text-gray-800"
-        href={`/blog/${post.id}`}
+        href={`/blogs/${post.id}`}
       >
         Read More
         <ArrowRightIcon className="ml-1 h-4 w-4" />
       </Link>
     </article>
+    </a>
   )
 }
 

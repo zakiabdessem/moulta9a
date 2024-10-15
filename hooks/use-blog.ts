@@ -1,5 +1,5 @@
 import { DEFAULT_URL } from '@/routes'
-import { Blog } from '@prisma/client'
+import { Blog, User } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
@@ -37,7 +37,6 @@ export const createBlog = async (values: any) => {
 
       values.image = base64Image
     }
-
 
     // Send the form data with the Base64 image to the backend
     const response = await axios.post('/api/admin/blogs/create', values, {
@@ -77,4 +76,18 @@ export const useBlogsManager = () => {
   })
 
   return { data, error, refetch, isLoading }
+}
+
+export const useBlog = (id: string) => {
+  const { data, isLoading } = useQuery({
+    queryKey: ['blog', id],
+    queryFn: async () => {
+      const response = await axios.get(`${DEFAULT_URL}/api/blogs/${id}`)
+      return response.data
+    },
+  })
+
+  return { data, isLoading } as { data: Blog & {
+    user: User
+  }, isLoading: boolean }
 }

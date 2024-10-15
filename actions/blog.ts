@@ -96,3 +96,21 @@ export const remove = async (id: string) => {
     return { error: 'Blog deletion failed!' }
   }
 }
+
+export const getBlogClient = async (id: string) => {
+  return await db.blog.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      image: true,
+      user: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+    },
+  })
+}
