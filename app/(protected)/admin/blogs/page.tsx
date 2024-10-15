@@ -17,8 +17,6 @@ import moment from 'moment'
 import { Blog } from '@prisma/client'
 import { useAdminBlog } from '@/hooks/use-blog'
 import Image from 'next/image'
-import Navigation from '../../_components/Navigation'
-import Sidebar from '../../_components/Sidebar'
 
 export default function Page() {
   const [blogs, setBlogs] = React.useState<Blog[] | undefined>(undefined)
@@ -33,33 +31,17 @@ export default function Page() {
   }, [])
 
   return (
-    <div className="bg-gray-100 scrollbar scrollbar-w-3 scrollbar-thumb-rounded-[0.25rem] scrollbar-track-slate-200 scrollbar-thumb-gray-400 min-h-[100vh]">
-      <Sidebar />
-      <div className="flex-grow p-4 sm:ml-64">
-        <div className="h-full p-4 rounded-lg ">
-          {/* <NavbarDashboard />*/}
-
-          <main>
-            <Navigation />
-            <div className="p-4">
-              <div className="bg-white rounded-md">
-                <div className="flex max-sm:flex-col justify-between p-2">
-                  <a href={`${DEFAULT_URL}/admin/blogs/create`}>
-                    <Button className="text-white">
-                      <PlusIcon className="mr-2" width={16} height={16} />
-                      Create Blog
-                    </Button>
-                  </a>
-                </div>
-                <div className="bg-white rounded-md">
-                  {blogs && blogs.length > 0 && (
-                    <ProductTable blogs={blogs || []} />
-                  )}
-                </div>
-              </div>
-            </div>
-          </main>
-        </div>
+    <div className="bg-white rounded-md">
+      <div className="flex max-sm:flex-col justify-between p-2">
+        <a href={`${DEFAULT_URL}/admin/blogs/create`}>
+          <Button className="text-white">
+            <PlusIcon className="mr-2" width={16} height={16} />
+            Create Blog
+          </Button>
+        </a>
+      </div>
+      <div className="bg-white rounded-md">
+        {blogs && blogs.length > 0 && <ProductTable blogs={blogs || []} />}
       </div>
     </div>
   )
