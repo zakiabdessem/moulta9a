@@ -24,8 +24,6 @@ import {
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css' // Make sure you import this
-import Navigation from '../../_components/Navigation'
-import Sidebar from '../../_components/Sidebar'
 
 export default function Page() {
   const [users, setUsers] = React.useState<User[] | undefined>(undefined)
@@ -40,24 +38,9 @@ export default function Page() {
   }, [])
 
   return (
-    <div className="bg-gray-100 scrollbar scrollbar-w-3 scrollbar-thumb-rounded-[0.25rem] scrollbar-track-slate-200 scrollbar-thumb-gray-400 min-h-[100vh]">
-      <Sidebar />
-      <div className="flex-grow p-4 sm:ml-64">
-        <div className="h-full p-4 rounded-lg ">
-          {/* <NavbarDashboard />*/}
-
-          <main>
-            <Navigation />
-            <div className="p-4">
-              {' '}
-              <div className="bg-white rounded-md">
-                <div className="bg-white rounded-md">
-                  {users && users?.length > 0 && <ProductTable users={users} />}
-                </div>
-              </div>
-            </div>
-          </main>
-        </div>
+    <div className="bg-white rounded-md">
+      <div className="bg-white rounded-md">
+        {users && users?.length > 0 && <ProductTable users={users} />}
       </div>
     </div>
   )

@@ -1,7 +1,15 @@
-import React from 'react'
+'use client'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 function Page() {
-  return <div>Test</div>
+  const router = useRouter()
+
+  useEffect(() => {
+    router.push('/admin/users')
+  }, [router])
+
+  return null
 }
 
 export default Page
