@@ -81,8 +81,9 @@ export default function Home() {
           )}
           {events &&
             !isLoadingEvent &&
-            (events as Event[]).length > 0 &&
-            (events as any).map(
+            Array.isArray(events) &&
+            (events as Event[])?.length > 0 &&
+            (events as any)?.map(
               (
                 event: Event & {
                   user: {
