@@ -55,7 +55,7 @@ export default auth((req) => {
 
   // Allow access to API auth routes without redirecting
   if (isApiAuthRoute) {
-    return null // Allow API auth routes to pass through without redirection
+    return // Allow API auth routes to pass through without redirection
   }
 
   // Handle Auth Routes (Login, Signup) and redirect if logged in
@@ -80,7 +80,7 @@ export default auth((req) => {
   }
 
   // If no redirection is required, allow access
-  return null
+  return
 })
 
 export const config = {
