@@ -90,6 +90,8 @@ function ProductTable({ events }: { events: Event[] }) {
                     src={event.image}
                     alt={event.id + 'Image'}
                     className="w-48 h-32"
+                    width={192}
+                    height={128}
                   />
                 </TableCell>
                 <TableCell className="max-h-16 max-w-16">

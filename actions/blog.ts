@@ -103,6 +103,7 @@ export const getBlogClient = async (id: string) => {
     select: {
       id: true,
       title: true,
+      createdAt: true,
       content: true,
       image: true,
       user: {

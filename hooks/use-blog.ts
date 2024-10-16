@@ -82,7 +82,9 @@ export const useBlog = (id: string) => {
   const { data, isLoading } = useQuery({
     queryKey: ['blog', id],
     queryFn: async () => {
-      const response = await axios.get(`${DEFAULT_URL}/api/blogs/${id}`)
+      const response = await axios.get(`${DEFAULT_URL}/api/blogs/${id}`,{
+        withCredentials: true,
+      })
       return response.data
     },
   })

@@ -53,52 +53,55 @@ export default function Page() {
     )
   }
 
-  return (
-    <div className="min-h-screen">
-      <Navbar />
-      <main className="container mx-auto px-4 py-8">
-        <Link href="/" passHref>
-          <Button variant="ghost" className="mb-4">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Home
-          </Button>
-        </Link>
-        <article className="bg-white rounded-lg overflow-hidden">
-          <Image
-            src={post.image}
-            alt={post.title}
-            width={800}
-            height={400}
-            className="w-full h-[400px] object-cover"
-          />
-          <div className="p-6">
-            <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-            <div className="flex items-center mb-6">
-              <Avatar className="h-10 w-10 mr-4">
-                <AvatarImage
-                  src={post.user.image ?? 'd'}
-                  alt={post.user.name ?? 'S'}
-                />
-                <AvatarFallback>{post.user?.name?.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="font-semibold">{post.user.name}</p>
-                <p className="text-sm text-gray-500">
-                  {new Date(post.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </p>
-              </div>
-            </div>
-            <div
-              className="prose max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+  if (!isLoading && post)
+    return (
+      <div className="min-h-screen">
+        <Navbar />
+        <main className="container mx-auto px-4 py-8">
+          <Link href="/" passHref>
+            <Button variant="ghost" className="mb-4">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Home
+            </Button>
+          </Link>
+          <article className="bg-white rounded-lg overflow-hidden">
+            <Image
+              src={post.image}
+              alt={post.title}
+              width={800}
+              height={400}
+              className="w-full h-[400px] object-cover"
             />
-          </div>
-        </article>
-      </main>
-    </div>
-  )
+            <div className="p-6">
+              <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
+              <div className="flex items-center mb-6">
+                <Avatar className="h-10 w-10 mr-4">
+                  <AvatarImage
+                    src={post.user.image ?? 'd'}
+                    alt={post.user.name ?? 'S'}
+                  />
+                  <AvatarFallback>{post.user?.name?.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-semibold">{post.user.name}</p>
+                  <p className="text-sm text-gray-500">
+                    {new Date(post.createdAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </p>
+                </div>
+              </div>
+              <div
+                className="prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: post.content }}
+              />
+            </div>
+          </article>
+        </main>
+      </div>
+    )
+
+  return null
 }
