@@ -15,7 +15,6 @@ import { useUpcomingEvents } from '@/hooks/use-event'
 import { Event } from '@prisma/client'
 import { useBlogs } from '@/hooks/use-blog'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'

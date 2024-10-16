@@ -82,10 +82,12 @@ export default function FeaturedEvents() {
         </div>
 
         <div className="text-center mt-12">
-          <Button className="group">
-            View All Events
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Button>
+          <a href="/events">
+            <Button className="group">
+              View All Events
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </a>
         </div>
       </div>
     </section>
