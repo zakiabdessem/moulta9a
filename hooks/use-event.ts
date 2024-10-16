@@ -33,7 +33,7 @@ export const useUpcomingEvents = () => {
         const response = await axios.get('/api/upcoming')
         setData(response.data)
       } catch (err) {
-        setError(err)
+        setError(err as any)
       } finally {
         setIsLoading(false)
       }

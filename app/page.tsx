@@ -24,7 +24,7 @@ import FeaturedEvents from '../components/featuredEvents'
 
 export default function Home() {
   const { data: events, error, isLoading: isLoadingEvent } = useUpcomingEvents()
-  const { data: blogs, isLoading: isLoadingBlog } = useBlogs()
+  const { data: blogs, isLoading: isLoadingBlog } = useBlogs() || []
 
   return (
     <main>
@@ -33,7 +33,7 @@ export default function Home() {
       <Hero />
 
       <div className="max-w-screen-2xl container">
-        {events && events.length > 0 && (
+        {events && (events as Event[]).length > 0 && (
           <h2 className="text-3xl font-semibold text-gray-800 mt-8 mb-4">
             Upcoming Events
           </h2>
@@ -82,8 +82,8 @@ export default function Home() {
           )}
           {events &&
             !isLoadingEvent &&
-            events?.length > 0 &&
-            events?.map(
+            (events as Event[]).length > 0 &&
+            (events as any).map(
               (
                 event: Event & {
                   user: {
