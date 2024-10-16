@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { ChargilyClient } from '@chargily/chargily-pay'
 import { uploadImage } from './cloudinary'
 import { isUrl } from '@/util/Image'
+import moment from 'moment'
 
 const client = new ChargilyClient({
   api_key: process.env.CHARGILY_API || '',
@@ -202,6 +203,65 @@ export const getEventsClient = async () => {
       speakers: true,
     },
   })
+}
+
+export const getUpcomingEvents = async () => {
+  const today = moment().toDate() // Get the current date
+
+  const events = await db.event.findMany({
+    where: {
+      AND: [
+        {
+          dateRangeFrom: {
+            gte: today, // Events starting on or after today
+          },
+        },
+        {
+          enrollDeadline: {
+            gte: today, // Enrollment still open
+          },
+        },
+      ],
+    },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      dateRangeFrom: true,
+      dateRangeTo: true,
+      enrollDeadline: true,
+      location: true,
+      image: true,
+      isPaid: true,
+      price: true,
+      capacity: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+      speakers: true,
+    },
+    orderBy: {
+      dateRangeFrom: 'asc',
+    },
+  })
+
+
+  // if (events.length === 0) {
+  //   console.log('No upcoming events found.') // Log when no events are returned
+  // } else {
+  //   console.log(`${events.length} upcoming event(s) found.`) // Log the count of upcoming events
+  //   events.forEach((event) => {
+  //     console.log(
+  //       `Event: ${event.title}, Starts: ${event.dateRangeFrom}, Enrollment Deadline: ${event.enrollDeadline}`
+  //     )
+  //   })
+  // }
+
+  return events
 }
 
 export const getEventAdmin = async (id: string) => {

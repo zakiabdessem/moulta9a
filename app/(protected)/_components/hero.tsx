@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 
 function Hero() {
   return (
-    <div className="container relative h-[600px] w-full overflow-hidden rounded-3xl">
+    <div className="relative h-[600px] w-full overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-black to-[#4e4032]">
         <Image
           alt="Conference hall background"
@@ -20,9 +20,7 @@ function Hero() {
           </h2>
           <h1 className="mb-4 text-4xl font-normal tracking-tight text-white sm:text-5xl lg:text-6xl xl:whitespace-nowrap">
             Explore the World of{' '}
-            <span className="font-bold">
-              Event & Insights
-            </span>
+            <span className="font-bold">Event & Insights</span>
           </h1>
           <p className="mb-8 text-xl text-gray-300">
             Discover events, conferences, concerts & much more

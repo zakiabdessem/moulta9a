@@ -11,36 +11,19 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import { Autoplay } from 'swiper/modules'
 import { Navbar } from './(protected)/_components/navbar'
-import { useEvents } from '@/hooks/use-event'
+import { useUpcomingEvents } from '@/hooks/use-event'
 import { Event } from '@prisma/client'
 import { useBlogs } from '@/hooks/use-blog'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.css'
+import Footer from '../components/footer'
+import FeaturedEvents from '../components/featuredEvents'
 
 export default function Home() {
-  const [_events, setEvents] = useState<
-    (Event & {
-      user: {
-        name: string
-        image: string
-      }
-      speakers: {
-        name: string
-        bio: string
-        image: string
-      }[]
-    })[]
-  >([])
-
-  const { data: events, isLoading: isLoadingEvent } = useEvents() || []
+  const { data: events, error, isLoading: isLoadingEvent } = useUpcomingEvents()
   const { data: blogs, isLoading: isLoadingBlog } = useBlogs() || []
-
-  useEffect(() => {
-    setEvents(events)
-  }, [events])
 
   return (
     <main>
@@ -49,7 +32,7 @@ export default function Home() {
       <Hero />
 
       <div className="max-w-screen-2xl container">
-        {events && events.length > 0 && (
+        {events && (events as Event[]).length > 0 && (
           <h2 className="text-3xl font-semibold text-gray-800 mt-8 mb-4">
             Upcoming Events
           </h2>
@@ -96,10 +79,10 @@ export default function Home() {
               </div>
             </div>
           )}
-          {_events &&
+          {events &&
             !isLoadingEvent &&
-            _events?.length > 0 &&
-            _events?.map(
+            (events as Event[]).length > 0 &&
+            (events as any).map(
               (
                 event: Event & {
                   user: {
@@ -113,7 +96,10 @@ export default function Home() {
                   }[]
                 }
               ) => (
-                <SwiperSlide key={event.id} className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8">
+                <SwiperSlide
+                  key={event.id}
+                  className="mx-auto max-w-screen-2xl p-4 md:p-6 lg:p-8"
+                >
                   <EventCard event={event} />
                 </SwiperSlide>
               )
@@ -121,7 +107,11 @@ export default function Home() {
         </Swiper>
       </div>
 
+      <FeaturedEvents />
+
       {!isLoadingBlog && <BlogSection blogs={blogs} />}
+
+      <Footer />
     </main>
   )
 }

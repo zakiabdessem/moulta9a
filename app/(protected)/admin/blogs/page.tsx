@@ -86,6 +86,8 @@ function ProductTable({ blogs }: { blogs: Blog[] }) {
                     src={blog.image}
                     alt={blog.id + 'Image'}
                     className="w-48 h-32"
+                    width={192}
+                    height={128}
                   />
                 </TableCell>
               </TableRow>

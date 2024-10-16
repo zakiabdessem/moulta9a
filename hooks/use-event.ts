@@ -3,6 +3,7 @@ import { convertFileToBase64, isBase64 } from '@/util/Image'
 import { Event, Speaker } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import { useEffect, useState } from 'react'
 
 export const useEvents = () => {
   const { data, error, refetch, isLoading } = useQuery({
@@ -18,6 +19,30 @@ export const useEvents = () => {
   })
 
   return { data, error, refetch, isLoading }
+}
+
+export const useUpcomingEvents = () => {
+  const [data, setData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setIsLoading(true)
+      try {
+        const response = await axios.get('/api/upcoming')
+        setData(response.data)
+      } catch (err) {
+        setError(err as any)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchEvents()
+  }, [])
+
+  return { data, isLoading, error }
 }
 
 export const useEvent = (id: string) => {

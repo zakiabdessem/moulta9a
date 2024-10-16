@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useState } from 'react'
+import Footer from '@/components/footer'
 
 export default function Page() {
   const user = useCurrentUser()
@@ -275,6 +276,7 @@ export default function Page() {
           </div>
         )}
       </main>
+      <Footer />
     </div>
   )
 }

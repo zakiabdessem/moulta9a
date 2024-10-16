@@ -1,7 +1,5 @@
 import { getEventClient, remove, update } from '@/actions/event'
-import { NextApiRequest } from 'next'
 import { NextRequest, NextResponse } from 'next/server'
-import { parse } from 'path'
 
 export const dynamic = "force-dynamic";
 
