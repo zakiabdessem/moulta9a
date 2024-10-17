@@ -13,16 +13,15 @@ export const sendVerificationEmail = async (
 ) => {
   const confirmLink = `${domain}/auth/new-verification?token=${token}`
 
-  try {
-    const res = await resend.emails.send({
-      from: 'onboarding@resend.dev',
-      to: email,
-      subject: '[🔐Auth]: Please verify your email.',
-      react: VerificationEmail({ confirmLink: confirmLink, name: name }),
-    })
-  } catch (error) {
-    console.log(error)
-  }
+  await resend.emails.send({
+    from: 'onboarding@resend.dev',
+    to: email,
+    subject: '[🔐Auth]: Condirm your Account.',
+    react: PasswordResetEmail({
+      resetPasswordLink: confirmLink,
+      name: name,
+    }),
+  })
 }
 
 export const sendPasswordResetEmail = async (
