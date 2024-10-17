@@ -33,28 +33,23 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
         name,
         email,
         password: hashedPassword,
+        emailVerified: new Date(),
       },
     })
-  
+
     const verificationToken = await generateVerificationToken(email)
-  
+
     // console.log("/actions/register.ts: register: verificationToken", verificationToken);
-  
+
     await sendVerificationEmail(
       verificationToken.email,
       verificationToken.token,
       name
     )
-  
-    return { success: 'Confirmation email sent!' }
-    
-  } catch (error) {
 
+    return { success: 'Confirmation email sent!' }
+  } catch (error) {
     console.error(error)
     return { error: 'Iternal Server error!' }
-
-    
   }
-
- 
 }
