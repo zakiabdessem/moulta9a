@@ -21,7 +21,7 @@ export const sendVerificationEmail = async (
       react: VerificationEmail({ confirmLink: confirmLink, name: name }),
     })
   } catch (error) {
-    console.log(confirmLink)
+    console.log(error)
   }
 }
 
