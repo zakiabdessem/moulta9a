@@ -21,7 +21,7 @@ export const Navbar = () => {
       <a href="/">LOGO</a>
       <ul className="flex justify-between items-center p-4 rounded-xl w-3/6 max-xl:hidden">
         <li>
-          <Link className="text-md font-bold" href="#events">
+          <Link className="text-md font-bold" href="/events">
             Events
           </Link>
         </li>
