@@ -28,8 +28,8 @@ import {
 
 export default function Page() {
   const [attendees, setAttendees] = useState<(Attendee & { user: User })[]>([])
-  const { data: initialEvents } = useEventsManager() as { data: Event[] }
-  const [events, setEvents] = useState<Event[]>(initialEvents)
+  const { data: initialEvents } = useEventsManager() as { data: Event[] | null }
+  const [events, setEvents] = useState<Event[]>(initialEvents || [])
   const [isDialogOpen, setIsDialogOpen] = useState(false) // Track dialog open state
 
   const handleFetchAttendees = async (id: string) => {
@@ -44,7 +44,7 @@ export default function Page() {
   }
 
   useEffect(() => {
-    setEvents(initialEvents)
+    setEvents(initialEvents || [])
   }, [initialEvents])
 
   useEffect(() => {

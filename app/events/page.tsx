@@ -26,7 +26,8 @@ export default function AllEvents() {
 
   const filteredEvents =
     events &&
-    events.filter((event: Event) =>
+    (events as Event[])?.length > 0 &&
+    (events as any).filter((event: Event) =>
       event.title.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
@@ -73,7 +74,7 @@ export default function AllEvents() {
 
           {!isLoadingEvent &&
             filteredEvents &&
-            filteredEvents.map((event: Event) => {
+            (filteredEvents as any).map((event: Event) => {
               const date = moment(event.createdAt).format('MMMM Do YYYY')
               return (
                 <Card key={event.id} className="flex flex-col">
@@ -107,7 +108,7 @@ export default function AllEvents() {
               )
             })}
 
-          {!isLoadingEvent && filteredEvents?.length === 0 && (
+          {!isLoadingEvent && (filteredEvents as any)?.length === 0 && (
             <p className="text-center text-muted-foreground mt-8">
               No events found matching your criteria.
             </p>
