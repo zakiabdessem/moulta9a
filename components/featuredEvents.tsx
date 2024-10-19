@@ -46,7 +46,8 @@ export default function FeaturedEvents() {
 
           {!isLoadingEvent &&
             events &&
-            events.map((event: Event, index: number) => {
+            (events as Event[]).length > 0 &&
+            (events as Event[])?.map((event: Event, index: number) => {
               const date = moment(event.createdAt).format('MMMM Do YYYY')
               return (
                 <Card key={index} className="overflow-hidden">

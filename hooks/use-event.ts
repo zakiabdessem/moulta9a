@@ -6,19 +6,27 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 export const useEvents = () => {
-  const { data, error, refetch, isLoading } = useQuery({
-    queryKey: ['events'],
-    queryFn: async () => {
-      const response = await fetch('/api/events')
-      return response.json()
-    },
-    staleTime: 0, // Always refetch when data is queried
-    refetchOnWindowFocus: true, // Refetch on window focus
-    refetchOnMount: true, // Refetch when the component mounts
-    refetchOnReconnect: true, // Refetch when the browser regains network connection
-  })
+  const [data, setData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  return { data, error, refetch, isLoading }
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setIsLoading(true)
+      try {
+        const response = await axios.get('/api/events')
+        setData(response.data)
+      } catch (err) {
+        setError(err as any)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchEvents()
+  }, [])
+
+  return { data, isLoading, error }
 }
 
 export const useUpcomingEvents = () => {
@@ -46,30 +54,53 @@ export const useUpcomingEvents = () => {
 }
 
 export const useEvent = (id: string) => {
-  const { data, error, refetch, isLoading } = useQuery({
-    queryKey: ['events'],
-    queryFn: async () => {
-      const response = await axios.get(`${DEFAULT_URL}/api/events/${id}`)
+  const [data, setData] = useState<Event & { speakers: Speaker[] } | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<any>(null)
 
-      return response.data as Event & { speakers: Speaker[] }
-    },
-  })
+  useEffect(() => {
+    const fetchEvent = async () => {
+      setIsLoading(true)
+      try {
+        const response = await axios.get(`${DEFAULT_URL}/api/events/${id}`)
+        setData(response.data)
+      } catch (err) {
+        setError(err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-  return { data, error, refetch, isLoading }
+    fetchEvent()
+  }, [id])
+
+  return { data, isLoading, error }
 }
 
 export const useEventsManager = () => {
-  const { data, error, refetch, isLoading } = useQuery({
-    queryKey: ['events'],
-    queryFn: async () => {
-      const response = await axios.get(`${DEFAULT_URL}/api/manager/events`, {
-        withCredentials: true,
-      })
-      return response.data
-    },
-  })
+  const [data, setData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-  return { data, error, refetch, isLoading }
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setIsLoading(true)
+      try {
+        const response = await axios.get(`${DEFAULT_URL}/api/manager/events`, {
+          withCredentials: true,
+        })
+        setData(response.data)
+      } catch (err) {
+        setError(err as any)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchEvents()
+  }, [])
+
+  return { data, isLoading, error }
 }
 
 export async function fetchAdminEvents() {
