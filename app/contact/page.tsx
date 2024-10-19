@@ -18,8 +18,8 @@ function Page() {
                 Contact Us
               </h1>
               <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                We're here to help and answer any question you might have. We
-                look forward to hearing from you.
+                We&apos;re here to help and answer any question you might have.
+                We look forward to hearing from you.
               </p>
             </div>
           </div>
