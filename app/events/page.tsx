@@ -101,7 +101,7 @@ export default function AllEvents() {
                   </CardContent>
                   <CardFooter>
                     <Button variant="outline" className="w-full">
-                      Learn More
+                      <a href={`/events/${event.id}`}>Learn More</a>
                     </Button>
                   </CardFooter>
                 </Card>

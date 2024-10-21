@@ -47,10 +47,6 @@ export default function Page() {
     setEvents(initialEvents || [])
   }, [initialEvents])
 
-  useEffect(() => {
-    console.log('🚀 ~ useEffect ~ attendees:', attendees)
-  }, [attendees])
-
   return (
     <div className="container mx-auto">
       <Navbar />

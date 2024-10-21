@@ -42,10 +42,17 @@ export default function Page() {
     return toast.success("Event's link copied to clipboard")
   }
 
-  const formattedStartDate = moment(data?.dateRangeFrom).format('MMMM D, YYYY')
-  const formattedEndDate = moment(data?.dateRangeTo).format('D, YYYY')
+  const startDate = moment(data?.dateRangeFrom)
+  const endDate = moment(data?.dateRangeTo)
 
-  const dateRange = `${formattedStartDate}-${formattedEndDate}`
+  const isSameDay = endDate.diff(startDate, 'days') <= 1
+
+  const formattedStartDate = startDate.format('MMMM D, YYYY')
+  const formattedEndDate = endDate.format('D, YYYY')
+
+  const dateRange = isSameDay
+    ? formattedStartDate
+    : `${formattedStartDate} - ${formattedEndDate}`
 
   const handleEnroll = async (payment_type: string) => {
     if (!user) {
@@ -144,7 +151,7 @@ export default function Page() {
                 alt="Tech Conference 2023"
                 className="mb-6 h-64 w-full rounded-lg rounded-b-none object-cover sm:h-96"
                 height="384"
-                src={data?.image ?? ""}
+                src={data?.image ?? ''}
                 style={{
                   aspectRatio: '768/384',
                   objectFit: 'cover',
