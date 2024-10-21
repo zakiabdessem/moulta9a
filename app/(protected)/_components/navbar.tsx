@@ -47,7 +47,7 @@ export const Navbar = () => {
             <Link className="text-md font-bold" href="/auth/login">
               <Button
                 variant="default"
-                className="text-[#262626] font-bold rounded-full"
+                className="text-white font-bold rounded-full"
               >
                 Sign in
               </Button>

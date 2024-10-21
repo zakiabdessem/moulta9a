@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 function Hero() {
   return (
     <div className="relative h-[600px] w-full overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-black to-[#4e4032]">
+      <div className="absolute inset-0 bg-gradient-to-r from-black to-[#A29C9B]">
         <Image
           alt="Conference hall background"
           className="h-full w-full object-cover opacity-50"
@@ -26,7 +26,7 @@ function Hero() {
             Discover events, conferences, concerts & much more
           </p>
           <Button
-            className=" text-white hover:bg-blue-700 bg-[#AF8F6F]"
+            className=" text-white bg-primary"
             size="lg"
           >
             Explore
