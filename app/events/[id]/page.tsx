@@ -150,10 +150,10 @@ export default function Page() {
               <Image
                 alt="Tech Conference 2023"
                 className="mb-6 h-64 w-full rounded-lg rounded-b-none object-cover sm:h-96"
-                height="384"
+                height="584"
                 src={data?.image ?? ''}
                 style={{
-                  aspectRatio: '768/384',
+                  aspectRatio: '768/584',
                   objectFit: 'cover',
                 }}
                 width="768"
