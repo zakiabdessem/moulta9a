@@ -3,10 +3,13 @@
 import { UserButton } from '@/components/auth/user-button'
 import { Button } from '@/components/ui/button'
 import { useCurrentUser } from '@/hooks/use-current-user'
+import { useLanguage } from '@/zustand'
 import { GlobeIcon } from '@radix-ui/react-icons'
+import { stat } from 'fs'
 import Link from 'next/link'
 import { useState } from 'react'
 import { FaBars, FaSearch } from 'react-icons/fa'
+import DropdownLanguageSwitcher from './switchLang'
 
 export const Navbar = () => {
   const user = useCurrentUser()
@@ -54,10 +57,7 @@ export const Navbar = () => {
             </Link>
           )}
         </li>
-
-        <Button variant="default" className="rounded-full">
-          <GlobeIcon color="white" />
-        </Button>
+        <DropdownLanguageSwitcher />
       </ul>
 
       <div
