@@ -75,7 +75,7 @@ const SettingsPage = () => {
   }
 
   return (
-    <main className=" flex flex-col justify-center items-center">
+    <main className=" flex flex-col justify-center items-center" dir="rtl">
       <Navbar />
       <Card className="mt-12">
         <CardHeader>
@@ -126,7 +126,7 @@ const SettingsPage = () => {
                     </FormItem>
                   )}
                 />
-                {user?.isOAuth === false && (
+                {/* {user?.isOAuth === false && (
                   <>
                     <FormField
                       control={form.control}
@@ -160,7 +160,7 @@ const SettingsPage = () => {
                       )}
                     />
                   </>
-                )}
+                )} */}
 
                 {user?.isOAuth === false && (
                   <>
@@ -208,58 +208,6 @@ const SettingsPage = () => {
                             />
                           </FormControl>
                           <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </>
-                )}
-
-                {user?.isOAuth === false && (
-                  <>
-                    <FormField
-                      control={form.control}
-                      name="isTwoFactorEnabled"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                          <div className="space-y-0.5">
-                            <FormLabel>Two Factor Authentication</FormLabel>
-                            <FormDescription>
-                              Enable 2FA for your Account
-                            </FormDescription>
-                          </div>
-                          <FormControl>
-                            <Switch
-                              disabled={isPending}
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  </>
-                )}
-
-                {user?.isOAuth === false && (
-                  <>
-                    <FormField
-                      control={form.control}
-                      name="isTwoFactorEnabled"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                          <div className="space-y-0.5">
-                            <FormLabel>Two Factor Authentication</FormLabel>
-                            <FormDescription>
-                              Enable 2FA for your Account
-                            </FormDescription>
-                          </div>
-                          <FormControl>
-                            <Switch
-                              disabled={isPending}
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
                         </FormItem>
                       )}
                     />

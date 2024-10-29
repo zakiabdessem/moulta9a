@@ -9,6 +9,8 @@ import { useState } from 'react'
 import { FaBars } from 'react-icons/fa'
 import DropdownLanguageSwitcher from './switchLang'
 import Language from '@/public/language.json'
+import Image from 'next/image'
+import Logo from '@/public/moulta9a.png'
 
 export const Navbar = () => {
   const user = useCurrentUser()
@@ -20,8 +22,13 @@ export const Navbar = () => {
   }
 
   return (
-    <nav className="container flex justify-between items-center w-full py-4" dir={language == "ar" ? "rtl" : "ltr" }>
-      <a href="/">LOGO</a>
+    <nav
+      dir={language == 'ar' ? 'rtl' : 'ltr'}
+      className="container flex justify-between items-center w-full py-4"
+    >
+      <a href="/">
+        <Image src={Logo} alt="Logo" width={120} height={70} />
+      </a>
       <ul className="flex justify-between items-center p-4 rounded-xl w-3/6 max-xl:hidden">
         <li>
           <Link className="text-md font-bold" href="/events">
@@ -67,7 +74,9 @@ export const Navbar = () => {
       >
         <div>
           <div className="flex justify-between items-center p-4">
-            <a href="/">LOGO</a>
+            <a href="/">
+              <Image src={Logo} alt="Logo" width={120} height={70} />
+            </a>
             <Button
               onClick={() => handleMenu()}
               variant="default"
@@ -112,6 +121,7 @@ export const Navbar = () => {
               </Link>
             )}
           </li>
+          <DropdownLanguageSwitcher />
         </ul>
       </div>
 

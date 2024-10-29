@@ -20,13 +20,11 @@ export default function DropdownLanguageSwitcher() {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="flex items-center gap-2">
           <GlobeIcon className="h-4 w-4" />
-          <span>{language}</span>
+          <span>{language.toUpperCase()}</span>
           <ChevronDownIcon className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[180px]">
-        <DropdownMenuLabel>Select Language</DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <DropdownMenuRadioGroup value={language} defaultValue={language}>
           <DropdownMenuRadioItem
             onClick={(e) => handleLanguageChange('en')}
