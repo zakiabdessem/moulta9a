@@ -29,8 +29,12 @@ import {
 } from '@/components/ui/select'
 import { useState } from 'react'
 import Footer from '@/components/footer'
+import { useLanguage } from '@/zustand'
+import Language from '@/public/language.json'
 
 export default function Page() {
+  const { language } = useLanguage() as { language: 'en' | 'ar' }
+
   const user = useCurrentUser()
   const { id } = useParams<{ id: string }>()
   const { data, isLoading } = useEvent(id)
