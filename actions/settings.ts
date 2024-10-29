@@ -79,7 +79,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
 
   try {
     const updateData = { ...values }
-    
+
     if (values.image && values.image[0]) {
       updateData.image = await uploadImage(values.image[0] as any)
     } else {

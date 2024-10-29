@@ -18,11 +18,14 @@ import { Navbar } from '../(protected)/_components/navbar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { truncateContent } from '@/lib/utils'
 import Footer from '@/components/footer'
+import { useLanguage } from '@/zustand'
+import Language from '@/public/language.json'
 
 export default function AllEvents() {
   const [searchTerm, setSearchTerm] = useState('')
 
   const { data: events, isLoading: isLoadingEvent } = useEvents() || []
+  const { language } = useLanguage() as { language: 'en' | 'ar' }
 
   const filteredEvents =
     events &&
@@ -36,7 +39,9 @@ export default function AllEvents() {
       <Navbar />
 
       <div className="container mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-8 text-center">All Events</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center">
+          {Language.events_page.title[language]}
+        </h1>
 
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="flex-grow">
@@ -44,7 +49,7 @@ export default function AllEvents() {
               <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <Input
                 type="text"
-                placeholder="Search events..."
+                placeholder={Language.events_page.placeholder[language]}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -101,7 +106,9 @@ export default function AllEvents() {
                   </CardContent>
                   <CardFooter>
                     <Button variant="outline" className="w-full">
-                      <a href={`/events/${event.id}`}>Learn More</a>
+                      <a href={`/events/${event.id}`}>
+                        {Language.blogsSection.readMore[language]}
+                      </a>
                     </Button>
                   </CardFooter>
                 </Card>

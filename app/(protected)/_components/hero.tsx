@@ -9,7 +9,7 @@ function Hero() {
   const { language } = useLanguage() as { language: 'en' | 'ar' }
 
   return (
-    <div className="relative h-[600px] w-full overflow-hidden">
+    <div className="relative h-[600px] w-full overflow-hidden" dir={language == "ar" ? "rtl" : "ltr" }>
       <div className="absolute inset-0 bg-gradient-to-r from-black to-[#A29C9B]">
         <Image
           alt="Conference hall background"

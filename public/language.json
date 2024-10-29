@@ -149,5 +149,103 @@
       "en": "© 2024 MOULTAGA. All rights reserved.",
       "ar": "© 2024 مولتاجا. جميع الحقوق محفوظة."
     }
+  },
+  "events_page": {
+    "title": {
+      "en": "All events",
+      "ar": "جميع الأحداث"
+    },
+    "placeholder": {
+      "en": "Search events ...",
+      "ar": "البحث عن الأحداث ..."
+    }
+  },
+  "contact": {
+    "title": {
+      "en": "Contact Us",
+      "ar": "اتصل بنا"
+    },
+    "description": {
+      "en": "We're here to help and answer any question you might have. We look forward to hearing from you.",
+      "ar": "نحن هنا لمساعدتك والإجابة على أي سؤال قد يكون لديك. نتطلع إلى سماع رأيك."
+    },
+    "email": {
+      "title": {
+        "en": "Email",
+        "ar": "بريد إلكتروني"
+      },
+      "description": {
+        "en": "Our friendly team is here to help.",
+        "ar": "فريقنا الودود موجود هنا لمساعدتك."
+      }
+    },
+    "phone": {
+      "title": {
+        "en": "Phone",
+        "ar": "هاتف "
+      },
+      "description": {
+        "en": "Mon-Fri from 8am to 5pm.",
+        "ar": "من الاثنين إلى الجمعة من الساعة 8 صباحًا حتى 5 مساءً."
+      }
+    },
+    "office": {
+      "title": {
+        "en": "Office",
+        "ar": "مكتب "
+      },
+      "description": {
+        "en": "Come say hello at our office.",
+        "ar": "تعالوا لقولوا مرحباً في مكتبنا."
+      }
+    },
+    "location": {
+      "ar": "الجزائر باتنة",
+      "en": "Algeria ,batna"
+    },
+    "firstname": {
+      "title": {
+        "en": "First name",
+        "ar": "الاسم الأول"
+      },
+      "placeholder": {
+        "en": "Enter your first name",
+        "ar": "أدخل اسمك الأول"
+      }
+    },
+    "lastname": {
+      "title": {
+        "en": "Last name",
+        "ar": "الاسم الأخير"
+      },
+      "placeholder": {
+        "en": "Enter your last name",
+        "ar": "أدخل اسمك الأخير"
+      }
+    },
+    "emailInput": {
+      "title": {
+        "en": "Email",
+        "ar": "البريد الإلكتروني"
+      },
+      "placeholder": {
+        "en": "Enter your email",
+        "ar": "أدخل بريدك الإلكتروني"
+      }
+    },
+    "message": {
+      "title": {
+        "en": "Message",
+        "ar": "رسالة"
+      },
+      "placeholder": {
+        "en": "Enter your message",
+        "ar": "أدخل رسالتك"
+      }
+    },
+    "sendButton": {
+      "en": "Send",
+      "ar": "إرسال"
+    }
   }
 }

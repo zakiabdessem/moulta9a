@@ -20,7 +20,7 @@ export const Navbar = () => {
   }
 
   return (
-    <nav className="container flex justify-between items-center w-full py-4">
+    <nav className="container flex justify-between items-center w-full py-4" dir={language == "ar" ? "rtl" : "ltr" }>
       <a href="/">LOGO</a>
       <ul className="flex justify-between items-center p-4 rounded-xl w-3/6 max-xl:hidden">
         <li>
@@ -29,7 +29,7 @@ export const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link className="text-md font-bold" href="#blogs">
+          <Link className="text-md font-bold" href="/#blogs">
             {Language.navbar.links.blogs[language]}
           </Link>
         </li>
@@ -84,7 +84,7 @@ export const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link className="text-md font-bold" href="#blogs">
+            <Link className="text-md font-bold" href="/#blogs">
               {Language.navbar.links.blogs[language]}
             </Link>
           </li>

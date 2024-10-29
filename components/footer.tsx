@@ -14,7 +14,9 @@ export default function Footer() {
             <h3 className="font-bold text-lg mb-4">
               {Language.footer.logoText[language]}
             </h3>
-            <p className="text-sm">Explore the World of Event & Insights</p>
+            <p className="text-sm">
+              {Language.heroSection.description[language]}
+            </p>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Quick Links</h4>
@@ -66,13 +68,19 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Follow Us</h4>
             <div className="flex space-x-4">
-              <Link href="#" className="hover:text-gray-900">
+              <Link
+                href="https://www.facebook.com/profile.php?id=61567758991103"
+                className="hover:text-gray-900"
+              >
                 <Facebook size={20} />
               </Link>
               <Link href="#" className="hover:text-gray-900">
                 <Twitter size={20} />
               </Link>
-              <Link href="#" className="hover:text-gray-900">
+              <Link
+                href="https://www.instagram.com/al_multaqua?igsh=amRvaGYzcjlreDdq"
+                className="hover:text-gray-900"
+              >
                 <Instagram size={20} />
               </Link>
               <Link href="#" className="hover:text-gray-900">
