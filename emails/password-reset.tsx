@@ -78,7 +78,7 @@ export const PasswordResetEmail = ({
               color: 'rgb(0,0,0, 0.7)',
             }}
           >
-            © 2024 | 🔐 Auth 
+            © 2024 
           </Text>
         </Container>
       </Body>

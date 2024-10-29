@@ -9,7 +9,10 @@ function Hero() {
   const { language } = useLanguage() as { language: 'en' | 'ar' }
 
   return (
-    <div className="relative h-[600px] w-full overflow-hidden" dir={language == "ar" ? "rtl" : "ltr" }>
+    <div
+      className="relative h-[600px] w-full overflow-hidden"
+      dir={language == 'ar' ? 'rtl' : 'ltr'}
+    >
       <div className="absolute inset-0 bg-gradient-to-r from-black to-[#A29C9B]">
         <Image
           alt="Conference hall background"
@@ -25,7 +28,8 @@ function Hero() {
           <h1 className="mb-4 text-4xl font-normal tracking-tight text-white sm:text-5xl lg:text-6xl xl:whitespace-nowrap">
             {Language.heroSection.subtitle[language]}{' '}
             <span className="font-bold">
-              <span>{Language.heroSection.subtitleword1[language]}</span> &{' '}
+              <span>{Language.heroSection.subtitleword1[language]}</span>{' '}
+              {language == 'ar' ? '' : '&'}{' '}
               <span>{Language.heroSection.subtitleword2[language]}</span>
             </span>
           </h1>

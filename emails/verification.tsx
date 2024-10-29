@@ -78,7 +78,7 @@ export const VerificationEmail = ({
               color: 'rgb(0,0,0, 0.7)',
             }}
           >
-            © 2024 | 🔐 Auth 
+            © 2024 | Auth 
           </Text>
         </Container>
       </Body>

@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
 import { useLanguage } from '@/zustand'
 import Language from '@/public/language.json'
+import Image from 'next/image'
+import Logo from '@/public/moulta9a.png'
 
 export default function Footer() {
   const { language } = useLanguage() as { language: 'en' | 'ar' }
@@ -12,7 +14,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="font-bold text-lg mb-4">
-              {Language.footer.logoText[language]}
+              <Image src={Logo} alt="Logo" width={120} height={70} />
             </h3>
             <p className="text-sm">
               {Language.heroSection.description[language]}
@@ -68,7 +70,9 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Follow Us</h4>
+            <h4 className="font-semibold mb-4">
+              {Language.footer.followUs[language]}
+            </h4>
             <div className="flex space-x-4">
               <Link
                 href="https://www.facebook.com/profile.php?id=61567758991103"
@@ -92,10 +96,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200 text-center">
-          <p className="text-sm">
-            &copy; {new Date().getFullYear()}{' '}
-            {Language.footer.copyright[language]}
-          </p>
+          <p className="text-sm">{Language.footer.copyright[language]}</p>
         </div>
       </div>
     </footer>
