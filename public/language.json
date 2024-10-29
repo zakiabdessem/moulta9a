@@ -1,4 +1,44 @@
 {
+  "single_event": {
+    "en": {},
+    "ar": {},
+    "title": {
+      "en": "About the Event",
+      "ar": "حول الحدث"
+    },
+    "Speakers": {
+      "en": "Speakers",
+      "ar": "المتحدثون"
+    },
+    "Date": {
+      "en": "Date",
+      "ar": "تاريخ"
+    },
+    "attendees": {
+      "en": "Attendees",
+      "ar": "الحضور"
+    },
+    "da": {
+      "en": "da",
+      "ar": "دينار "
+    },
+    "personne": {
+      "en": "personne",
+      "ar": "شخص"
+    },
+    "register_now": {
+      "en": "Register Now",
+      "ar": "سجل الآن"
+    },
+    "payment_method": {
+      "en": "Payment method",
+      "ar": "طريقة الدفع"
+    },
+    "share_event": {
+      "en": "Share Event",
+      "ar": "مشاركة الحدث"
+    }
+  },
   "navbar": {
     "logo": "LOGO",
     "links": {
@@ -246,6 +286,61 @@
     "sendButton": {
       "en": "Send",
       "ar": "إرسال"
+    }
+  },
+  "about": {
+    "title": {
+      "en": "About Us",
+      "ar": "من نحن"
+    },
+    "who_are_we": {
+      "title": {
+        "en": "Who Are We?",
+        "ar": "من نحن؟"
+      },
+      "content": {
+        "en": "\"Al-Multaqa\" is a specialized electronic platform that gathers all scientific events in Algerian universities and research centers in one place. We aim to provide a central and reliable source for displaying the schedules of conferences, seminars, workshops, and other academic events, with the goal of facilitating access to information and enhancing participation in scientific activities.\n\n\"Al-Multaqa\" was established to be the bridge connecting students, researchers, professors, and professionals across various disciplines and universities, with the aim of improving academic collaboration and knowledge exchange. We strive to provide an easy and seamless user experience that enables everyone to stay updated on the latest scientific events, register for them, and interact with the academic community with ease.",
+        "ar": "منصة \"الملتقى\" هي منصة إلكترونية متخصصة تجمع جميع الفعاليات العلمية في الجامعات الجزائرية والمراكز البحثية في مكان واحد. نهدف إلى توفير مصدر موثوق ومركزي لعرض جداول المؤتمرات والندوات وورش العمل وغيرها من الفعاليات الأكاديمية بهدف تسهيل الوصول إلى المعلومات وتعزيز المشاركة في الأنشطة العلمية.\n\nتم تأسيس \"الملتقى\" ليكون جسرًا يربط الطلاب والباحثين والأساتذة والمهنيين عبر مختلف التخصصات والجامعات بهدف تحسين التعاون الأكاديمي وتبادل المعرفة. نسعى لتوفير تجربة مستخدم سلسة وسهلة تمكن الجميع من متابعة أحدث الفعاليات العلمية، التسجيل فيها، والتفاعل مع المجتمع الأكاديمي بسهولة."
+      }
+    },
+    "our_mission": {
+      "title": {
+        "en": "Our Mission",
+        "ar": "مهمتنا"
+      },
+      "content": {
+        "en": "To support science and knowledge by organizing and facilitating access to academic events, empowering researchers, students, and professionals to benefit from available scientific opportunities.",
+        "ar": "دعم العلم والمعرفة من خلال تنظيم وتسهيل الوصول إلى الفعاليات الأكاديمية، وتمكين الباحثين والطلاب والمهنيين من الاستفادة من الفرص العلمية المتاحة."
+      }
+    },
+    "our_vision": {
+      "title": {
+        "en": "Our Vision",
+        "ar": "رؤيتنا"
+      },
+      "content": {
+        "en": "To become the leading platform in Algeria for showcasing and organizing scientific events, enhancing academic collaboration, and developing scientific research.",
+        "ar": "أن نصبح المنصة الرائدة في الجزائر لعرض وتنظيم الفعاليات العلمية، وتعزيز التعاون الأكاديمي وتطوير البحث العلمي."
+      }
+    },
+
+    "our_goals": {
+      "title": {
+        "en": "Our Goals",
+        "ar": "أهدافنا"
+      },
+      "content": {
+        "en": [
+          "To gather and organize all scientific events on a single platform.",
+          "To facilitate the registration and participation process in academic events.",
+          "To enhance communication and collaboration between universities and scientific institutions."
+        ],
+        "ar": [
+          "جمع وتنظيم جميع الفعاليات العلمية على منصة واحدة.",
+          "تسهيل عملية التسجيل والمشاركة في الفعاليات الأكاديمية.",
+          "تعزيز التواصل والتعاون بين الجامعات والمؤسسات العلمية."
+        ]
+      }
     }
   }
 }

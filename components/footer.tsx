@@ -19,7 +19,9 @@ export default function Footer() {
             </p>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Quick Links</h4>
+            <h4 className="font-semibold mb-4">
+              {Language.footer.quickLinks.title[language]}
+            </h4>
             <ul className="space-y-2">
               <li>
                 <Link href="/events" className="hover:text-gray-900">
