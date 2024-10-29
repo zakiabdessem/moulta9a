@@ -32,7 +32,7 @@ function Page() {
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     Our friendly team is here to help.
                   </p>
-                  <p className="text-sm">hello@acme.com</p>
+                  <p className="text-sm">almultaqua@gmail.com</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
@@ -42,7 +42,7 @@ function Page() {
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     Mon-Fri from 8am to 5pm.
                   </p>
-                  <p className="text-sm">+1 (555) 000-0000</p>
+                  <p className="text-sm">+213 (05) 000-0000</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
@@ -50,11 +50,9 @@ function Page() {
                 <div>
                   <h3 className="font-bold">Office</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Come say hello at our office HQ.
+                    Come say hello at our office.
                   </p>
-                  <p className="text-sm">
-                    123 Sample St, San Francisco, CA 94105
-                  </p>
+                  <p className="text-sm">Algeria ,batna</p>
                 </div>
               </div>
             </div>

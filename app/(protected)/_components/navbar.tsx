@@ -4,16 +4,16 @@ import { UserButton } from '@/components/auth/user-button'
 import { Button } from '@/components/ui/button'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { useLanguage } from '@/zustand'
-import { GlobeIcon } from '@radix-ui/react-icons'
-import { stat } from 'fs'
 import Link from 'next/link'
 import { useState } from 'react'
-import { FaBars, FaSearch } from 'react-icons/fa'
+import { FaBars } from 'react-icons/fa'
 import DropdownLanguageSwitcher from './switchLang'
+import Language from '@/public/language.json'
 
 export const Navbar = () => {
   const user = useCurrentUser()
   const [showMenu, setShowMenu] = useState(false)
+  const { language } = useLanguage() as { language: 'en' | 'ar' }
 
   const handleMenu = () => {
     setShowMenu(!showMenu)
@@ -25,22 +25,22 @@ export const Navbar = () => {
       <ul className="flex justify-between items-center p-4 rounded-xl w-3/6 max-xl:hidden">
         <li>
           <Link className="text-md font-bold" href="/events">
-            Events
+            {Language.navbar.links.events[language]}
           </Link>
         </li>
         <li>
           <Link className="text-md font-bold" href="#blogs">
-            Blogs
+            {Language.navbar.links.blogs[language]}
           </Link>
         </li>
         <li>
           <Link className="text-sm font-bold" href="/about">
-            About
+            {Language.navbar.links.about[language]}
           </Link>
         </li>
         <li>
           <Link className="text-md font-bold" href="/contact">
-            Contact us
+            {Language.navbar.links.contact[language]}
           </Link>
         </li>
         <li>
@@ -52,7 +52,7 @@ export const Navbar = () => {
                 variant="default"
                 className="text-white font-bold rounded-full"
               >
-                Sign in
+                {Language.navbar.links.signIn[language]}
               </Button>
             </Link>
           )}
@@ -80,22 +80,22 @@ export const Navbar = () => {
         <ul className="flex flex-col items-center justify-center h-full space-y-6">
           <li>
             <Link className="text-md font-bold" href="#events">
-              Events
+              {Language.navbar.links.events[language]}
             </Link>
           </li>
           <li>
             <Link className="text-md font-bold" href="#blogs">
-              Blogs
+              {Language.navbar.links.blogs[language]}
             </Link>
           </li>
           <li>
             <Link className="text-md font-bold" href="/about">
-              About
+              {Language.navbar.links.about[language]}
             </Link>
           </li>
           <li>
             <Link className="text-md font-bold" href="/contact">
-              Contact us
+              {Language.navbar.links.contact[language]}
             </Link>
           </li>
           <li>
@@ -107,7 +107,7 @@ export const Navbar = () => {
                   variant="default"
                   className="text-white font-bold rounded-full"
                 >
-                  Sign in
+                  {Language.navbar.links.signIn[language]}
                 </Button>
               </Link>
             )}

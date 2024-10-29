@@ -9,10 +9,13 @@ import { useBlog } from '@/hooks/use-blog'
 import { useParams } from 'next/navigation'
 import { Navbar } from '@/app/(protected)/_components/navbar'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useLanguage } from '@/zustand'
+import Language from '@/public/language.json'
 
 export default function Page() {
   const { id } = useParams<{ id: string }>()
   const { data: post, isLoading } = useBlog(id)
+  const { language } = useLanguage() as { language: 'en' | 'ar' }
 
   if (isLoading) {
     return (
@@ -22,7 +25,7 @@ export default function Page() {
           <Link href="/" passHref>
             <Button variant="ghost" className="mb-4">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
+              {Language.blogsSection.backButton[language]}
             </Button>
           </Link>
           <article className="bg-white rounded-lg overflow-hidden">
@@ -61,7 +64,7 @@ export default function Page() {
           <Link href="/" passHref>
             <Button variant="ghost" className="mb-4">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
+              {Language.blogsSection.backButton[language]}
             </Button>
           </Link>
           <article className="bg-white rounded-lg overflow-hidden">

@@ -1,0 +1,153 @@
+{
+  "navbar": {
+    "logo": "LOGO",
+    "links": {
+      "events": {
+        "en": "Events",
+        "ar": "الأحداث"
+      },
+      "blogs": {
+        "en": "Blogs",
+        "ar": "المدونات"
+      },
+      "about": {
+        "en": "About",
+        "ar": "من نحن"
+      },
+      "contact": {
+        "en": "Contact us",
+        "ar": "اتصل بنا"
+      },
+      "signIn": {
+        "en": "Sign In",
+        "ar": "تسجيل الدخول"
+      }
+    },
+    "languageSwitch": {
+      "en": "ar",
+      "ar": "en"
+    }
+  },
+  "heroSection": {
+    "subtitle": {
+      "en": "Explore the World of Event & Insights",
+      "ar": "نافذتك إلى  "
+    },
+    "subtitleword1": {
+      "en": "Event",
+      "ar": "الفعاليات"
+    },
+    "subtitleword2": {
+      "en": "Insights",
+      "ar": "العلمية"
+    },
+    "description": {
+      "en": "discover events , conferences, concerts and much more",
+      "ar": "تواصل، تعلم وشارك"
+    },
+    "exploreButton": {
+      "en": "Explore",
+      "ar": "استكشاف"
+    }
+  },
+  "upcomningEvents": {
+    "title": {
+      "en": "Upcoming Events",
+      "ar": "الأحداث القادمة"
+    },
+    "viewAllButton": {
+      "en": "View All Events",
+      "ar": "عرض جميع الفعاليات"
+    },
+    "more": {
+      "en": "More",
+      "ar": "المزيد"
+    }
+  },
+  "featuredEventsSection": {
+    "title": {
+      "en": "Featured Events",
+      "ar": "الفعاليات المميزة"
+    },
+    "viewAllButton": {
+      "en": "View All Events",
+      "ar": "عرض جميع الفعاليات"
+    },
+    "readMore": {
+      "en": "Read More",
+      "ar": "اقرأ المزيد"
+    }
+  },
+  "blogsSection": {
+    "backButton": {
+      "en": "Back",
+      "ar": "عودة"
+    },
+    "title": {
+      "en": "Blogs",
+      "ar": "المدونات"
+    },
+    "readMore": {
+      "en": "Read More",
+      "ar": "اقرأ المزيد"
+    }
+  },
+  "footer": {
+    "logoText": {
+      "en": "Moulta9a",
+      "ar": "ملتقى"
+    },
+    "tagline": {
+      "en": "Explore the World of Event & Insights",
+      "ar": "استكشف عالم الفعاليات والرؤى"
+    },
+    "quickLinks": {
+      "title": {
+        "en": "Quick Links",
+        "ar": "روابط سريعة"
+      },
+      "events": {
+        "en": "Events",
+        "ar": "الأحداث"
+      },
+      "blogs": {
+        "en": "Blogs",
+        "ar": "المدونات"
+      },
+      "about": {
+        "en": "About",
+        "ar": "من نحن"
+      },
+      "contact": {
+        "en": "Contact us",
+        "ar": "اتصل بنا"
+      }
+    },
+    "legal": {
+      "title": {
+        "en": "Legal",
+        "ar": "قانوني"
+      },
+      "termsOfService": {
+        "en": "Terms of Service",
+        "ar": "شروط الخدمة"
+      },
+      "privacyPolicy": {
+        "en": "Privacy Policy",
+        "ar": "سياسة الخصوصية"
+      },
+      "cookiePolicy": {
+        "en": "Cookie Policy",
+        "ar": "سياسة الكوكيز"
+      }
+    },
+    "followUs": {
+      "en": "Follow Us",
+      "ar": "تابعنا"
+    },
+    "copyright": {
+      "en": "© 2024 MOULTAGA. All rights reserved.",
+      "ar": "© 2024 مولتاجا. جميع الحقوق محفوظة."
+    }
+  }
+}

@@ -24,7 +24,7 @@ export default async function RootLayout({
 
   return (
     <SessionProvider session={session}>
-      <html lang="en">
+      <html lang="en" dir='rtl'>
         <body className={inter.className + 'container flex flex-col bg-white'}>
           <Toaster />
 

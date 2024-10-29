@@ -20,10 +20,13 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Footer from '../components/footer'
 import FeaturedEvents from '../components/featuredEvents'
+import { useLanguage } from '@/zustand'
+import Language from '@/public/language.json'
 
 export default function Home() {
   const { data: events, error, isLoading: isLoadingEvent } = useUpcomingEvents()
   const { data: blogs, isLoading: isLoadingBlog } = useBlogs() || []
+  const { language } = useLanguage() as { language: 'en' | 'ar' }
 
   return (
     <main>
@@ -34,7 +37,7 @@ export default function Home() {
       <div className="max-w-screen-2xl container">
         {events && (events as Event[]).length > 0 && (
           <h2 className="text-3xl font-semibold text-gray-800 mt-8 mb-4">
-            Upcoming Events
+            {Language.upcomningEvents.title[language]}
           </h2>
         )}
 

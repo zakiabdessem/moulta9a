@@ -4,6 +4,8 @@ import moment from 'moment'
 import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { useLanguage } from '@/zustand'
+import Language from '@/public/language.json'
 
 interface BlogPost {
   id: string
@@ -17,6 +19,8 @@ interface BlogPost {
   createdAt: string | Date
 }
 function BlogCard({ post }: { post: BlogPost }) {
+  const { language } = useLanguage() as { language: 'en' | 'ar' }
+
   return (
     <a href={`/blogs/${post.id}`}>
       <article
@@ -34,7 +38,7 @@ function BlogCard({ post }: { post: BlogPost }) {
           }}
           width="400"
         />
-        <div className='p-6'>
+        <div className="p-6">
           <div className="flex items-center gap-4">
             <Image
               alt={`${post.user.name}'s avatar`}
@@ -64,7 +68,7 @@ function BlogCard({ post }: { post: BlogPost }) {
             className="mt-4 inline-flex items-center text-sm font-semibold text-gray-800"
             href={`/blogs/${post.id}`}
           >
-            Read More
+            {Language.blogsSection.readMore[language]}
             <ArrowRightIcon className="ml-1 h-4 w-4" />
           </Link>
         </div>

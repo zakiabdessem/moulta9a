@@ -14,15 +14,18 @@ import moment from 'moment'
 import { truncateContent } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useEffect, useState } from 'react'
+import { useLanguage } from '@/zustand'
+import Language from '@/public/language.json'
 
 export default function FeaturedEvents() {
   const { data: events, isLoading: isLoadingEvent } = useEvents()
+  const { language } = useLanguage() as { language: 'en' | 'ar' }
 
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12">
-          Featured Events
+          {Language.featuredEventsSection.title[language]}
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -74,7 +77,9 @@ export default function FeaturedEvents() {
                   </CardContent>
                   <CardFooter>
                     <a href={`/events/${event.id}`}>
-                      <Button variant="outline">Learn More</Button>
+                      <Button variant="outline">
+                        {Language.featuredEventsSection.readMore[language]}
+                      </Button>
                     </a>
                   </CardFooter>
                 </Card>
@@ -85,7 +90,7 @@ export default function FeaturedEvents() {
         <div className="text-center mt-12">
           <a href="/events">
             <Button className="group">
-              View All Events
+              {Language.featuredEventsSection.viewAllButton[language]}
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
           </a>
