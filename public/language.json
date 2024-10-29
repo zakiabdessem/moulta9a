@@ -1,4 +1,44 @@
 {
+  "single_event": {
+    "en": {},
+    "ar": {},
+    "title": {
+      "en": "About the Event",
+      "ar": "حول الحدث"
+    },
+    "Speakers": {
+      "en": "Speakers",
+      "ar": "المتحدثون"
+    },
+    "Date": {
+      "en": "Date",
+      "ar": "تاريخ"
+    },
+    "attendees": {
+      "en": "Attendees",
+      "ar": "الحضور"
+    },
+    "da": {
+      "en": "da",
+      "ar": "دينار "
+    },
+    "personne": {
+      "en": "personne",
+      "ar": "شخص"
+    },
+    "register_now": {
+      "en": "Register Now",
+      "ar": "سجل الآن"
+    },
+    "payment_method": {
+      "en": "Payment method",
+      "ar": "طريقة الدفع"
+    },
+    "share_event": {
+      "en": "Share Event",
+      "ar": "مشاركة الحدث"
+    }
+  },
   "navbar": {
     "logo": "LOGO",
     "links": {
@@ -283,6 +323,7 @@
         "ar": "أن نصبح المنصة الرائدة في الجزائر لعرض وتنظيم الفعاليات العلمية، وتعزيز التعاون الأكاديمي وتطوير البحث العلمي."
       }
     },
+
     "our_goals": {
       "title": {
         "en": "Our Goals",
