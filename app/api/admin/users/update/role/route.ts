@@ -2,6 +2,8 @@ import { create } from '@/actions/event'
 import { update } from '@/actions/user'
 import { NextRequest, NextResponse } from 'next/server'
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     const data: {
