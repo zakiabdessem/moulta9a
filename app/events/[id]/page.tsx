@@ -31,6 +31,7 @@ import { useState } from 'react'
 import Footer from '@/components/footer'
 import { useLanguage } from '@/zustand'
 import Language from '@/public/language.json'
+import Parser from 'html-react-parser'
 
 export default function Page() {
   const { language } = useLanguage() as { language: 'en' | 'ar' }
@@ -124,9 +125,7 @@ export default function Page() {
                   {Language.single_event.title[language]}
                 </h2>
                 <p className="text-gray-600">
-                  <div
-                    dangerouslySetInnerHTML={{ __html: data?.description ?? ""}}
-                  ></div>
+                  {Parser(data?.description ?? '')}
                 </p>
               </div>
               {data?.speakers && data?.speakers?.length > 1 && (
