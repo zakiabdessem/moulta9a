@@ -24,7 +24,7 @@ import { cn } from '@/lib/utils'
 import { EventSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CalendarIcon } from 'lucide-react'
-import { useEffect, useState, useTransition } from 'react'
+import { useEffect, useMemo, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { format } from 'date-fns'
@@ -37,7 +37,12 @@ import { uploadImage } from '@/actions/cloudinary'
 import { Navbar } from '@/app/(protected)/_components/navbar'
 import { Event } from '@prisma/client'
 import { convertFileToBase64 } from '@/util/Image'
+import dynamic from 'next/dynamic'
 
+const ReactQuill = useMemo(
+  () => dynamic(() => import("react-quill"), { ssr: false }),
+  []
+);
 export default function Page() {
   const { id } = useParams<{ id: string }>()
   const { data, isLoading } = useEvent(id)
@@ -206,9 +211,9 @@ function EditEventPage({
                   <FormItem className="max-w-96">
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder="Event description"
-                        maxLength={1024}
+                      <ReactQuill
+                        placeholder="Description de event"
+                        theme="snow"
                         {...field}
                       />
                     </FormControl>

@@ -23,7 +23,7 @@ import { cn } from '@/lib/utils'
 import { EventSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CalendarIcon } from 'lucide-react'
-import { useEffect, useState, useTransition } from 'react'
+import { useEffect, useMemo, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { format } from 'date-fns'
@@ -33,8 +33,11 @@ import { DEFAULT_URL } from '@/routes'
 import { useRouter } from 'next/navigation'
 import SpeakerFieldArray from '@/app/(protected)/_components/SpeakerField'
 import { convertFileToBase64 } from '@/util/Image'
-import ReactQuill from 'react-quill';
-
+import dynamic from 'next/dynamic'
+const ReactQuill = useMemo(
+  () => dynamic(() => import('react-quill'), { ssr: false }),
+  []
+)
 
 function Page() {
   const router = useRouter()
