@@ -27,11 +27,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Footer from '@/components/footer'
 import { useLanguage } from '@/zustand'
 import Language from '@/public/language.json'
 import 'react-quill/dist/quill.snow.css'
+import dynamic from 'next/dynamic'
 
 export default function Page() {
   const ReactQuill = useMemo(
