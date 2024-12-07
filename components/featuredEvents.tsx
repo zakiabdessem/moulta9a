@@ -16,6 +16,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useEffect, useState } from 'react'
 import { useLanguage } from '@/zustand'
 import Language from '@/public/language.json'
+import Parser from 'html-react-parser'
 
 export default function FeaturedEvents() {
   const { data: events, isLoading: isLoadingEvent } = useEvents()
@@ -63,8 +64,8 @@ export default function FeaturedEvents() {
                     <CardTitle>{event.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="flex-grow">
-                    <p className="text-muted-foreground mb-4">
-                      {truncateContent(event.description, 150)}
+                    <p className="mb-4">
+                      {Parser(event.description)}
                     </p>
                     <div className="flex items-center text-sm text-muted-foreground mb-2">
                       <CalendarDays className="mr-2 h-4 w-4" />
