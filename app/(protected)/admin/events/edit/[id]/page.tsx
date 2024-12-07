@@ -40,10 +40,6 @@ import { convertFileToBase64 } from '@/util/Image'
 import dynamic from 'next/dynamic'
 
 export default function Page() {
-  const ReactQuill = useMemo(
-    () => dynamic(() => import('react-quill'), { ssr: false }),
-    []
-  )
   const { id } = useParams<{ id: string }>()
   const { data, isLoading } = useEvent(id)
 
@@ -148,6 +144,11 @@ function EditEventPage({
 
     hideLoading({ timeLoading: 1500 })
   }
+
+  const ReactQuill = useMemo(
+    () => dynamic(() => import('react-quill'), { ssr: false }),
+    []
+  )
 
   return (
     <>
