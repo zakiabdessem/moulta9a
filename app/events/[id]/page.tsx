@@ -31,8 +31,14 @@ import { useState } from 'react'
 import Footer from '@/components/footer'
 import { useLanguage } from '@/zustand'
 import Language from '@/public/language.json'
+import 'react-quill/dist/quill.snow.css'
 
 export default function Page() {
+  const ReactQuill = useMemo(
+    () => dynamic(() => import('react-quill'), { ssr: false }),
+    []
+  )
+
   const { language } = useLanguage() as { language: 'en' | 'ar' }
 
   const user = useCurrentUser()
@@ -123,7 +129,14 @@ export default function Page() {
                 <h2 className="mb-2 text-2xl font-bold">
                   {Language.single_event.title[language]}
                 </h2>
-                <p className="text-gray-600">{data?.description}</p>
+                <p className="text-gray-600">
+                  <ReactQuill
+                    placeholder="Description de event"
+                    theme="snow"
+                    value={data?.description}
+                    readOnly={true}
+                  />
+                </p>
               </div>
               {data?.speakers && data?.speakers?.length > 1 && (
                 <div className="mb-6 px-12">
