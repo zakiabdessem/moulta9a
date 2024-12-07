@@ -125,7 +125,7 @@ export default function Page() {
                 </h2>
                 <p className="text-gray-600">
                   <div
-                    dangerouslySetInnerHTML={{ __html: data?.description }}
+                    dangerouslySetInnerHTML={{ __html: data?.description ?? ""}}
                   ></div>
                 </p>
               </div>
