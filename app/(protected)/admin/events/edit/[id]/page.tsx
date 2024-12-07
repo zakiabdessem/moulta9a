@@ -39,11 +39,11 @@ import { Event } from '@prisma/client'
 import { convertFileToBase64 } from '@/util/Image'
 import dynamic from 'next/dynamic'
 
-const ReactQuill = useMemo(
-  () => dynamic(() => import("react-quill"), { ssr: false }),
-  []
-);
 export default function Page() {
+  const ReactQuill = useMemo(
+    () => dynamic(() => import('react-quill'), { ssr: false }),
+    []
+  )
   const { id } = useParams<{ id: string }>()
   const { data, isLoading } = useEvent(id)
 

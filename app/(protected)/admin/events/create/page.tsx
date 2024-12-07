@@ -34,12 +34,13 @@ import { useRouter } from 'next/navigation'
 import SpeakerFieldArray from '@/app/(protected)/_components/SpeakerField'
 import { convertFileToBase64 } from '@/util/Image'
 import dynamic from 'next/dynamic'
-const ReactQuill = useMemo(
-  () => dynamic(() => import('react-quill'), { ssr: false }),
-  []
-)
 
 function Page() {
+  const ReactQuill = useMemo(
+    () => dynamic(() => import('react-quill'), { ssr: false }),
+    []
+  )
+
   const router = useRouter()
 
   const [error, setError] = useState<string | undefined>('')
