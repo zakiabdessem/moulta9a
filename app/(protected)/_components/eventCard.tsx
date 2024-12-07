@@ -6,6 +6,7 @@ import Speaker from '@/public/speaker.jpg'
 import { Event } from '@prisma/client'
 import moment from 'moment'
 import { truncateContent } from '@/lib/utils'
+import Parser from 'html-react-parser'
 
 export default function EventCard({
   event,
@@ -77,8 +78,12 @@ export default function EventCard({
                 {dateLaunch}
               </Badge>
             </div>
-            <h2 className="mb-2 text-2xl font-bold">{truncateContent(event.title, 150)}</h2>
-            <p className="mb-4 text-gray-600">{truncateContent(event.description, 350)}</p>
+            <h2 className="mb-2 text-2xl font-bold">
+              {truncateContent(event.title, 150)}
+            </h2>
+            <p className="mb-4">
+              {Parser(event?.description ?? '')}
+            </p>
             <Button
               className="bg-[#b5a28c] text-white hover:bg-[#a3917c] mt-4"
               variant="secondary"

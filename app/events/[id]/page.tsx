@@ -124,7 +124,7 @@ export default function Page() {
                 <h2 className="mb-2 text-2xl font-bold">
                   {Language.single_event.title[language]}
                 </h2>
-                <p className="text-gray-600">
+                <p>
                   {Parser(data?.description ?? '')}
                 </p>
               </div>

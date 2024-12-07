@@ -20,6 +20,7 @@ import { truncateContent } from '@/lib/utils'
 import Footer from '@/components/footer'
 import { useLanguage } from '@/zustand'
 import Language from '@/public/language.json'
+import Parser from 'html-react-parser'
 
 export default function AllEvents() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -93,7 +94,7 @@ export default function AllEvents() {
                   </CardHeader>
                   <CardContent className="flex-grow">
                     <p className="text-muted-foreground mb-4">
-                      {truncateContent(event.description, 500)}
+                      {Parser(event?.description ?? '')}
                     </p>
                     <div className="flex items-center text-sm text-muted-foreground mb-2">
                       <CalendarDays className="mr-2 h-4 w-4" />
