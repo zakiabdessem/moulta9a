@@ -19,7 +19,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { EventSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -34,6 +33,8 @@ import { DEFAULT_URL } from '@/routes'
 import { useRouter } from 'next/navigation'
 import SpeakerFieldArray from '@/app/(protected)/_components/SpeakerField'
 import { convertFileToBase64 } from '@/util/Image'
+import ReactQuill from 'react-quill';
+
 
 function Page() {
   const router = useRouter()
@@ -64,7 +65,6 @@ function Page() {
 
   //check form erros with useEffect
   useEffect(() => {
-   
     if (form.formState.errors) {
       setError('Please check the form for errors')
     }
@@ -182,9 +182,9 @@ function Page() {
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea
+                        <ReactQuill
                           placeholder="Description de event"
-                          maxLength={1024}
+                          theme="snow"
                           {...field}
                         />
                       </FormControl>
