@@ -27,19 +27,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import Footer from '@/components/footer'
 import { useLanguage } from '@/zustand'
 import Language from '@/public/language.json'
-import 'react-quill/dist/quill.snow.css'
-import dynamic from 'next/dynamic'
 
 export default function Page() {
-  const ReactQuill = useMemo(
-    () => dynamic(() => import('react-quill'), { ssr: false }),
-    []
-  )
-
   const { language } = useLanguage() as { language: 'en' | 'ar' }
 
   const user = useCurrentUser()
@@ -131,12 +124,9 @@ export default function Page() {
                   {Language.single_event.title[language]}
                 </h2>
                 <p className="text-gray-600">
-                  <ReactQuill
-                    placeholder="Description de event"
-                    theme="snow"
-                    value={data?.description}
-                    readOnly={true}
-                  />
+                  <div
+                    dangerouslySetInnerHTML={{ __html: data?.description }}
+                  ></div>
                 </p>
               </div>
               {data?.speakers && data?.speakers?.length > 1 && (
