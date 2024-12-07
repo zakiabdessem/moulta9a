@@ -278,7 +278,6 @@ export const getEventsAdmin = async () => {
   return await db.event.findMany({
     include: {
       payments: true,
-      attendees: true,
     },
   })
 }
