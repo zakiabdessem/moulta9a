@@ -34,6 +34,8 @@ import { useRouter } from 'next/navigation'
 import SpeakerFieldArray from '@/app/(protected)/_components/SpeakerField'
 import { convertFileToBase64 } from '@/util/Image'
 import dynamic from 'next/dynamic'
+import 'react-quill/dist/quill.snow.css';
+
 
 function Page() {
   const ReactQuill = useMemo(

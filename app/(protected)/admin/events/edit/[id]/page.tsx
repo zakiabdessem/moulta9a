@@ -38,6 +38,8 @@ import { Navbar } from '@/app/(protected)/_components/navbar'
 import { Event } from '@prisma/client'
 import { convertFileToBase64 } from '@/util/Image'
 import dynamic from 'next/dynamic'
+import 'react-quill/dist/quill.snow.css';
+
 
 export default function Page() {
   const { id } = useParams<{ id: string }>()
